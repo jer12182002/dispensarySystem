@@ -1,56 +1,64 @@
 import React from 'react';
 import './loginPanel.scss';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
 
-import {GET_ALL_ACCOUNTS,CHOOSE_ACCOUNT} from 'redux/actions/allAccountAction';
+
+import {CHOOSE_ACCOUNT,TYPEING_PASSWORD,USER_LOGIN} from 'redux/actions/allAccountAction';
+//import * as LoginPaenlActions from 'redux/actions/allAccountAction';
+
+
+
 class loginPanel extends React.Component {
-
-
 	render() {
+
+		const {USER_LOGIN} = this.props;
 		return (
 			<div className = "loginPanel-wrapper container-fluid">
-				<div className="accounts row">
-					{this.props.accounts.accounts.map(account => 
+				<div className="accounts-container row">
+					{this.props.accounts.map(account => 
 						<div key={account.id} className="col-12 col-md-4">
-							<img src={account.img_src} onClick={e=> {e.preventDefault();CHOOSE_ACCOUNT(account);}}/>
+							<img src={account.img_src} onClick = { e=> {e.preventDefault();CHOOSE_ACCOUNT(account,e);}}/>
 							<h1>{account.account}</h1>
 						</div>
 					)}
 				</div>
-				<div>
-					<div className="row">
-						<div className="col-12">
-							<label>Password: </label>
-							<input id="loginPassword" type="password"></input>
-						</div>
+				
+				<div className="errorMessage-container row">
+					<div className="col-12">
+						<h1>{this.props.errorMsg}</h1>
 					</div>
+				</div>
 
-					<div className="errorMessage-wrapper row">
-
+				<div className="password-container row">
+					<div className="col-12">
+						<label>Password: </label>
+						<input id="loginPassword" type="password" onKeyUp={ e => {e.preventDefault();TYPEING_PASSWORD(e.target.value)}}></input>
 					</div>
-
-					<div className="row">
-						<div className="col-12">
-							<button type="button" className="btn btn-success">Login</button>
-						</div>
+					<div className="col-12">
+						<button type="button" className="btn btn-success" onClick={USER_LOGIN}>Login</button>  
 					</div>
 				</div>
 			</div>
-		);
+			
+		)
 	}
 }
 
 
 const mapStateToProps = (state) => {
+
 	return {
-		accounts : state
+		accounts : state.accounts.allAccounts,
+		errorMsg : state.accounts.logErrorMsg
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
-
-	return dispatch(GET_ALL_ACCOUNTS());	
+const mapDispatchToProps = dispatch => {
+  return { 
+    USER_LOGIN: () => dispatch(USER_LOGIN())
+  }
 }
+
+
 
 export default connect(mapStateToProps,mapDispatchToProps)(loginPanel)

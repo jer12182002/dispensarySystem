@@ -1,3 +1,27 @@
 header {
-	background-color: red;
+	background-color: floralwhite;
+	border-bottom: 2px solid;
+	height: 5vh;
+
+
+	h1 {
+		font-size: 3vh;
+
+	}
+
+	.logOut-container {
+		text-align: right;
+		overflow: hidden;
+
+		h1 {
+			cursor: pointer;
+
+			&:hover {
+				transform: scale(1.1);
+				padding-right: 1vw;
+			}
+		}
+	}
+
 }
+
