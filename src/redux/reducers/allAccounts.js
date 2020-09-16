@@ -13,18 +13,21 @@ let initAccounts = {
 		[
 			{
 				id : 1, 
-				account : "Stduent", 
-				password : process.env.REACT_APP_LOGINGPASSWORD_STUDENT
+				account : "Student", 
+				password : process.env.REACT_APP_LOGINGPASSWORD_STUDENT, 
+				img_src: "/assets/student.png"
 			},
 			{
 				id : 2,
 				account : "Professor",
-				password : process.env.REACT_APP_LOGINGPASSWORD_PROFESSOR
+				password : process.env.REACT_APP_LOGINGPASSWORD_PROFESSOR,
+				img_src: "/assets/professor.png"
 			},
 			{
 				id : 3, 
 				account : "RenDeInc", 
-				password : process.env.REACT_APP_LOGINGPASSWORD_RENDEINC
+				password : process.env.REACT_APP_LOGINGPASSWORD_RENDEINC,
+				img_src: "/assets/rendeColleague.png"
 			}	
 		]
 }

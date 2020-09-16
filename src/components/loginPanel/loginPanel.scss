@@ -1,6 +1,22 @@
+body {
+	background-image: url("/assets/homePage-bg.jpg");
+}
+
+
 .loginPanel-wrapper {
+	margin-top: 10vh;
 
 	.row, .col-12, .col-md-4 {
 		text-align: center;
+	}
+
+	.accounts {
+		img {
+			width: 50%;
+		}
+
+		&:hover {
+			cursor:pointer;
+		}
 	}
 }

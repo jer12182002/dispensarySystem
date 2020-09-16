@@ -3,17 +3,17 @@ import './loginPanel.scss';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {GET_ALL_ACCOUNTS} from 'redux/actions/allAccountAction';
+import {GET_ALL_ACCOUNTS,CHOOSE_ACCOUNT} from 'redux/actions/allAccountAction';
 class loginPanel extends React.Component {
-	
-	render() {
-		console.log(this.props.accounts.accounts);
 
+
+	render() {
 		return (
 			<div className = "loginPanel-wrapper container-fluid">
-				<div className="row">
+				<div className="accounts row">
 					{this.props.accounts.accounts.map(account => 
 						<div key={account.id} className="col-12 col-md-4">
+							<img src={account.img_src} onClick={e=> {e.preventDefault();CHOOSE_ACCOUNT(account);}}/>
 							<h1>{account.account}</h1>
 						</div>
 					)}
@@ -22,7 +22,7 @@ class loginPanel extends React.Component {
 					<div className="row">
 						<div className="col-12">
 							<label>Password: </label>
-							<input type="password"></input>
+							<input id="loginPassword" type="password"></input>
 						</div>
 					</div>
 
