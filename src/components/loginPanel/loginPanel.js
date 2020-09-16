@@ -2,11 +2,8 @@ import React from 'react';
 import './loginPanel.scss';
 import {connect} from 'react-redux';
 
-
 import {CHOOSE_ACCOUNT,TYPEING_PASSWORD,USER_LOGIN} from 'redux/actions/allAccountAction';
 //import * as LoginPaenlActions from 'redux/actions/allAccountAction';
-
-
 
 class loginPanel extends React.Component {
 	render() {

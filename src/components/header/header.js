@@ -7,7 +7,7 @@ import {USER_LOGOUT} from 'redux/actions/allAccountAction';
 class header extends React.Component {
 
 	render() {
-		const {USER_LOGIN} = this.props;
+		const {USER_LOGOUT} = this.props;
 
 		return (
 			<header className = "container-fluid">

@@ -72,7 +72,7 @@ export default (state = {}, action) =>{
 			initAccounts.userLoggedIn = false;
 			initAccounts.logErrorMsg = '';
 
-
+			console.log(initAccounts);
 			return {...initAccounts}
 			break;
 		
