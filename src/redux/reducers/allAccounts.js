@@ -63,7 +63,7 @@ export default (state = {}, action) =>{
 
 
 		case USER_LOGOUT:
-			console.log("!!!Log out");
+		
 			initAccounts.loginAccount = {
 				id : null, 
 				account : null
@@ -72,7 +72,6 @@ export default (state = {}, action) =>{
 			initAccounts.userLoggedIn = false;
 			initAccounts.logErrorMsg = '';
 
-			console.log(initAccounts);
 			return {...initAccounts}
 			break;
 		

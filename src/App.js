@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Header from './components/header/header';
 import LoginPanel from './components/loginPanel/loginPanel';
-
+import LoggedInUser from './components/loggedInUser/loggedInUser';
 
 
 
@@ -14,9 +14,12 @@ class App extends React.Component {
 			<Header userLoggedIn = {this.props.userLoggedIn}
 					userInformation = {this.props.userInformation}			
 			/>
-			
+
+	  		
 	  		{this.props.userLoggedIn?
-			<></>
+			
+			<LoggedInUser userInformation = {this.props.userInformation}/>
+	  		
 			:
 			<>
 				<LoginPanel/>

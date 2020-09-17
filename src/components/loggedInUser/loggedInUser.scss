@@ -1,0 +1,19 @@
+.homePage-wrapper {
+	.row {
+		margin-top: 20vh;
+		.col-3 {
+			text-align: center;
+
+			img {
+				height: 70%;
+				border:5px solid black;
+				border-radius: 25px;
+
+				&:hover {
+					box-shadow: 10px 10px lightgray;
+					transform:scale(1.1);
+				}
+			}
+		}
+	}
+}
