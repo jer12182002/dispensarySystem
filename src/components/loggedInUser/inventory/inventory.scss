@@ -1,3 +1,15 @@
 .inventory-wrapper {
-	
+	table {
+		margin: 10vh auto;
+		width: 80%;
+
+		td {
+			text-align: center;
+			border: 2px solid black;
+		}
+
+		thead td {
+			font-weight: 900;
+		}
+	}
 }

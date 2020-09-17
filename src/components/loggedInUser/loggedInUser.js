@@ -37,10 +37,10 @@ const loggedInUser = (props) => {
 		  		</div>
 	  		</Route>
 
-		  		<Route exact path="/inventory" component = {Inventory}/>
-		  		<Route exact path="/neworder" component = {NewOrder}/>
-		  		<Route exact path="/recordedorder" component = {RecordedOrder}/>
-		  		<Route exact path="/message" component = {Message}/>
+		  	<Route exact path="/inventory" component = {()=> <Inventory userInformation = {props.userInformation}/>}/>
+		  	<Route exact path="/neworder" component = {() => <NewOrder userInformation = {props.userInformation}/>}/>
+		  	<Route exact path="/recordedorder" component = {()=> <RecordedOrder userInformation = {props.userInformation}/>}/>
+		  	<Route exact path="/message" component = {()=> <Message userInformation = {props.userInformation}/>}/>
   		</Router>
   	</div>
 
