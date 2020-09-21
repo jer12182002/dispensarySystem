@@ -18,7 +18,7 @@ class addItem extends React.Component{
     render() {
     	
         return (
-            <div className="addItem-wrapper container-fluid">
+            <div className="addItem-wrapper container-fluid">git
             	<div className="row">zxc</div>
             	{this.props.itemTypes?
             	<div className="row">

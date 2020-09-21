@@ -75,8 +75,8 @@ export const ADD_BTN_CLICKED = () => {
      inputValue.STUDENT_PRICE &&
      inputValue.PROFESSOR_PRICE
      ) {
-
-
+    
+    
   }else {
     alert('Input Error !!!, please check if your input is valid');
   }
