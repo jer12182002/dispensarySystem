@@ -73,7 +73,9 @@ app.get('/inventory',(req,res)=> {
 	})
 });
 
-
+app.post('/inventory/additem',(req,res)=> {
+	console.log(req.body);
+})
 
 handleDisconnect();
 app.listen(4000,()=> {
