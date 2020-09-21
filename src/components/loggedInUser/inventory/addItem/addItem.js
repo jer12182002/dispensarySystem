@@ -50,7 +50,7 @@ class addItem extends React.Component{
             			</div>
             			<div>
             				<p>Professor $</p>
-            				<input type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('STUDENT_PRICE', e.target)}/>
+            				<input type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('STUDENT_PRICE', e.target.value)}/>
             			</div>
             			<div>
             				<p>Ren De $</p>

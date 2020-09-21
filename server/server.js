@@ -73,11 +73,7 @@ app.get('/inventory',(req,res)=> {
 	})
 });
 
-<<<<<<< HEAD
-app.post('/inventory/additem',(req,res)=> {
-	console.log(req.body);
-})
-=======
+
 
 app.get('/inventory/additem/loadtypelist', (req,res) => {
 	let sqlQuery = 'SELECT * FROM ITEM_TYPE_LIST;';
@@ -91,8 +87,21 @@ app.get('/inventory/additem/loadtypelist', (req,res) => {
 	})
 })
 
+app.post('/inventory/additem',(req,res)=> {
+	let itemInfo = req.body;
+	let sqlQuery = `INSERT INTO INVENTORY (ENGLISH_NAME, CHINESE_NAME, TYPE, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE) VALUES('${itemInfo.ENGLISH_NAME}','${itemInfo.CHINESE_NAME}', '${itemInfo.TYPE}','${itemInfo.QTY}', '${itemInfo.RENDE_PRICE}','${itemInfo.STUDENT_PRICE}','${itemInfo.PROFESSOR_PRICE}');`;
+	console.log(sqlQuery);
+	connection.query(sqlQuery, (err,result) => {
+		if(err) {
+			return connection.rollback(()=>{
+				throw err;
+			})
+		}else {
+			return res.json({status: 'success'});
+		}
+	})
 
->>>>>>> master
+})	
 
 handleDisconnect();
 app.listen(4000,()=> {

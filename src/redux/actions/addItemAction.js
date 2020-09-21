@@ -74,8 +74,10 @@ export const ADD_BTN_CLICKED = () => {
      inputValue.RENDE_PRICE &&
      inputValue.STUDENT_PRICE &&
      inputValue.PROFESSOR_PRICE
-     ) {
-    
+     ) 
+    {
+      axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem`,inputValue)
+      .then(data => console.log(data));
     
   }else {
     alert('Input Error !!!, please check if your input is valid');
