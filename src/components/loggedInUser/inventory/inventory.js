@@ -1,9 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import AddItem from './addItem/addItem';
+
 import './inventory.scss';
 
 const inventory = (props) => {
   
-	console.log(props.userInformation);
+
     return (
         <div className="inventory-wrapper">
         	<table>
@@ -27,9 +29,15 @@ const inventory = (props) => {
 
         		</tbody>
         	</table>
+          
+        	{props.userInformation.account === 'RenDeInc'?
+        		<AddItem/>:null
+        	}
         </div>
     );
     
 }
+
+
 
 export default inventory;
