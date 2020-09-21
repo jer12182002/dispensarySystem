@@ -57,12 +57,12 @@ const handleDisconnect = () => {
 		} else {
 			throw err;
 		}
-	})
+	}) 
 }
 
 
 app.get('/inventory',(req,res)=> {
-	let sqlQuery = 'SELECT * FROM INVENTORY';
+	let sqlQuery = 'SELECT * FROM INVENTORY;';
 
 	connection.query(sqlQuery, (err, result) => {
 		if(err) {
@@ -73,11 +73,29 @@ app.get('/inventory',(req,res)=> {
 	})
 });
 
+<<<<<<< HEAD
 app.post('/inventory/additem',(req,res)=> {
 	console.log(req.body);
 })
+=======
+
+app.get('/inventory/additem/loadtypelist', (req,res) => {
+	let sqlQuery = 'SELECT * FROM ITEM_TYPE_LIST;';
+
+	connection.query(sqlQuery, (err, result) =>{
+		if(err) {
+			console.log(err);
+		}else {
+			return res.json({item_type:result});
+		}
+	})
+})
+
+
+>>>>>>> master
 
 handleDisconnect();
 app.listen(4000,()=> {
 	console.log("########## Dispensary System now listening on Port 4000");
 })
+

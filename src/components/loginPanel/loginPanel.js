@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {CHOOSE_ACCOUNT,TYPEING_PASSWORD,USER_LOGIN} from 'redux/actions/allAccountAction';
 //import * as LoginPaenlActions from 'redux/actions/allAccountAction';
 
+
 class loginPanel extends React.Component {
 	render() {
 
@@ -55,7 +56,6 @@ const mapDispatchToProps = dispatch => {
     USER_LOGIN: () => dispatch(USER_LOGIN())
   }
 }
-
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(loginPanel)
