@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux';
 import allAccounts from './allAccounts';
-import addItem from './addItem';
+import itemsControl from './itemsControl';
 
 
 const allReducers = combineReducers(
 	{	
 		accounts : allAccounts, 
-		addItem: addItem
+		itemsControl: itemsControl
 	}
 )
 export default allReducers;

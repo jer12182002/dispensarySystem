@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {CLEAR_CHILDREN_INPUT_VALUE} from './helperFunctions';
+
 
 export let inputValue = {
 	ENGLISH_NAME : "",
@@ -14,20 +16,23 @@ export let inputValue = {
 
 
 
-const recivePosts =(receivedType, receivedPayload)=>{
-  return {
-    type: receivedType, 
-    payload:receivedPayload
-  }
-}
 
 export const LOAD_ITEM_TYPE = (dispatch) => {
 
   return (dispatch) => {
     axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem/loadtypelist`)  
-    .then(data => {
-      dispatch(recivePosts('loadItemType',data.data));
-    })
+    .then(res => {
+      if(res.data) {
+        dispatch(
+          {
+            type:'loadItemType',
+            payload:res.data.result
+          }
+        );
+      }
+    }).catch(err=> {
+      console.log(err)
+    });
   }
 };
 
@@ -77,7 +82,11 @@ export const ADD_BTN_CLICKED = () => {
      ) 
     {
       axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem`,inputValue)
-      .then(data => console.log(data));
+      .then(data => {
+        if(data.status === 200){
+          CLEAR_CHILDREN_INPUT_VALUE(".addItem-wrapper .input-container input");
+        }
+      });
     
   }else {
     alert('Input Error !!!, please check if your input is valid');

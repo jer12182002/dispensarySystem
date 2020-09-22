@@ -1,4 +1,4 @@
-import {REMOVE_QUERY_CLASS,ADD_CLASS} from 'redux/actions/stylingFunctionAction';
+import {REMOVE_QUERY_CLASS,ADD_CLASS} from 'redux/actions/helperFunctions';
 
 
 let chosenAccount = {
