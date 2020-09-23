@@ -14,7 +14,16 @@ export const LOAD_ALL_INVENTROY_ITEMS = dispatch => {
 
 				}
 			})
+	}
+}
 
+
+
+export const ITEM_ACTION_TOGGLE = ID => {
+
+	return  {
+			type: "itemActionToggle", 
+			payload: ID
 	}
 }
 

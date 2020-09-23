@@ -68,7 +68,6 @@ export const ITEM_TYPE_IN = (target, value) => {
       inputValue.PROFESSOR_PRICE = value;
     break;
   }
-  console.log(inputValue);
 }
 
 export const ADD_BTN_CLICKED = () => {

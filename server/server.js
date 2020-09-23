@@ -103,6 +103,8 @@ app.post('/inventory/additem',(req,res)=> {
 	})
 })	
 
+
+
 app.get('/inventory/loadallinventoryitems',(rea,res)=> {
 	let sqlQuery = 'SELECT * FROM INVENTORY;';
 
@@ -114,6 +116,8 @@ app.get('/inventory/loadallinventoryitems',(rea,res)=> {
 		}
 	})
 });
+
+
 
 handleDisconnect();
 app.listen(4000,()=> {
