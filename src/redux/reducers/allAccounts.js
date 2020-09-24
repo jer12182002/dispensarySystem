@@ -56,13 +56,12 @@ export default (state = {}, action) =>{
 					return false;
 				}
 			});
-
+			
 			return {...initAccounts};
 			break;
 
 
 		case USER_LOGOUT:
-			console.log('called');
 			initAccounts.loginAccount = {
 				id : null, 
 				account : null

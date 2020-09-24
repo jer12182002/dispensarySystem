@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {CLEAR_CHILDREN_INPUT_VALUE} from './helperFunctions';
+import {LOAD_ALL_INVENTROY_ITEMS} from './loadItemActions';
 
 
 export let inputValue = {
@@ -70,7 +71,7 @@ export const ITEM_TYPE_IN = (target, value) => {
   }
 }
 
-export const ADD_BTN_CLICKED = () => {
+export const ADD_BTN_CLICKED = dispatch => {
   if(inputValue.ENGLISH_NAME.trim() && 
      inputValue.CHINESE_NAME.trim() &&
      inputValue.TYPE.trim() &&
@@ -80,14 +81,29 @@ export const ADD_BTN_CLICKED = () => {
      inputValue.PROFESSOR_PRICE
      ) 
     {
-      axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem`,inputValue)
-      .then(data => {
-        if(data.status === 200){
-          CLEAR_CHILDREN_INPUT_VALUE(".addItem-wrapper .input-container input");
+
+        return dispatch => {
+            axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem`,inputValue)
+            .then(data => {
+                if(data.data.result[1]) {
+                    dispatch({
+                        type: 'addItem', 
+                        payload: data.data.result[1]       
+                    })
+                }
+            })
+            .catch(err => {
+                dispatch ({
+                    type: 'errMsg', 
+                    payload: err.message
+                })
+            })    
         }
-      });
+
+    }
+
     
-  }else {
+  else {
     alert('Input Error !!!, please check if your input is valid');
   }
 }

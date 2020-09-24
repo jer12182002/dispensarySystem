@@ -61,14 +61,16 @@ const handleDisconnect = () => {
 }
 
 
-app.get('/inventory',(req,res)=> {
+
+app.get('/inventory/loadallinventoryitems',(rea,res)=> {
 	let sqlQuery = 'SELECT * FROM INVENTORY;';
 
-	connection.query(sqlQuery, (err, result) => {
+	connection.query(sqlQuery, (err,result) => {
 		if(err) {
 			console.log(err);
 		}else {
-			return res.json({inventory:result[0]});
+			console.log("loadAllItems");
+			return res.json(result);
 		}
 	})
 });
@@ -88,34 +90,42 @@ app.get('/inventory/additem/loadtypelist', (req,res) => {
 })
 
 
+
+app.delete('/inventory/deleteitem',(req,res)=>{
+	let deleteItemId = req.headers.id;
+	let sqlQueries = `DELETE FROM INVENTORY WHERE ID = '${deleteItemId}';`;
+		sqlQueries += 'SELECT * FROM INVENTORY;'
+	
+	connection.query(sqlQueries, (err,result)=> {
+		if(err){
+			return connection.rollback(() => {
+				throw err;
+			})
+		}else {
+			console.log(result);
+			return res.json({result});
+		}
+	})
+})
+
 app.post('/inventory/additem',(req,res)=> {
 	let itemInfo = req.body;
-	let sqlQuery = `INSERT INTO INVENTORY (ENGLISH_NAME, CHINESE_NAME, TYPE, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE) VALUES('${itemInfo.ENGLISH_NAME}','${itemInfo.CHINESE_NAME}', '${itemInfo.TYPE}','${itemInfo.QTY}', '${itemInfo.RENDE_PRICE}','${itemInfo.STUDENT_PRICE}','${itemInfo.PROFESSOR_PRICE}');`;
+	let sqlQueries = `INSERT INTO INVENTORY (ENGLISH_NAME, CHINESE_NAME, TYPE, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE) VALUES('${itemInfo.ENGLISH_NAME}','${itemInfo.CHINESE_NAME}', '${itemInfo.TYPE}','${itemInfo.QTY}', '${itemInfo.RENDE_PRICE}','${itemInfo.STUDENT_PRICE}','${itemInfo.PROFESSOR_PRICE}');`;
+		sqlQueries += 'SELECT * FROM INVENTORY;'
 
-	connection.query(sqlQuery, (err,result) => {
+	connection.query(sqlQueries, (err,result) => {
 		if(err) {
 			return connection.rollback(()=>{
 				throw err;
 			})
 		}else {
-			return res.json({status: 'success'});
+			return res.json({result});
 		}
 	})
 })	
 
 
 
-app.get('/inventory/loadallinventoryitems',(rea,res)=> {
-	let sqlQuery = 'SELECT * FROM INVENTORY;';
-
-	connection.query(sqlQuery, (err,result) => {
-		if(err) {
-			console.log(err);
-		}else {
-			return res.json(result);
-		}
-	})
-});
 
 
 

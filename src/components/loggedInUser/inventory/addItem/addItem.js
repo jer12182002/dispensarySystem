@@ -4,7 +4,7 @@ import './addItem.scss';
 import {connect} from 'react-redux';
 
 import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED, inputValue } from 'redux/actions/addItemAction';
-import {LOAD_ALL_INVENTROY_ITEMS} from 'redux/actions/loadItemActions';
+
 
 class addItem extends React.Component{
 //greentea123
@@ -57,7 +57,7 @@ class addItem extends React.Component{
             		</div>
             		<div className="button-container col-1">
             			<div>
-            				<button type="button" className="btn btn-success" onClick={e => {e.preventDefault();ADD_BTN_CLICKED(); this.props.LOAD_ALL_INVENTROY_ITEMS() }}>Add</button>
+            				<button type="button" className="btn btn-success" onClick={e => {e.preventDefault();this.props.ADD_BTN_CLICKED(); }}>Add</button>
             			</div>
             		</div>
             	</div>
@@ -80,7 +80,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
     LOAD_ITEM_TYPE : () => dispatch(LOAD_ITEM_TYPE()),
-    LOAD_ALL_INVENTROY_ITEMS : () => dispatch(LOAD_ALL_INVENTROY_ITEMS())
+    ADD_BTN_CLICKED:() =>dispatch(ADD_BTN_CLICKED())
   }
 }
 
