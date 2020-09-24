@@ -17,9 +17,7 @@ export let inputValue = {
 
 
 
-
 export const LOAD_ITEM_TYPE = (dispatch) => {
-
   return (dispatch) => {
     axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem/loadtypelist`)  
     .then(res => {
@@ -108,3 +106,27 @@ export const ADD_BTN_CLICKED = dispatch => {
   }
 }
 
+
+export const ADD_ITEM_KEYUP = dispatch => {
+    return dispatch => {
+         
+          axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additemkeyup`,{input : inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME})
+            .then(data => {
+                console.log(data.data.result);
+                if(data.data.result) {
+                    dispatch({
+                        type: 'addItemNamesInput', 
+                        payload: data.data.result     
+                    })
+                }
+            })
+            .catch(err => {
+                dispatch ({
+                    type: 'errMsgS', 
+                    payload: err.message
+                })
+            })    
+    
+    
+    }
+}

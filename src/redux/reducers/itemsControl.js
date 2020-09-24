@@ -4,6 +4,7 @@ const LOAD_ALL_INVENTROY_ITEMS = 'loadAllInventoryItems';
 const ADD_ITEM = 'addItem';
 const DELETE_ITEM = 'deleteItem';
 const ITEM_ACTION_TOGGLE = "itemActionToggle";
+const ADD_ITEM_NAMES_INPUT = 'addItemNamesInput';
 
 let inventoryInfo = {
 	item_error_msg : '',
@@ -17,7 +18,7 @@ export default (state = {}, action) =>{
 		// case ITEM_ERROR_MSG: 
 		// 	let invtInfoWithErr = JSON.parse(JSON.stringify(inventoryInfo));
 		// 	invtInfoWithErr.item_error_msg = action.payload;
-			
+
 		// 	return invtInfoWithErr;
 		// 	break;
 
@@ -60,6 +61,13 @@ export default (state = {}, action) =>{
 			return invtInfo;
 			break;
 		
+		case ADD_ITEM_NAMES_INPUT: 
+			let invtWithSuggestions = JSON.parse(JSON.stringify(inventoryInfo));
+			invtWithSuggestions.itemSuggestions = action.payload;
+		
+		return invtWithSuggestions;
+		break;
+
 		default:
 			return {...state};
 			
