@@ -14,9 +14,6 @@ export let inputValue = {
 }
 
 
-
-
-
 export const LOAD_ITEM_TYPE = (dispatch) => {
   return (dispatch) => {
     axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem/loadtypelist`)  
@@ -67,6 +64,10 @@ export const ITEM_TYPE_IN = (target, value) => {
       inputValue.PROFESSOR_PRICE = value;
     break;
   }
+
+  
+
+
 }
 
 export const ADD_BTN_CLICKED = dispatch => {
@@ -108,9 +109,13 @@ export const ADD_BTN_CLICKED = dispatch => {
 
 
 export const ADD_ITEM_KEYUP = dispatch => {
+    //THIS FUNCTION WILL FECTH DATABASE AT THE SAME TIME AS USER TYPING NAME FOR ADD ITEM, 
+    //AND THEN RETURN SUGGESTED ITEMS WHICH MATCH THE ITEM NAME IN INVENTORY 
+    let inputName = document.querySelector("#ADDITEM_ENGLISH_NAME").value 
+                  + document.querySelector("#ADDITEM_CHINESE_NAME").value;
+    
     return dispatch => {
-         
-          axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additemkeyup`,{input : inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME})
+          axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additemkeyup`,{input : inputName})
             .then(data => {
                 console.log(data.data.result);
                 if(data.data.result) {

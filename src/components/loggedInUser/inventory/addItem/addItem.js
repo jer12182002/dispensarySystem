@@ -3,7 +3,7 @@ import './addItem.scss';
 
 import {connect} from 'react-redux';
 
-import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED, inputValue, ADD_ITEM_KEYUP} from 'redux/actions/addItemAction';
+import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED, ADD_ITEM_KEYUP} from 'redux/actions/addItemAction';
 
 
 class addItem extends React.Component{
@@ -15,7 +15,6 @@ class addItem extends React.Component{
 
 
     render() {
-        console.log(this.props);
         return (
             <div className="addItem-wrapper container-fluid">
             	<div className="suggestedItems-container row">
@@ -48,19 +47,19 @@ class addItem extends React.Component{
             			</div>
             			<div>
             				<p>QTY</p>
-            				<input type="number" min="0" onChange={e=> ITEM_TYPE_IN('QTY', e.target.value)}/>
+            				<input id="ADDITEM_QTY" type="number" min="0" onChange={e=> ITEM_TYPE_IN('QTY', e.target.value)}/>
             			</div>
             			<div>
-            				<p>Studen $</p>
-            				<input type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('RENDE_PRICE', e.target.value)}/>
+            				<p>Student $</p>
+            				<input id="ADDITEM_STD" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('RENDE_PRICE', e.target.value)}/>
             			</div>
             			<div>
             				<p>Professor $</p>
-            				<input type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('STUDENT_PRICE', e.target.value)}/>
+            				<input id="ADDITEM_PROF" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('STUDENT_PRICE', e.target.value)}/>
             			</div>
             			<div>
             				<p>Ren De $</p>
-            				<input type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('PROFESSOR_PRICE', e.target.value)}/>
+            				<input id="ADDITEM_RENDE" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('PROFESSOR_PRICE', e.target.value)}/>
             			</div>
             		</div>
             		<div className="button-container col-1">

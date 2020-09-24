@@ -127,8 +127,7 @@ app.post('/inventory/additem',(req,res)=> {
 app.post('/inventory/additemkeyup',(req,res) => {
 	let inputItemName = req.body.input;
 
-	let sqlQuery = `SELECT * FROM INVENTORY WHERE LOWER(CONCAT(ENGLISH_NAME,CHINESE_NAME)) LIKE '%${inputItemName}%';`;
-	
+	let sqlQuery = `SELECT * FROM INVENTORY WHERE LOWER(CONCAT(ENGLISH_NAME,CHINESE_NAME)) LIKE LOWER('%${inputItemName}%');`;
 	connection.query(sqlQuery, (err,result) => {
 		if(err) {
 			return connection.rollback(()=>{
