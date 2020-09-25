@@ -131,58 +131,54 @@ class inventory extends React.Component{
                                         }
                                     </div>
                                 </div>)}
-                          
                         </div>
                         <AddItem/></>;
 
 
                 }else if(this.props.userInformation.account ==='Student'){
                     returnTag =  
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>Index</td>
-                                    <td>Name</td>
-                                    <td>中文</td>
-                                    <td>GRAM</td>
-                                    <td>Student Price</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.props.allItems.map((item, key)=>
-                                <tr key = {item.ID}>
-                                    <td>{key+1} </td>
-                                    <td>{item.ENGLISH_NAME}</td>
-                                    <td>{item.CHINESE_NAME}</td>
-                                    <td>{item.QTY}</td>
-                                    <td>{item.STUDENT_PRICE}</td>
-                                </tr>)}
-                            </tbody>
-                        </table>
+                        <div className="md-hide item_list container-fluid">
+                            <div className="item_list_header item_row row">
+                                <div className="item_cell col-lg-1">Index</div>
+                                <div className="item_cell col-lg-3">Name</div>
+                                <div className="item_cell col-lg-2">中文</div>
+                                <div className="item_cell col-lg-2">Type</div>
+                                <div className="item_cell col-lg-2">GRAM</div>
+                                <div className="item_cell col-lg-2">Student Price</div>
+                            </div>
+                            
+                            {this.props.allItems.map((item, key)=>
+                            <div className="item_row row" key = {item.ID}>
+                                <div className="item_cell col-lg-1"><span>Index:</span>{key+1}</div>
+                                <div className="item_cell col-lg-3"><p><span>Name:</span>{item.ENGLISH_NAME}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>名稱:</span>{item.CHINESE_NAME}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>Type:</span>{item.TYPE}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>Gram:</span>{item.QTY}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>Price:</span>{item.STUDENT_PRICE}</p></div>
+                            </div>)}
+                        </div>
                 }else if(this.props.userInformation.account ==='Professor'){
-                    returnTag =
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>Index</td>
-                                    <td>Name</td>
-                                    <td>中文</td>
-                                    <td>GRAM</td>
-                                    <td>Prof Price</td>
-                                    <td>Action</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.props.allItems.map((item, key)=>
-                                <tr key = {item.ID}>
-                                    <td>{key+1} </td>
-                                    <td>{item.ENGLISH_NAME}</td>
-                                    <td>{item.CHINESE_NAME}</td>
-                                    <td>{item.QTY}</td>
-                                    <td>{item.PROFESSOR_PRICE}</td>
-                                </tr>)}
-                            </tbody>
-                        </table>;
+                    returnTag =  
+                        <div className="md-hide item_list container-fluid">
+                            <div className="item_list_header item_row row">
+                                <div className="item_cell col-lg-1">Index</div>
+                                <div className="item_cell col-lg-3">Name</div>
+                                <div className="item_cell col-lg-2">中文</div>
+                                <div className="item_cell col-lg-2">Type</div>
+                                <div className="item_cell col-lg-2">GRAM</div>
+                                <div className="item_cell col-lg-2">Professor Price</div>
+                            </div>
+                            
+                            {this.props.allItems.map((item, key)=>
+                            <div className="item_row row" key = {item.ID}>
+                                <div className="item_cell col-lg-1"><span>Index:</span>{key+1}</div>
+                                <div className="item_cell col-lg-3"><p><span>Name:</span>{item.ENGLISH_NAME}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>名稱:</span>{item.CHINESE_NAME}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>Type:</span>{item.TYPE}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>Gram:</span>{item.QTY}</p></div>
+                                <div className="item_cell col-lg-2"><p><span>Price:</span>{item.PROFESSOR_PRICE}</p></div>
+                            </div>)}
+                        </div>
 
                 }
             }
