@@ -46,7 +46,7 @@ class addItem extends React.Component{
             				</select>
             			</div>
             			<div>
-            				<p>QTY</p>
+            				<p>Gram</p>
             				<input id="ADDITEM_QTY" type="number" min="0" onChange={e=> ITEM_TYPE_IN(e.target)}/>
             			</div>
             			<div>
@@ -87,7 +87,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-    LOAD_ITEM_TYPE : () => dispatch(LOAD_ITEM_TYPE())
+    LOAD_ITEM_TYPE : () => dispatch(LOAD_ITEM_TYPE()),
+    ADD_BTN_CLICKED:() => dispatch(ADD_BTN_CLICKED())
   }
 }
 

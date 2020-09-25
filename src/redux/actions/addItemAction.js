@@ -85,7 +85,7 @@ export const ADD_BTN_CLICKED = dispatch => {
             .then(data => {
                 if(data.data.result[1]) {
                     dispatch({
-                        type: 'addItem', 
+                        type: 'loadAllInventoryItems', 
                         payload: data.data.result[1]       
                     })
                 }

@@ -90,6 +90,25 @@ app.get('/inventory/additem/loadtypelist', (req,res) => {
 })
 
 
+app.post ('/inventory/updateitem',(req,res)=> {
+	console.log(req.body.updateItem);
+	let updateItem = req.body.updateItem;
+
+	let sqlQueries = `UPDATE INVENTORY SET ENGLISH_NAME='${updateItem.ENGLISH_NAME}',CHINESE_NAME='${updateItem.CHINESE_NAME}',TYPE='${updateItem.TYPE}',QTY='${updateItem.QTY}',RENDE_PRICE='${updateItem.RENDE_PRICE}',STUDENT_PRICE='${updateItem.STUDENT_PRICE}',PROFESSOR_PRICE='${updateItem.PROFESSOR_PRICE}' WHERE ID = '${updateItem.ID}';`;
+		sqlQueries += 'SELECT * FROM INVENTORY;'
+
+	connection.query(sqlQueries, (err,result) => {
+		if(err) {
+			return connect.rollback(()=> {
+				throw err;
+			})
+		}else {
+			return res.json({result});
+		}
+	})
+
+})
+
 
 app.delete('/inventory/deleteitem',(req,res)=>{
 	let deleteItemId = req.headers.id;
@@ -102,7 +121,6 @@ app.delete('/inventory/deleteitem',(req,res)=>{
 				throw err;
 			})
 		}else {
-			console.log(result);
 			return res.json({result});
 		}
 	})

@@ -1,17 +1,90 @@
+$mq-breakpoints: (
+    mobile:  320px,
+    tablet:  740px,
+    desktop: 990px,
+    wide:    1300px
+);
+ 
+@import '~sass-mq';
+
 .inventory-wrapper {
-	table {
-		margin: 10vh auto;
-		width: 80%;
 
-		td {
-			text-align: center;
-			border: 2px solid black;
+	.item_list {
+		input {
+			width: 100%;
 		}
 
-		thead td {
+		.item_list_header {
 			font-weight: 900;
+			font-size: 1.2vw;
+		}
+		
+		.row {
+			height: 100%;
 		}
 
+		.item_row {
+			background-color: white;
+		}
+
+		.item_cell {
+			border: 2px solid black;
+			text-align: center;
+		}
+
+		@include mq($from: desktop) {
+
+			.item_cell {
+				p {
+					& {
+						width: 80%;
+						margin: 0 auto;
+					}
+
+				}
+				span {
+					display: none;
+				}
+
+				.btn {
+					display: block;
+					width: 90%;
+					margin: 5px auto;
+				}
+			}
+		}
 	
 	}
+		
+	
+		@include mq($until: desktop) {
+			.item_list_header {
+				display: none;
+			}
+		
+			.item_row {
+				border: 2px solid black;
+				margin: 10px 0;
+
+				.item_cell {
+					text-align: left;
+					border: 1px solid gray;
+
+					span {
+						font-weight: 900;
+						margin: 0 10px;
+					}
+
+					select,input {
+						width: 100%;
+						margin-bottom: .5em;
+					}
+
+				}
+				&>.item_cell{
+					text-align: center;
+				}
+
+			}
+		}
 }

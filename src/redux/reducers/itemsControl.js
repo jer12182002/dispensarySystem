@@ -1,8 +1,6 @@
 const ITEM_ERROR_MSG = "errMsg";
 const LOAD_ITEM_TYPE = 'loadItemType';
 const LOAD_ALL_INVENTROY_ITEMS = 'loadAllInventoryItems';
-const ADD_ITEM = 'addItem';
-const DELETE_ITEM = 'deleteItem';
 const ITEM_ACTION_TOGGLE = "itemActionToggle";
 const ADD_ITEM_NAMES_INPUT = 'addItemNamesInput';
 
@@ -30,17 +28,6 @@ export default (state = {}, action) =>{
 		
 			return {...inventoryInfo}
 			break;
-
-		case ADD_ITEM:
-			inventoryInfo.allItems = action.payload;
-			inventoryInfo.allItems.forEach(item=> item.EDIT_TOGGLE = false); 
-			return {...inventoryInfo}
-			break;
-
-		case DELETE_ITEM:
-			inventoryInfo.allItems = action.payload;
-			inventoryInfo.allItems.forEach(item=> item.EDIT_TOGGLE = false); 
-			return {...inventoryInfo}
 
 
 		case LOAD_ITEM_TYPE: 
