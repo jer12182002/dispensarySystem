@@ -3,7 +3,7 @@ import './addItem.scss';
 
 import {connect} from 'react-redux';
 
-import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED, ADD_ITEM_KEYUP} from 'redux/actions/addItemAction';
+import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED, SUGGESTED_ITEM_CLICKED} from 'redux/actions/addItemAction';
 
 
 class addItem extends React.Component{
@@ -20,7 +20,7 @@ class addItem extends React.Component{
             	<div className="suggestedItems-container row">
                 {this.props.itemSuggestions?
                     this.props.itemSuggestions.map((item,key)=> 
-                        <div className="suggestedItems">{item.ENGLISH_NAME} {item.CHINESE_NAME}</div>
+                        <div key={key} className="suggestedItems" onClick = {e => {e.preventDefault();}}>{item.ENGLISH_NAME} {item.CHINESE_NAME}</div>
                     ):null
                 }
                 </div>
@@ -30,15 +30,15 @@ class addItem extends React.Component{
             		<div className="input-container col-11">
             			<div>
 	            			<p>Name</p>
-	            			<input id="ADDITEM_ENGLISH_NAME" type="text" onChange={e=> {this.props.ADD_ITEM_KEYUP();ITEM_TYPE_IN('ENGLISH_NAME', e.target.value)}}/>
+	            			<input id="ADDITEM_ENGLISH_NAME" type="text" onChange={e=> {ITEM_TYPE_IN(e.target);}}/>
             			</div>
             			<div>
             				<p>名稱</p>
-            				<input id="ADDITEM_CHINESE_NAME" type="text" onChange={e=> {this.props.ADD_ITEM_KEYUP();ITEM_TYPE_IN('CHINESE_NAME', e.target.value)}}/>
+            				<input id="ADDITEM_CHINESE_NAME" type="text" onChange={e=> {ITEM_TYPE_IN(e.target);}}/>
             			</div>
             			<div>
             				<p>Type</p>
-            				<select id="ADDITEM_TYPE" onChange={e=> ITEM_TYPE_IN('TYPE', e.target.value)}>
+            				<select id="ADDITEM_TYPE" onChange={e=> ITEM_TYPE_IN(e.target)}>
             						<option></option>
             					{this.props.itemTypes.map(type=>
             						<option key= {type.ID}>{type.ITEM_TYPE}</option>
@@ -47,19 +47,19 @@ class addItem extends React.Component{
             			</div>
             			<div>
             				<p>QTY</p>
-            				<input id="ADDITEM_QTY" type="number" min="0" onChange={e=> ITEM_TYPE_IN('QTY', e.target.value)}/>
+            				<input id="ADDITEM_QTY" type="number" min="0" onChange={e=> ITEM_TYPE_IN(e.target)}/>
             			</div>
             			<div>
             				<p>Student $</p>
-            				<input id="ADDITEM_STD" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('RENDE_PRICE', e.target.value)}/>
+            				<input id="ADDITEM_STD" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN(e.target)}/>
             			</div>
             			<div>
             				<p>Professor $</p>
-            				<input id="ADDITEM_PROF" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('STUDENT_PRICE', e.target.value)}/>
+            				<input id="ADDITEM_PROF" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN(e.target)}/>
             			</div>
             			<div>
             				<p>Ren De $</p>
-            				<input id="ADDITEM_RENDE" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN('PROFESSOR_PRICE', e.target.value)}/>
+            				<input id="ADDITEM_RENDE" type="number" min="0" step="0.01" onChange={e=> ITEM_TYPE_IN(e.target)}/>
             			</div>
             		</div>
             		<div className="button-container col-1">
@@ -87,9 +87,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-    LOAD_ITEM_TYPE : () => dispatch(LOAD_ITEM_TYPE()),
-    ADD_BTN_CLICKED:() =>dispatch(ADD_BTN_CLICKED()),
-    ADD_ITEM_KEYUP:()=>dispatch(ADD_ITEM_KEYUP())
+    LOAD_ITEM_TYPE : () => dispatch(LOAD_ITEM_TYPE())
   }
 }
 

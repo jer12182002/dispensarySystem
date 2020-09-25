@@ -3,7 +3,7 @@ import {CLEAR_CHILDREN_INPUT_VALUE} from './helperFunctions';
 import {LOAD_ALL_INVENTROY_ITEMS} from './loadItemActions';
 
 
-export let inputValue = {
+let inputValue = {
 	ENGLISH_NAME : "",
 	CHINESE_NAME : "",
 	TYPE : "",
@@ -33,40 +33,39 @@ export const LOAD_ITEM_TYPE = (dispatch) => {
 };
 
 
-export const ITEM_TYPE_IN = (target, value) => {
+export const ITEM_TYPE_IN = (target) => {
 
-  switch (target) {
-    case 'ENGLISH_NAME':
-      inputValue.ENGLISH_NAME = value.trim().toLowerCase().replace(/\s\s/g, '').replace(/[^a-zA-Z0-9-]+(.)/g, (m, chr) => ' '+ chr.toUpperCase()).replace(/^[a-z]/g,c => c.toUpperCase());
+  switch (target.id) {
+    case 'ADDITEM_ENGLISH_NAME':
+        inputValue.ENGLISH_NAME = target.value.trim().toLowerCase().replace(/\s\s/g, '').replace(/[^a-zA-Z0-9-]+(.)/g, (m, chr) => ' '+ chr.toUpperCase()).replace(/^[a-z]/g,c => c.toUpperCase());
     break;
 
-    case 'CHINESE_NAME':
-      inputValue.CHINESE_NAME = value.trim().split("").filter(char => /\p{Script=Han}/u.test(char)).join("");
+    case 'ADDITEM_CHINESE_NAME':
+      inputValue.CHINESE_NAME = target.value.trim().split("").filter(char => /\p{Script=Han}/u.test(char)).join("");
     break;
 
-    case 'TYPE':
-      inputValue.TYPE = value;
+    case 'ADDITEM_TYPE':
+      inputValue.TYPE = target.value;
     break;
 
-    case 'QTY':
-      inputValue.QTY = value;
+    case 'ADDITEM_QTY':
+      inputValue.QTY = target.value;
     break;
 
-    case 'RENDE_PRICE':
-      inputValue.RENDE_PRICE = value;
+    case 'ADDITEM_RENDE':
+      inputValue.RENDE_PRICE = target.value;
     break;
 
-    case 'STUDENT_PRICE':
-      inputValue.STUDENT_PRICE = value;
+    case 'ADDITEM_STD':
+      inputValue.STUDENT_PRICE = target.value;
     break;
 
-    case 'PROFESSOR_PRICE':
-      inputValue.PROFESSOR_PRICE = value;
+    case 'ADDITEM_PROF':
+      inputValue.PROFESSOR_PRICE = target.value;
     break;
   }
 
   
-
 
 }
 
@@ -108,30 +107,3 @@ export const ADD_BTN_CLICKED = dispatch => {
 }
 
 
-export const ADD_ITEM_KEYUP = dispatch => {
-    //THIS FUNCTION WILL FECTH DATABASE AT THE SAME TIME AS USER TYPING NAME FOR ADD ITEM, 
-    //AND THEN RETURN SUGGESTED ITEMS WHICH MATCH THE ITEM NAME IN INVENTORY 
-    let inputName = document.querySelector("#ADDITEM_ENGLISH_NAME").value 
-                  + document.querySelector("#ADDITEM_CHINESE_NAME").value;
-    
-    return dispatch => {
-          axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additemkeyup`,{input : inputName})
-            .then(data => {
-                console.log(data.data.result);
-                if(data.data.result) {
-                    dispatch({
-                        type: 'addItemNamesInput', 
-                        payload: data.data.result     
-                    })
-                }
-            })
-            .catch(err => {
-                dispatch ({
-                    type: 'errMsgS', 
-                    payload: err.message
-                })
-            })    
-    
-    
-    }
-}
