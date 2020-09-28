@@ -1,3 +1,5 @@
+@import '~sass-mq';
+
 .addItem-wrapper{
 	background-color: antiquewhite;
 	width: 100%;
@@ -27,28 +29,33 @@
 	}
 
 	&>.row {
-		.input-container.col-11 {
+		.input-container {
 			div{
 				display: inline-block;
 				margin: 0 5px;
 
-				&>* {
-					display: inline-block;
-				}
-
 				&>p {
-					margin-right: 3px;
+					margin: 0;
 					font-weight: 900;
 				}
 
-				&>input[type="number"] {
-					width: 4vw;
+				&>input, &>select {
+					width: 90%;
 				}
 
-				&>select {
-					width: 4vw;
+			}
+		}
+
+		@include mq($until: desktop) {
+			.button-container {
+				text-align: center;
+				margin-top: 10px;
+				.btn {
+					width: 80%;
+					border-radius: 25px;
 				}
 			}
+
 		}
 	}
 

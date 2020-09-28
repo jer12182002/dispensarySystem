@@ -1,3 +1,11 @@
+$mq-breakpoints: (
+    mobile:  320px,
+    tablet:  740px,
+    desktop: 990px,
+    wide:    1300px
+);
+ 
+
 .App {
   text-align: center;
 }
