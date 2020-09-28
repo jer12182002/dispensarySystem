@@ -7,6 +7,7 @@ let inputValue = {
 	ENGLISH_NAME : "",
 	CHINESE_NAME : "",
 	TYPE : "",
+    RATIO: "",
 	QTY : "",
 	RENDE_PRICE : 0,
 	STUDENT_PRICE : 0, 
@@ -41,11 +42,15 @@ export const ITEM_TYPE_IN = (target) => {
     break;
 
     case 'ADDITEM_CHINESE_NAME':
-      inputValue.CHINESE_NAME = target.value.trim().split("").filter(char => /\p{Script=Han}/u.test(char)).join("");
+        inputValue.CHINESE_NAME = target.value.trim().split("").filter(char => /\p{Script=Han}/u.test(char)).join("");
     break;
 
     case 'ADDITEM_TYPE':
-      inputValue.TYPE = target.value;
+        inputValue.TYPE = target.value;
+    break;
+
+    case 'ADDITEM_RATIO':
+        inputValue.RATIO = target.value;
     break;
 
     case 'ADDITEM_QTY':
@@ -74,6 +79,7 @@ export const ADD_BTN_CLICKED = dispatch => {
  if(inputValue.ENGLISH_NAME.trim() && 
      inputValue.CHINESE_NAME.trim() &&
      inputValue.TYPE.trim() &&
+     inputValue.RATIO &&
      inputValue.QTY &&
      inputValue.RENDE_PRICE &&
      inputValue.STUDENT_PRICE &&
@@ -83,7 +89,6 @@ export const ADD_BTN_CLICKED = dispatch => {
         return dispatch => {
             axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem`,inputValue)
             .then(data => {
-                console.log(data.data);
                 if(data.data.result[1]) {
                     dispatch({
                         type: 'loadAllInventoryItems', 
@@ -98,7 +103,6 @@ export const ADD_BTN_CLICKED = dispatch => {
                 })
             })    
         }
-
     }
     else {
       alert("please type in valid input");
@@ -109,4 +113,34 @@ export const ADD_BTN_CLICKED = dispatch => {
     }
 }
 
+
+
+export const ADD_ITEM_KEYUP = dispatch => {
+    return dispatch => {
+        axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additemkeyup`,{input : inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME})
+            .then(data => {
+                if(data.data.result) {
+                    dispatch({
+                        type: 'addItemNamesInput', 
+                        payload: data.data.result     
+                    })
+                }
+            })
+            .catch(err => {
+                dispatch ({
+                    type: 'errMsgS', 
+                    payload: err.message
+                })
+            })    
+    }
+} 
+
+
+
+export const SAVE_SUGGESTED_ITEM = item_id => {
+    return {
+        type: "suggestedItemClicked",
+        payload: item_id
+    }
+}
 

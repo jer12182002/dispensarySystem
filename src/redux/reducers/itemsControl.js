@@ -1,13 +1,15 @@
 const ITEM_ERROR_MSG = "errMsg";
-const LOAD_ITEM_TYPE = 'loadItemType';
-const LOAD_ALL_INVENTROY_ITEMS = 'loadAllInventoryItems';
+const LOAD_ITEM_TYPE = "loadItemType";
+const LOAD_ALL_INVENTROY_ITEMS = "loadAllInventoryItems";
 const ITEM_ACTION_TOGGLE = "itemActionToggle";
-const ADD_ITEM_NAMES_INPUT = 'addItemNamesInput';
+const ADD_ITEM_NAMES_INPUT = "addItemNamesInput";
+const SUGGESTED_ITEM_CLICKED = "suggestedItemClicked";
 
 let inventoryInfo = {
 	item_error_msg : '',
 	allItems: [],
-	allTypes: []
+	allTypes: [],
+	suggestedItemClicked:''
 }
 
 export default (state = {}, action) =>{
@@ -50,9 +52,18 @@ export default (state = {}, action) =>{
 		case ADD_ITEM_NAMES_INPUT: 
 			let invtWithSuggestions = JSON.parse(JSON.stringify(inventoryInfo));
 			invtWithSuggestions.itemSuggestions = action.payload;
-		
+
 		return invtWithSuggestions;
 		break;
+
+
+		case SUGGESTED_ITEM_CLICKED:
+			let invtWithSuggetedItemClicked = JSON.parse(JSON.stringify(inventoryInfo));
+			invtWithSuggetedItemClicked.allItems.forEach(item=> item.EDIT_TOGGLE = false); 
+			invtWithSuggetedItemClicked.suggestedItemClicked = action.payload;
+			
+			return {...invtWithSuggetedItemClicked}
+			break;
 
 		default:
 			return {...state};

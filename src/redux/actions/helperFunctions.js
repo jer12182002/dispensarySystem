@@ -13,4 +13,6 @@ export function CLEAR_CHILDREN_INPUT_VALUE (target){
 }
 
 
-
+export function MOVE_SCREEN_TO_ITEM (target) {
+	//window.location.href = target
+}

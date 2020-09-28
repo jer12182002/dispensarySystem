@@ -10,7 +10,6 @@ class inventory extends React.Component{
     componentDidMount() {
         const {LOAD_ALL_INVENTROY_ITEMS} = this.props;
         LOAD_ALL_INVENTROY_ITEMS();
-        console.log(this.props);
     }
 
     displayInventoryItemList () {
@@ -36,8 +35,9 @@ class inventory extends React.Component{
                                     </div>
                                     <div className="col-lg-5">
                                         <div className="row">
-                                            <div className="item_cell col-lg-3">Type</div>
-                                            <div className="item_cell col-lg-3">GRAM</div>
+                                            <div className="item_cell col-lg-2">Type</div>
+                                            <div className="item_cell col-lg-2">Ratio</div>
+                                            <div className="item_cell col-lg-2">GRAM</div>
                                             <div className="item_cell col-lg-2">Rende Price</div>
                                             <div className="item_cell col-lg-2">Student Price</div>
                                             <div className="item_cell col-lg-2">Prof Price</div>
@@ -46,9 +46,9 @@ class inventory extends React.Component{
                                     <div className="item_cell col-lg-1">Action</div>
                                 </div>
                           
-                           
+                                
                                 {this.props.allItems.map((item, key)=>
-                                <div className="item_row row" key = {item.ID}>
+                                <div className={`item_row row ${this.props.suggestedItemClicked === item.ID? "suggestedItemClicked" : ""}`} key = {item.ID}>
                                     <div className="item_cell_align_center item_cell col-lg-1"><span>Index:</span>{key+1}</div>
 
                                     <div className="col-lg-5">
@@ -73,7 +73,7 @@ class inventory extends React.Component{
                                     </div>
                                     <div className="col-lg-5">
                                         <div className="row">
-                                            <div className="item_cell col-lg-3">
+                                            <div className="item_cell col-lg-2">
                                                 <p><span>Type:</span>{item.TYPE}</p>
                                                 {item.EDIT_TOGGLE===true?
                                                     <select defaultValue={item.TYPE}>
@@ -85,7 +85,15 @@ class inventory extends React.Component{
                                                     null
                                                 }
                                             </div>
-                                            <div className="item_cell col-lg-3">
+                                             <div className="item_cell col-lg-2">
+                                                <p><span>Ratio:</span>{item.RATIO}</p>
+                                                {item.EDIT_TOGGLE===true?
+                                                    <input type="number" min="0" defaultValue={item.RATIO}/>
+                                                    :
+                                                    null
+                                                }
+                                            </div>
+                                            <div className="item_cell col-lg-2">
                                                 <p><span>Gram:</span>{item.QTY}</p>
                                                 {item.EDIT_TOGGLE===true?
                                                     <input type="number" min="0" defaultValue={item.QTY}/>
@@ -143,7 +151,8 @@ class inventory extends React.Component{
                                 <div className="item_cell col-lg-3">Name</div>
                                 <div className="item_cell col-lg-2">中文</div>
                                 <div className="item_cell col-lg-2">Type</div>
-                                <div className="item_cell col-lg-2">GRAM</div>
+                                <div className="item_cell col-lg-1">Ratio</div>
+                                <div className="item_cell col-lg-1">GRAM</div>
                                 <div className="item_cell col-lg-2">Student Price</div>
                             </div>
                             
@@ -153,7 +162,8 @@ class inventory extends React.Component{
                                 <div className="item_cell col-lg-3"><p><span>Name:</span>{item.ENGLISH_NAME}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>名稱:</span>{item.CHINESE_NAME}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>Type:</span>{item.TYPE}</p></div>
-                                <div className="item_cell col-lg-2"><p><span>Gram:</span>{item.QTY}</p></div>
+                                <div className="item_cell col-lg-1"><p><span>Ratio:</span>{item.RATIO}</p></div>
+                                <div className="item_cell col-lg-1"><p><span>Gram:</span>{item.QTY}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>Price:</span>{item.STUDENT_PRICE}</p></div>
                             </div>)}
                         </div>
@@ -165,7 +175,8 @@ class inventory extends React.Component{
                                 <div className="item_cell col-lg-3">Name</div>
                                 <div className="item_cell col-lg-2">中文</div>
                                 <div className="item_cell col-lg-2">Type</div>
-                                <div className="item_cell col-lg-2">GRAM</div>
+                                <div className="item_cell col-lg-1">Ratio</div>
+                                <div className="item_cell col-lg-1">GRAM</div>
                                 <div className="item_cell col-lg-2">Professor Price</div>
                             </div>
                             
@@ -175,7 +186,8 @@ class inventory extends React.Component{
                                 <div className="item_cell col-lg-3"><p><span>Name:</span>{item.ENGLISH_NAME}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>名稱:</span>{item.CHINESE_NAME}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>Type:</span>{item.TYPE}</p></div>
-                                <div className="item_cell col-lg-2"><p><span>Gram:</span>{item.QTY}</p></div>
+                                <div className="item_cell col-lg-1"><p><span>Ratio:</span>{item.RATIO}</p></div>
+                                <div className="item_cell col-lg-1"><p><span>Gram:</span>{item.QTY}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>Price:</span>{item.PROFESSOR_PRICE}</p></div>
                             </div>)}
                         </div>
@@ -202,6 +214,7 @@ const mapStateToProps = state => {
     return {
         itemTypes : state.itemsControl.allTypes,
         allItems : state.itemsControl.allItems,
+        suggestedItemClicked: state.itemsControl.suggestedItemClicked,
         errMsg: state.errMsg.errorMsg
     }
 }

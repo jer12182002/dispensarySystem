@@ -3,8 +3,8 @@ import './addItem.scss';
 
 import {connect} from 'react-redux';
 
-import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED} from 'redux/actions/addItemAction';
-
+import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_ITEM_KEYUP, ADD_BTN_CLICKED,SAVE_SUGGESTED_ITEM} from 'redux/actions/addItemAction';
+import {MOVE_SCREEN_TO_ITEM} from 'redux/actions/helperFunctions';
 
 class addItem extends React.Component{
 //greentea123
@@ -20,7 +20,7 @@ class addItem extends React.Component{
             	<div className="suggestedItems-container row">
                 {this.props.itemSuggestions?
                     this.props.itemSuggestions.map((item,key)=> 
-                        <div key={key} className="suggestedItems" onClick = {e => {e.preventDefault();}}>{item.ENGLISH_NAME} {item.CHINESE_NAME}</div>
+                        <div key={key} className="suggestedItems" onClick = {e => {e.preventDefault(); this.props.SAVE_SUGGESTED_ITEM(item.ID); MOVE_SCREEN_TO_ITEM(".suggestedItemClicked")}}>{item.ENGLISH_NAME} {item.CHINESE_NAME}</div>
                     ):null
                 }
                 </div>
@@ -30,11 +30,11 @@ class addItem extends React.Component{
             		<div className="input-container col-11">
             			<div>
 	            			<p>Name</p>
-	            			<input id="ADDITEM_ENGLISH_NAME" type="text" onChange={e=> {ITEM_TYPE_IN(e.target);}}/>
+	            			<input id="ADDITEM_ENGLISH_NAME" type="text" onChange={e=> {ITEM_TYPE_IN(e.target);this.props.ADD_ITEM_KEYUP();}}/>
             			</div>
             			<div>
             				<p>名稱</p>
-            				<input id="ADDITEM_CHINESE_NAME" type="text" onChange={e=> {ITEM_TYPE_IN(e.target);}}/>
+            				<input id="ADDITEM_CHINESE_NAME" type="text" onChange={e=> {ITEM_TYPE_IN(e.target);this.props.ADD_ITEM_KEYUP();}}/>
             			</div>
             			<div>
             				<p>Type</p>
@@ -45,6 +45,11 @@ class addItem extends React.Component{
             					)}
             				</select>
             			</div>
+                        <div>
+                            <p>Ratio</p>
+                            <input id="ADDITEM_RATIO" type="number" min="0" defaultValue="7" onChange={e=>ITEM_TYPE_IN(e.target)}/>
+                        </div>
+
             			<div>
             				<p>Gram</p>
             				<input id="ADDITEM_QTY" type="number" min="0" onChange={e=> ITEM_TYPE_IN(e.target)}/>
@@ -78,6 +83,7 @@ class addItem extends React.Component{
 
 
 const mapStateToProps = state => {
+    
 	return {
 		itemTypes: state.itemsControl.allTypes,
         itemSuggestions: state.itemsControl.itemSuggestions
@@ -88,7 +94,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
     LOAD_ITEM_TYPE : () => dispatch(LOAD_ITEM_TYPE()),
-    ADD_BTN_CLICKED:() => dispatch(ADD_BTN_CLICKED())
+    ADD_ITEM_KEYUP: () => dispatch(ADD_ITEM_KEYUP()),
+    ADD_BTN_CLICKED:() => dispatch(ADD_BTN_CLICKED()),
+    SAVE_SUGGESTED_ITEM: (item_id)=> {dispatch(SAVE_SUGGESTED_ITEM(item_id))}
   }
 }
 

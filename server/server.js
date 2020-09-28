@@ -94,7 +94,7 @@ app.post ('/inventory/updateitem',(req,res)=> {
 	console.log(req.body.updateItem);
 	let updateItem = req.body.updateItem;
 
-	let sqlQueries = `UPDATE INVENTORY SET ENGLISH_NAME='${updateItem.ENGLISH_NAME}',CHINESE_NAME='${updateItem.CHINESE_NAME}',TYPE='${updateItem.TYPE}',QTY='${updateItem.QTY}',RENDE_PRICE='${updateItem.RENDE_PRICE}',STUDENT_PRICE='${updateItem.STUDENT_PRICE}',PROFESSOR_PRICE='${updateItem.PROFESSOR_PRICE}' WHERE ID = '${updateItem.ID}';`;
+	let sqlQueries = `UPDATE INVENTORY SET ENGLISH_NAME='${updateItem.ENGLISH_NAME}',CHINESE_NAME='${updateItem.CHINESE_NAME}',TYPE='${updateItem.TYPE}', RATIO='${updateItem.RATIO}', QTY='${updateItem.QTY}',RENDE_PRICE='${updateItem.RENDE_PRICE}',STUDENT_PRICE='${updateItem.STUDENT_PRICE}',PROFESSOR_PRICE='${updateItem.PROFESSOR_PRICE}' WHERE ID = '${updateItem.ID}';`;
 		sqlQueries += 'SELECT * FROM INVENTORY;'
 
 	connection.query(sqlQueries, (err,result) => {
@@ -128,7 +128,7 @@ app.delete('/inventory/deleteitem',(req,res)=>{
 
 app.post('/inventory/additem',(req,res)=> {
 	let itemInfo = req.body;
-	let sqlQueries = `INSERT INTO INVENTORY (ENGLISH_NAME, CHINESE_NAME, TYPE, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE) VALUES('${itemInfo.ENGLISH_NAME}','${itemInfo.CHINESE_NAME}', '${itemInfo.TYPE}','${itemInfo.QTY}', '${itemInfo.RENDE_PRICE}','${itemInfo.STUDENT_PRICE}','${itemInfo.PROFESSOR_PRICE}');`;
+	let sqlQueries = `INSERT INTO INVENTORY (ENGLISH_NAME, CHINESE_NAME, TYPE, RATIO, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE) VALUES('${itemInfo.ENGLISH_NAME}','${itemInfo.CHINESE_NAME}', '${itemInfo.TYPE}', '${itemInfo.RATIO}','${itemInfo.QTY}', '${itemInfo.RENDE_PRICE}','${itemInfo.STUDENT_PRICE}','${itemInfo.PROFESSOR_PRICE}');`;
 		sqlQueries += 'SELECT * FROM INVENTORY;'
 
 	connection.query(sqlQueries, (err,result) => {

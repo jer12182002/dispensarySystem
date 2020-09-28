@@ -21,6 +21,10 @@ $mq-breakpoints: (
 		
 		.row {
 			height: 100%;
+
+			&.suggestedItemClicked {
+				background-color: deepskyblue;
+			}
 		}
 
 		.item_row {
