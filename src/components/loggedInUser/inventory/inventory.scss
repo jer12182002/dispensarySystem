@@ -80,10 +80,11 @@ $mq-breakpoints: (
 						margin-bottom: .5em;
 					}
 
+					&.item_cell_align_center {
+						text-align: center;
+					}
 				}
-				&>.item_cell {
-					text-align: center;
-				}
+				
 
 			}
 		}

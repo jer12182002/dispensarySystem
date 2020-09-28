@@ -3,7 +3,7 @@ import './addItem.scss';
 
 import {connect} from 'react-redux';
 
-import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED, SUGGESTED_ITEM_CLICKED} from 'redux/actions/addItemAction';
+import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_BTN_CLICKED} from 'redux/actions/addItemAction';
 
 
 class addItem extends React.Component{

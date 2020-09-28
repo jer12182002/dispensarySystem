@@ -70,7 +70,8 @@ export const ITEM_TYPE_IN = (target) => {
 }
 
 export const ADD_BTN_CLICKED = dispatch => {
-  if(inputValue.ENGLISH_NAME.trim() && 
+
+ if(inputValue.ENGLISH_NAME.trim() && 
      inputValue.CHINESE_NAME.trim() &&
      inputValue.TYPE.trim() &&
      inputValue.QTY &&
@@ -79,10 +80,10 @@ export const ADD_BTN_CLICKED = dispatch => {
      inputValue.PROFESSOR_PRICE
      ) 
     {
-
         return dispatch => {
             axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem`,inputValue)
             .then(data => {
+                console.log(data.data);
                 if(data.data.result[1]) {
                     dispatch({
                         type: 'loadAllInventoryItems', 
@@ -99,11 +100,13 @@ export const ADD_BTN_CLICKED = dispatch => {
         }
 
     }
-
-    
-  else {
-    alert('Input Error !!!, please check if your input is valid');
-  }
+    else {
+      alert("please type in valid input");
+      return dispatch => ({
+        type: 'errMsg', 
+        payload: 'invalid input'
+      })
+    }
 }
 
 

@@ -49,7 +49,7 @@ class inventory extends React.Component{
                            
                                 {this.props.allItems.map((item, key)=>
                                 <div className="item_row row" key = {item.ID}>
-                                    <div className="item_cell col-lg-1"><span>Index:</span>{key+1}</div>
+                                    <div className="item_cell_align_center item_cell col-lg-1"><span>Index:</span>{key+1}</div>
 
                                     <div className="col-lg-5">
                                         <div className="row">
@@ -119,7 +119,7 @@ class inventory extends React.Component{
                                             </div>
                                         </div>
                                     </div>    
-                                    <div className="item_cell col-lg-1">
+                                    <div className="item_cell_align_center item_cell col-lg-1">
                                         {item.EDIT_TOGGLE===true?
                                             <div className="itemAction-container">
                                                 <button className="btn btn-primary" onClick = {e => {e.preventDefault(); this.props.SAVE_ITEM_CHANGE(e.target, item.ID)}}>Save</button>
@@ -149,7 +149,7 @@ class inventory extends React.Component{
                             
                             {this.props.allItems.map((item, key)=>
                             <div className="item_row row" key = {item.ID}>
-                                <div className="item_cell col-lg-1"><span>Index:</span>{key+1}</div>
+                                <div className="item_cell_align_center item_cell col-lg-1"><span>Index:</span>{key+1}</div>
                                 <div className="item_cell col-lg-3"><p><span>Name:</span>{item.ENGLISH_NAME}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>名稱:</span>{item.CHINESE_NAME}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>Type:</span>{item.TYPE}</p></div>
@@ -170,7 +170,7 @@ class inventory extends React.Component{
                             </div>
                             
                             {this.props.allItems.map((item, key)=>
-                            <div className="item_row row" key = {item.ID}>
+                            <div className="item_cell_align_center item_row row" key = {item.ID}>
                                 <div className="item_cell col-lg-1"><span>Index:</span>{key+1}</div>
                                 <div className="item_cell col-lg-3"><p><span>Name:</span>{item.ENGLISH_NAME}</p></div>
                                 <div className="item_cell col-lg-2"><p><span>名稱:</span>{item.CHINESE_NAME}</p></div>

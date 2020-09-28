@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 
 import allReducers from 'redux/reducers/reducer';
 
-const store = createStore(allReducers, applyMiddleware( thunk));
+const store = createStore(allReducers, applyMiddleware(thunk));
 
 // let currentValue = store.getState();
 // store.subscribe(()=> {

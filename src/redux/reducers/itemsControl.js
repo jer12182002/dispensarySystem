@@ -29,7 +29,6 @@ export default (state = {}, action) =>{
 			return {...inventoryInfo}
 			break;
 
-
 		case LOAD_ITEM_TYPE: 
 			inventoryInfo.allTypes = action.payload;
 			
