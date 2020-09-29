@@ -1,4 +1,5 @@
 import React from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Header from './components/header/header';
 import LoginPanel from './components/loginPanel/loginPanel';
@@ -11,20 +12,18 @@ class App extends React.Component {
 	
 	return (
 	  	<div className="App">
-			<Header userLoggedIn = {this.props.userLoggedIn}
-					userInformation = {this.props.userInformation}			
-			/>
+				<Header userLoggedIn = {this.props.userLoggedIn}
+						userInformation = {this.props.userInformation}			
+				/>
 
-	  		
-	  		{this.props.userLoggedIn?
-			
-			<LoggedInUser userInformation = {this.props.userInformation}/>
-	  		
-			:
-			<>
-				<LoginPanel/>
-			</>
-	  		}
+		  		
+		  		{this.props.userLoggedIn?
+					<LoggedInUser userInformation = {this.props.userInformation}/>
+				:
+				<>
+					<LoginPanel/>
+				</>
+		  		}
 		</div>
 	  );
 	}

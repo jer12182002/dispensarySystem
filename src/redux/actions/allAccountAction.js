@@ -10,8 +10,7 @@ let chosenAccount = {
 
 
 export const USER_LOGIN = () => {
-
-	return {
+	return {	
 		type: "userLogin", 
 		payload: chosenAccount
 	};

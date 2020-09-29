@@ -1,0 +1,48 @@
+.neworder-wrapper {
+	.order-form-container {
+		background-color: white;
+		text-align: center;
+		width: 60%;
+
+		.order-header {
+			border-bottom: 2px solid black;
+			padding: 15px 0;
+
+			.row > div {
+				text-align: left;
+			}
+		
+			img {
+				margin: 0 auto;
+				width: 30%;
+			}
+
+			h1 {
+				display: inline-block;
+				font-size: 1vw;
+			}
+
+			input {
+				width: 80%;
+				height: 90%;
+				float: right;
+				font-size: 1vw;
+			}
+		}
+
+		.order-body {
+
+		}
+	}
+
+	.addItem_function_bar {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+
+		p {
+			display: inline-block;
+			margin: 0 5px;
+		}
+	}
+}

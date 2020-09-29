@@ -7,7 +7,7 @@ let inputValue = {
 	ENGLISH_NAME : "",
 	CHINESE_NAME : "",
 	TYPE : "",
-    RATIO: "",
+  RATIO: "",
 	QTY : "",
 	RENDE_PRICE : 0,
 	STUDENT_PRICE : 0, 
@@ -117,7 +117,7 @@ export const ADD_BTN_CLICKED = dispatch => {
 
 export const ADD_ITEM_KEYUP = dispatch => {
     return dispatch => {
-        axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additemkeyup`,{input : inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME})
+        axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/filteritemtyping`,{input : inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME})
             .then(data => {
                 if(data.data.result) {
                     dispatch({
