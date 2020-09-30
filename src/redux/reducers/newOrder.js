@@ -11,6 +11,7 @@ export default (state = {}, action)=> {
 			let newOrderWithFilteredItem = JSON.parse(JSON.stringify(newOrder));
 			newOrderWithFilteredItem.filteredItems = action.payload;
 
+			console.log(newOrderWithFilteredItem);
 			return newOrderWithFilteredItem;
 			break;
 

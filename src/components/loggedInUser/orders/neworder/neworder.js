@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import './neworder.scss';
-import {LOAD_ITEM_TYPE, ITEM_TYPE_IN, ADD_ITEM_KEYUP, ADD_BTN_CLICKED,SAVE_SUGGESTED_ITEM} from 'redux/actions/addItemAction';
-import {FILTER_ITEM_WHILE_TYPING} from 'redux/actions/newOrderAction';
+
+import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT} from 'redux/actions/newOrderAction';
 
 class neworder extends Component {
  	
@@ -20,10 +20,12 @@ class neworder extends Component {
 	 				</div>
 	 				<div className="row">
 	 					<div className="col-3">
-	 						<h1>Date: {today}</h1>
+	 						<h1>Date:</h1>
+	 						<input type="date" defaultValue={today}/>
 	 					</div>
 	 					<div className="col-9">
-	 						<h1>Customer: </h1><input type="text"/>
+	 						<h1>Customer: </h1>
+	 						<input type="text"/>
 	 					</div>
 	 				</div>
 	 				<div className="row">
@@ -59,46 +61,55 @@ class neworder extends Component {
 
 
 
- 	addItemToOrder() {
+ 	addItemToOrder(account) {
+ 		
  		return (
- 		<div className="addItem_function_bar container-fluid">
- 			{this.props.filteredItems?
-	 			<div className="row">
-	 				{this.props.filteredItems.map((item,key)=>
-	 					<>
-	 					<div className="col-12">
-	 						<p>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
-	 					</div>
-	 					<div className="col-12 row">
-	 						<div className="col-4">
-	 							<p>Ration: {item.RATION}</p>
-	 						</div>
-	 						<div className="col-4">
-	 							<p>QTY: {item.QTY} </p>
-	 						</div>
-								 						
-	 						<div className="col-4">
+ 			
 
+ 		<div className="addItem_function_bar container-fluid">
+ 			{(this.props.filteredItems && this.props.filteredItems.length > 0)?
+	 			<div className="suggested_items_container">
+	 				{this.props.filteredItems.map((item,key)=>
+	 					<div key={key} className="row" onClick={(e)=>{e.preventDefault(); this.props.CLICKED_SUGGESTED_ITEM(item);}}>
+		 					<div className="col-12">
+		 						<p>{item.ENGLISH_NAME} {item.CHINESE_NAME} </p>
+		 					</div>
+	 						<div className="col-4">
+	 							<p>Type: {item.TYPE}</p>
 	 						</div>
+	 						<div className="col-4">
+	 							<p>Ratio: {item.RATIO}</p>
+	 						</div>
+	 						<div className="col-4">
+	 							<p> Price:  
+	 							  {(() => {
+								        switch (account) {
+								          case "RenDeInc":   return item.RENDE_PRICE;
+								          case "Professor": return item.PROFESSOR_PRICE;
+								          case "Student":  return item.STUDENT_PRICE;
+								          default:      return "";
+								        }
+								      })()}	
+	 							</p>
+	 						</div>						
 	 					</div>
-	 					</>
 	 					)}
 	 			</div>
- 			:null}
+ 			:<></>}
  			<div className="row">
  				<div className="col-4">
  					<p>Item:</p>
  					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value)}/>
  				</div>
- 				<div className="col-3">
+ 				<div id="newOrderItem_Extract" className="col-3">
  					<p>Extract Gram</p>
- 					<input type="number"/>
+ 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('EXTRACT', e.target.value, 'item.RATIO')}}/>
  				</div>
- 				<div className="col-3">
+ 				<div id="newOrderItem_Gram" className="col-3">
  					<p>Raw Gram</p>
- 					<input type="number"/>
+ 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('RAW', e.target.value, 'item.RATIO')}}/>
  				</div>
- 				<div className="col-2">
+ 				<div className="col-1">
  					<button className="btn btn-primary">Add</button>
  				</div>
  			</div>
@@ -111,7 +122,7 @@ class neworder extends Component {
         return (
             <div className="neworder-wrapper">
     			{this.orderListDisplay(this.props.userInformation.account)}
-    			{this.addItemToOrder()}        	
+    			{this.addItemToOrder(this.props.userInformation.account)}        	
             </div>
         );
     }
@@ -119,7 +130,6 @@ class neworder extends Component {
 
 
 const mapStateToProps = state => {
-	console.log(state);
 	return {
 		filteredItems: state.newOrder.filteredItems
 	}
@@ -128,7 +138,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value))
+  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
+  	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item))
   }
 }
 

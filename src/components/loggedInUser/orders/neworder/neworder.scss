@@ -44,5 +44,30 @@
 			display: inline-block;
 			margin: 0 5px;
 		}
+
+
+		.suggested_items_container {
+			width: 35%;
+			height:30vh;
+			border: 2px solid black;
+			background-color: white;
+			border-radius: 20px;
+			overflow-y: scroll;
+			overflow-x: hidden;
+
+			.row {
+				padding: 10px;
+				border: 1px solid lightgray;
+				background-color: aliceblue;
+				font-weight: 900;
+				cursor: pointer;
+
+				&:hover {
+					transform:scale(1.1);
+					padding-left: 5%;
+					background-color: darkturquoise;
+				}
+			}
+		}
 	}
 }

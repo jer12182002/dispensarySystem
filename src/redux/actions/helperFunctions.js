@@ -1,6 +1,6 @@
 //Styling helper functions
 export function REMOVE_QUERY_CLASS (target,className){
-	document.querySelectorAll(target).forEach(select =>select.classList.remove("clicked"));
+	document.querySelectorAll(target).forEach(select =>select.classList.remove(className));
 }
 
 export function ADD_CLASS (target, className) {
