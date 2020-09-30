@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import './neworder.scss';
 
-import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT} from 'redux/actions/newOrderAction';
+import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEWORDER_ITEM} from 'redux/actions/newOrderAction';
 
 class neworder extends Component {
  	
@@ -64,8 +64,6 @@ class neworder extends Component {
  	addItemToOrder(account) {
  		
  		return (
- 			
-
  		<div className="addItem_function_bar container-fluid">
  			{(this.props.filteredItems && this.props.filteredItems.length > 0)?
 	 			<div className="suggested_items_container">
@@ -97,20 +95,24 @@ class neworder extends Component {
 	 			</div>
  			:<></>}
  			<div className="row">
- 				<div className="col-4">
+ 				<div id="newOrder_Item"className="col-4">
  					<p>Item:</p>
  					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value)}/>
  				</div>
+ 				<div id="newOrderItem_Raw" className="col-3">
+ 					<p>Raw Gram</p>
+ 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('EXTRACT', e.target.value, this.props.suggestedItem.RATIO)}}/>
+ 				</div>
  				<div id="newOrderItem_Extract" className="col-3">
  					<p>Extract Gram</p>
- 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('EXTRACT', e.target.value, 'item.RATIO')}}/>
+ 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('RAW', e.target.value, this.props.suggestedItem.RATIO)}}/>
  				</div>
- 				<div id="newOrderItem_Gram" className="col-3">
- 					<p>Raw Gram</p>
- 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('RAW', e.target.value, 'item.RATIO')}}/>
- 				</div>
- 				<div className="col-1">
- 					<button className="btn btn-primary">Add</button>
+ 				<div id="newOrderItem_Btn" className="col-1">
+ 					{this.props.suggestedItem?
+ 						<button className="btn btn-success" onClick={e=>{e.preventDefault();ADD_NEWORDER_ITEM(this.props.orderItemList)}}>Add</button>
+ 						:
+ 						null
+ 					}
  				</div>
  			</div>
  		</div>
@@ -131,7 +133,9 @@ class neworder extends Component {
 
 const mapStateToProps = state => {
 	return {
-		filteredItems: state.newOrder.filteredItems
+		filteredItems: state.newOrder.filteredItems,
+		suggestedItem: state.newOrder.suggestedItem,
+		orderItemList: state.newOrder.orderItemList
 	}
 }
 
@@ -139,7 +143,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
-  	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item))
+  	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
+  	ADD_NEWORDER_ITEM: orderItemList => dispatch(ADD_NEWORDER_ITEM(orderItemList))
   }
 }
 

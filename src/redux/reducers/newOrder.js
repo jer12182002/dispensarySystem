@@ -1,7 +1,12 @@
-const FILTER_ITEM_TYPING = 'filteritemtyping';
+const FILTER_ITEM_TYPING = "filteritemtyping";
+const NEWORDER_SUGGESTED_ITEM_CLICKED = "neworderSuggestedItemClicked";
+const ADD_NEWORDER_ITEM = "addNewOrderItem"
+
 
 let newOrder = {
-	filteredItems : []
+	filteredItems : [],
+	suggestedItem:undefined,
+	orderItemList: []
 }
 
 export default (state = {}, action)=> {
@@ -11,9 +16,19 @@ export default (state = {}, action)=> {
 			let newOrderWithFilteredItem = JSON.parse(JSON.stringify(newOrder));
 			newOrderWithFilteredItem.filteredItems = action.payload;
 
-			console.log(newOrderWithFilteredItem);
 			return newOrderWithFilteredItem;
 			break;
+
+		case NEWORDER_SUGGESTED_ITEM_CLICKED:
+			let newOrderWithSuggestedItem = JSON.parse(JSON.stringify(newOrder));
+			newOrderWithSuggestedItem.suggestedItem = action.payload;
+		
+			return newOrderWithSuggestedItem;
+			break;
+
+		case ADD_NEWORDER_ITEM:
+
+		break;
 
 		default:
 		return state;

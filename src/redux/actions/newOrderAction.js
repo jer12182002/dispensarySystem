@@ -1,5 +1,18 @@
 import axios from 'axios';
-	
+import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE} from './helperFunctions';
+
+const BLOCK_ITEM_INPUT = () => {
+	SET_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
+	SET_ATTRIBUTE ("#newOrderItem_Extract input", "disabled");
+	SET_INPUT_VALUE("#newOrderItem_Raw input", "");    
+	SET_INPUT_VALUE("#newOrderItem_Extract input", "");
+}
+
+const ALLOW_ITEM_INPUT = () => {
+	REMOVE_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
+	REMOVE_ATTRIBUTE("#newOrderItem_Extract input", "disabled");
+}
+
 export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	let inputValue = value.trim();
 
@@ -23,6 +36,8 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	            })    
 	    }
 	    else {
+	    	BLOCK_ITEM_INPUT();	
+	    	
 	    	dispatch({
 	    		type: 'filteritemtyping', 
 	            payload: []    
@@ -34,23 +49,32 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 
 
 export const CLICKED_SUGGESTED_ITEM = (item) => {
-	let newOrderItem_Extract = document.querySelector("#newOrderItem_Extract input");
-	let newOrderItem_Gram = document.querySelector("#newOrderItem_Gram input");
-	
-	newOrderItem_Extract.removeAttribute("disabled");
-	newOrderItem_Gram.removeAttribute("disabled");
-	newOrderItem_Extract.value = item.RATIO;
-	newOrderItem_Gram.value = 1;
-
+	ALLOW_ITEM_INPUT();
+	SET_INPUT_VALUE("#newOrder_Item input", `${item.ENGLISH_NAME} ${item.CHINESE_NAME}`);
+	SET_INPUT_VALUE("#newOrderItem_Raw input", item.RATIO);
+	SET_INPUT_VALUE("#newOrderItem_Extract input", 1);
 
 	return {
-		type: "filteritemtyping",
-		payload:[]
+		type: "neworderSuggestedItemClicked",
+		payload: item
 	}
 }
 
 
 
 export const ADJUST_GRAM_INPUT = (target, value, ratio) => {
+	if(target === "EXTRACT"){
+		SET_INPUT_VALUE("#newOrderItem_Extract input", (value/ratio).toFixed(2));
 
+
+	}else if(target==="RAW") {
+		SET_INPUT_VALUE("#newOrderItem_Raw input", (value*ratio).toFixed(2));
+	}
+		
+}
+
+
+
+export const ADD_NEWORDER_ITEM = (orderItemList) => {
+	console.log(orderItemList);
 }
