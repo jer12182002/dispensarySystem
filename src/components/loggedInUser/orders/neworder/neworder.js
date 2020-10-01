@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import './neworder.scss';
 
+import AddItemToOrder from './addItemToOrder/addItemToOrder';
+
 import {SAVE_NEW_ORDER,
 		SAVE_ORDER_DATE,
 		SAVE_ORDER_CUSTOMER,
@@ -73,7 +75,15 @@ class neworder extends Component {
 	 				</div>
  				</div>
  				<div className="order-body container-fluid">
+ 				{this.props.orderItemList?
+ 					this.props.orderItemList.map((item, key)=>
+ 						<div className="row">
+ 							{item.ENGLISH_NAME}
+ 						</div>
+ 					)
+ 				:null
 
+ 				}
  				</div>
  			</div>
 
@@ -88,75 +98,14 @@ class neworder extends Component {
 
 
 
- 	addItemToOrder(account) {
- 		
- 		return (
- 		<div className="addItem_function_bar container-fluid">
- 			{(this.props.filteredItems && this.props.filteredItems.length > 0)?
-	 			<div className="suggested_items_container">
-	 				{this.props.filteredItems.map((item,key)=>
-	 					<div key={key} className="row" onClick={(e)=>{e.preventDefault(); this.props.CLICKED_SUGGESTED_ITEM(item);}}>
-		 					<div className="col-12">
-		 						<p>{item.ENGLISH_NAME} {item.CHINESE_NAME} </p>
-		 					</div>
-	 						<div className="col-4">
-	 							<p>Type: {item.TYPE}</p>
-	 						</div>
-	 						<div className="col-4">
-	 							<p>Ratio: {item.RATIO}</p>
-	 						</div>
-	 						<div className="col-4">
-	 							<p> Price:  
-	 							  {(() => {
-								        switch (account) {
-								          case "RenDeInc":   return item.RENDE_PRICE;
-								          case "Professor": return item.PROFESSOR_PRICE;
-								          case "Student":  return item.STUDENT_PRICE;
-								          default:      return "";
-								        }
-								      })()}	
-	 							</p>
-	 						</div>						
-	 					</div>
-	 					)}
-	 			</div>
- 			:<></>}
- 			<div className="row">
- 				<div id="newOrder_Item"className="col-4">
- 					<p>Item:</p>
- 					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value)}/>
- 				</div>
- 				<div id="newOrderItem_Raw" className="col-2">
- 					<p>Raw Gram</p>
- 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('EXTRACT', e.target.value, this.props.suggestedItem.RATIO)}}/>
- 				</div>
- 				<div id="newOrderItem_Extract" className="col-2">
- 					<p>Extract Gram</p>
- 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('RAW', e.target.value, this.props.suggestedItem.RATIO)}}/>
- 				</div>
- 				<div id="newOrderItem_Price" className="col-2">
- 					<p>Price</p>
- 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('PRICE', e.target.value, this.props.suggestedItem.RATIO)}}/>
- 				</div>
- 				<div id="newOrderItem_Btn" className="col-1">
- 					{this.props.suggestedItem?
- 						<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_NEW_ORDER_ITEM(this.props.orderItemList);}}>Add</button>
- 						:
- 						null
- 					}
- 				</div>
- 			</div>
- 		</div>
- 		);
- 	}
+ 	
 
     render() {
-    	console.log(this.props.orderItemList);
         return (
             <div className="neworder-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account)}
     			{this.orderListDisplay(this.props.userInformation.account)}
-    			{this.addItemToOrder(this.props.userInformation.account)}        	
+    			<AddItemToOrder account={this.props.userInformation.account}/>        	
             </div>
         );
     }

@@ -14,8 +14,9 @@ export default (state = {}, action)=> {
 
 		case FILTER_ITEM_TYPING:
 			let newOrderWithFilteredItem = JSON.parse(JSON.stringify(newOrder));
-			newOrderWithFilteredItem.filteredItems = action.payload;
-
+			newOrderWithFilteredItem.filteredItems = action.payload.filteredItems;
+			newOrderWithFilteredItem.orderItemList = action.payload.orderItemList;
+			console.log(newOrderWithFilteredItem);
 			return newOrderWithFilteredItem;
 			break;
 
@@ -27,7 +28,9 @@ export default (state = {}, action)=> {
 			break;
 
 		case ADD_NEW_ORDER_ITEM:
-
+			let newOrderWithOrderItemList = JSON.parse(JSON.stringify(newOrder));
+			newOrderWithOrderItemList.orderItemList = action.payload;
+			return newOrderWithOrderItemList;
 		break;
 
 		default:

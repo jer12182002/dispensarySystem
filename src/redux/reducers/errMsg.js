@@ -1,5 +1,5 @@
 const ITEM_ERROR_MSG = "errMsg";
-const NEW_ORDER_ERROR_MSG = "newOrderMsg";
+const NEW_ORDER_ERROR_MSG = "newOrderErrorMsg";
 
 export default (state = {}, action) =>{
 	

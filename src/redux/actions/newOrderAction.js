@@ -62,31 +62,35 @@ export const SAVE_ORDER_STATUS = value => {
 
 
 
-export const FILTER_ITEM_WHILE_TYPING = (value) => {
+export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
 	let inputValue = value.trim();
-
+	console.log(orderItems);
 	return (dispatch) => {
 		if(inputValue) {
 
 			axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/filteritemtyping`,{input : inputValue})
 	            .then(data => {
+	            	console.log(data.data.result);
 	                if(data.data.result) {
 	                    dispatch({
 	                        type: 'filteritemtyping', 
-	                        payload: data.data.result     
+	                        payload: {
+	                        	filteredItems: data.data.result, 
+	                        	orderItemList: orderItems    
+	                        }
 	                    })
 	                }
 	            })
 	            .catch(err => {
 	                dispatch ({
-	                    type: 'newOrderMsg', 
+	                    type: 'newOrderErrorMsg', 
 	                    payload: err.message
 	                })
+	                SET_INPUT_VALUE("#newOrder_Item input", "");
 	            })    
 	    }
 	    else {
-	    	BLOCK_ITEM_INPUT();	
-	    	
+	    	SET_INPUT_VALUE("#newOrder_Item input", "");
 	    	dispatch({
 	    		type: 'filteritemtyping', 
 	            payload: []    
@@ -97,11 +101,29 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 }
 
 
-export const CLICKED_SUGGESTED_ITEM = (item) => {
-	ALLOW_ITEM_INPUT();
+export const CLICKED_SUGGESTED_ITEM = (item,account) => {
+	//ALLOW_ITEM_INPUT();
 	SET_INPUT_VALUE("#newOrder_Item input", `${item.ENGLISH_NAME} ${item.CHINESE_NAME}`);
-	SET_INPUT_VALUE("#newOrderItem_Raw input", item.RATIO);
-	SET_INPUT_VALUE("#newOrderItem_Extract input", 1);
+	// SET_INPUT_VALUE("#newOrderItem_Raw input", item.RATIO);
+	// SET_INPUT_VALUE("#newOrderItem_Extract input", 1);
+
+	// switch (account) {
+	//     case "RenDeInc":   
+	//     	SET_INPUT_VALUE("#newOrderItem_Price input",item.RENDE_PRICE);
+	//     	item.PRICE = item.RENDE_PRICE;
+	//     break;
+
+	//     case "Professor":
+	//     	SET_INPUT_VALUE("#newOrderItem_Price input",item.PROFESSOR_PRICE);
+	//     	item.PRICE = item.PROFESSOR_PRICE;
+	//     break;
+
+	//     case "Student":  
+	//     	SET_INPUT_VALUE("#newOrderItem_Price input",item.STUDENT_PRICE);
+	//     	item.PRICE = item.STUDENT_PRICE;
+	// 	break;
+	// }	
+
 
 	return {
 		type: "neworderSuggestedItemClicked",
@@ -111,43 +133,69 @@ export const CLICKED_SUGGESTED_ITEM = (item) => {
 
 
 
-export const ADJUST_GRAM_INPUT = (target, value, ratio) => {
+//export const ADJUST_GRAM_INPUT = (target, value, ratio, price) => {
+export const ADJUST_GRAM_INPUT = (target, value, item, account) => {
+	let price = 0;
 	
+	switch (account) {
+	    case "RenDeInc":   
+	    	price = item.RENDE_PRICE;
+	    break;
+
+	    case "Professor":
+	    	price = item.PROFESSOR_PRICE;
+	    break;
+
+	    case "Student":  
+	    	price = item.STUDENT_PRICE;
+		break;
+	}	
+
+
 	if(target === "EXTRACT"){
-		SET_INPUT_VALUE("#newOrderItem_Extract input", (value/ratio).toFixed(2));
+		SET_INPUT_VALUE("#newOrderItem_Extract input", (value/item.RATIO).toFixed(2));
+		SET_INPUT_VALUE("#newOrderItem_Price input",(value/item.RATIO*price).toFixed(2));
 
 
 	}else if(target==="RAW") {
-		SET_INPUT_VALUE("#newOrderItem_Raw input", (value*ratio).toFixed(2));
+		SET_INPUT_VALUE("#newOrderItem_Raw input", (value*item.RATIO).toFixed(2));
+		SET_INPUT_VALUE("#newOrderItem_Price input",(value*price).toFixed(2));
+		
 	}
 
 	else if(target === "PRICE") {
-
+		SET_INPUT_VALUE("#newOrderItem_Extract input", (value/price).toFixed(2));
+		SET_INPUT_VALUE("#newOrderItem_Raw input", (value/price*item.RATIO).toFixed(2));
 	}
 		
 }
 
 
 
-export const ADD_NEW_ORDER_ITEM = (orderItemList) => {
-	console.log(orderItemList);
+export const ADD_NEW_ORDER_ITEM = (orderItemList,suggestedItem) => {
+
+	suggestedItem.raw_gram = document.querySelector("#newOrderItem_Raw input").value;
+	suggestedItem.extract_gram = document.querySelector("#newOrderItem_Extract input").value;
+	suggestedItem.final_price = document.querySelector("#newOrderItem_Price input").value;
+
+	
+	orderItemList.push(suggestedItem);
+
 	return dispatch => {
 		dispatch ({
-
+			type: "addNewOrderItem", 
+			payload: orderItemList
 		})
+
+		SET_INPUT_VALUE("#newOrder_Item input", "");
 	}
 }
 
 
 
-const BLOCK_ITEM_INPUT = () => {
-	SET_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
-	SET_ATTRIBUTE ("#newOrderItem_Extract input", "disabled");
-	SET_INPUT_VALUE("#newOrderItem_Raw input", "");    
-	SET_INPUT_VALUE("#newOrderItem_Extract input", "");
-}
 
 const ALLOW_ITEM_INPUT = () => {
 	REMOVE_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
 	REMOVE_ATTRIBUTE("#newOrderItem_Extract input", "disabled");
+	REMOVE_ATTRIBUTE("#newOrderItem_Price input", "disabled");
 }
