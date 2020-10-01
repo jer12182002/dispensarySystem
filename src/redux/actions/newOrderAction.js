@@ -1,17 +1,66 @@
 import axios from 'axios';
+import moment from 'moment';
+
 import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE} from './helperFunctions';
 
-const BLOCK_ITEM_INPUT = () => {
-	SET_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
-	SET_ATTRIBUTE ("#newOrderItem_Extract input", "disabled");
-	SET_INPUT_VALUE("#newOrderItem_Raw input", "");    
-	SET_INPUT_VALUE("#newOrderItem_Extract input", "");
+
+let newOrderInfo = {
+	date: moment().format('YYYY-MM-DD'),
+	account: "",
+	customer: "",
+	address: "",
+	phone: "",
+	email: "",
+	status: 'Receipt',
+	orderNote: ""
 }
 
-const ALLOW_ITEM_INPUT = () => {
-	REMOVE_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
-	REMOVE_ATTRIBUTE("#newOrderItem_Extract input", "disabled");
+
+
+export const SAVE_NEW_ORDER = account => {
+	newOrderInfo.account = account;
+
+	return dispatch => {
+		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveOrder`,{newOrderInfo : newOrderInfo})
+		.then(data => {
+			console.log(data);
+		})
+	}
 }
+
+
+export const SAVE_ORDER_DATE = value => {
+	newOrderInfo.date = value;
+}
+
+
+export const SAVE_ORDER_CUSTOMER = value => {
+	newOrderInfo.customer = value;
+}
+
+
+export const SAVE_ORDER_ADDRESS = value => {
+	newOrderInfo.address = value;
+}
+
+export const SAVE_ORDER_PHONE = value => {
+	newOrderInfo.phone = value;
+}
+
+export const SAVE_ORDER_EMAIL = value => {
+	newOrderInfo.email = value;
+}
+
+export const SAVE_ORDER_STATUS = value => {
+	newOrderInfo.status = value;
+}
+
+
+
+
+
+
+
 
 export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	let inputValue = value.trim();
@@ -30,7 +79,7 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	            })
 	            .catch(err => {
 	                dispatch ({
-	                    type: 'errMsgS', 
+	                    type: 'newOrderMsg', 
 	                    payload: err.message
 	                })
 	            })    
@@ -63,6 +112,7 @@ export const CLICKED_SUGGESTED_ITEM = (item) => {
 
 
 export const ADJUST_GRAM_INPUT = (target, value, ratio) => {
+	
 	if(target === "EXTRACT"){
 		SET_INPUT_VALUE("#newOrderItem_Extract input", (value/ratio).toFixed(2));
 
@@ -70,11 +120,34 @@ export const ADJUST_GRAM_INPUT = (target, value, ratio) => {
 	}else if(target==="RAW") {
 		SET_INPUT_VALUE("#newOrderItem_Raw input", (value*ratio).toFixed(2));
 	}
+
+	else if(target === "PRICE") {
+
+	}
 		
 }
 
 
 
-export const ADD_NEWORDER_ITEM = (orderItemList) => {
+export const ADD_NEW_ORDER_ITEM = (orderItemList) => {
 	console.log(orderItemList);
+	return dispatch => {
+		dispatch ({
+
+		})
+	}
+}
+
+
+
+const BLOCK_ITEM_INPUT = () => {
+	SET_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
+	SET_ATTRIBUTE ("#newOrderItem_Extract input", "disabled");
+	SET_INPUT_VALUE("#newOrderItem_Raw input", "");    
+	SET_INPUT_VALUE("#newOrderItem_Extract input", "");
+}
+
+const ALLOW_ITEM_INPUT = () => {
+	REMOVE_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
+	REMOVE_ATTRIBUTE("#newOrderItem_Extract input", "disabled");
 }

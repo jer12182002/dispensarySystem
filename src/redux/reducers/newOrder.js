@@ -1,6 +1,6 @@
 const FILTER_ITEM_TYPING = "filteritemtyping";
 const NEWORDER_SUGGESTED_ITEM_CLICKED = "neworderSuggestedItemClicked";
-const ADD_NEWORDER_ITEM = "addNewOrderItem"
+const ADD_NEW_ORDER_ITEM = "addNewOrderItem"
 
 
 let newOrder = {
@@ -26,7 +26,7 @@ export default (state = {}, action)=> {
 			return newOrderWithSuggestedItem;
 			break;
 
-		case ADD_NEWORDER_ITEM:
+		case ADD_NEW_ORDER_ITEM:
 
 		break;
 

@@ -1,4 +1,18 @@
 .neworder-wrapper {
+	.saveFunction {
+		width:60%;
+		margin-bottom: 1vh;
+		&>div>div {
+				text-align: right;
+			&>*{
+				display: inline-block;
+				font-size: 1.5vw;
+				height: 90%;
+			}
+		}
+	}
+
+
 	.order-form-container {
 		background-color: white;
 		text-align: center;

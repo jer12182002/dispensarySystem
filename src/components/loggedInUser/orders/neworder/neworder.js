@@ -3,10 +3,37 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import './neworder.scss';
 
-import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEWORDER_ITEM} from 'redux/actions/newOrderAction';
+import {SAVE_NEW_ORDER,
+		SAVE_ORDER_DATE,
+		SAVE_ORDER_CUSTOMER,
+		SAVE_ORDER_ADDRESS,
+		SAVE_ORDER_PHONE,
+		SAVE_ORDER_EMAIL,
+		SAVE_ORDER_STATUS,
+		FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
+
 
 class neworder extends Component {
  	
+	saveOrderFunction(account) {
+		return (
+		<div className="saveFunction container-fluid">
+			<div className="row">
+				<div className="col-6">
+					<h1>Save as: </h1>
+					<select onChange={e=>SAVE_ORDER_STATUS(e.target.value)}>
+						<option value="receipt">Receipt</option>
+						<option value="quote">Quote</option>
+					</select>
+				</div>
+				<div className="col-6">
+					<button className="btn btn-success" onClick={e=> {e.preventDefault(); SAVE_NEW_ORDER(account,this.props.orderItemList)}}>Save</button>
+				</div>
+			</div>
+		</div>);
+	}
+
+
  	orderListDisplay(account){
  		let DisplayTag ;
  		let today = moment().format('YYYY-MM-DD');
@@ -21,27 +48,27 @@ class neworder extends Component {
 	 				<div className="row">
 	 					<div className="col-3">
 	 						<h1>Date:</h1>
-	 						<input type="date" defaultValue={today}/>
+	 						<input type="date" defaultValue={today} onChange={e=>this.props.SAVE_ORDER_DATE(e.target.value)}/>
 	 					</div>
 	 					<div className="col-9">
 	 						<h1>Customer: </h1>
-	 						<input type="text"/>
+	 						<input type="text" onChange={e=>SAVE_ORDER_CUSTOMER(e.target.value)}/>
 	 					</div>
 	 				</div>
 	 				<div className="row">
 	 					<div className="col-12">
 		 					<h1>Address: </h1>
-		 					<input type="text"/>
+		 					<input type="text" onChange={e=>SAVE_ORDER_ADDRESS(e.target.value)}/>
 	 					</div>
 	 				</div>
 	 				<div className="row">
 	 					<div className="col-6">
 		 					<h1>Phone: </h1>
-		 					<input type="text"/>
+		 					<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={e=>SAVE_ORDER_PHONE(e.target.value)}/>
 	 					</div>
 	 					<div className="col-6">
 	 						<h1>Email: </h1>	
-		 					<input type="text"/>
+		 					<input type="email" onChange={e=>SAVE_ORDER_EMAIL(e.target.value)}/>
 	 					</div>
 	 				</div>
  				</div>
@@ -99,17 +126,21 @@ class neworder extends Component {
  					<p>Item:</p>
  					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value)}/>
  				</div>
- 				<div id="newOrderItem_Raw" className="col-3">
+ 				<div id="newOrderItem_Raw" className="col-2">
  					<p>Raw Gram</p>
  					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('EXTRACT', e.target.value, this.props.suggestedItem.RATIO)}}/>
  				</div>
- 				<div id="newOrderItem_Extract" className="col-3">
+ 				<div id="newOrderItem_Extract" className="col-2">
  					<p>Extract Gram</p>
  					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('RAW', e.target.value, this.props.suggestedItem.RATIO)}}/>
  				</div>
+ 				<div id="newOrderItem_Price" className="col-2">
+ 					<p>Price</p>
+ 					<input type="number" step="0.01" min="0" disabled onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('PRICE', e.target.value, this.props.suggestedItem.RATIO)}}/>
+ 				</div>
  				<div id="newOrderItem_Btn" className="col-1">
  					{this.props.suggestedItem?
- 						<button className="btn btn-success" onClick={e=>{e.preventDefault();ADD_NEWORDER_ITEM(this.props.orderItemList)}}>Add</button>
+ 						<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_NEW_ORDER_ITEM(this.props.orderItemList);}}>Add</button>
  						:
  						null
  					}
@@ -120,9 +151,10 @@ class neworder extends Component {
  	}
 
     render() {
-    
+    	console.log(this.props.orderItemList);
         return (
             <div className="neworder-wrapper">
+            	{this.saveOrderFunction(this.props.userInformation.account)}
     			{this.orderListDisplay(this.props.userInformation.account)}
     			{this.addItemToOrder(this.props.userInformation.account)}        	
             </div>
@@ -142,9 +174,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
+  	SAVE_ORDER_DATE: account => dispatch(SAVE_ORDER_DATE(account)),
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
-  	ADD_NEWORDER_ITEM: orderItemList => dispatch(ADD_NEWORDER_ITEM(orderItemList))
+  	ADD_NEW_ORDER_ITEM: orderItemList => dispatch(ADD_NEW_ORDER_ITEM(orderItemList))
   }
 }
 
