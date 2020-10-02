@@ -165,6 +165,17 @@ export const ADD_NEW_ORDER_ITEM = (suggestedItem) => {
 }
 
 
+export const REMOVE_NEW_ORDER_ITEM = (orderItemList, itemId) => {
+	let newOrderItemList = orderItemList.filter(item => item.ID !== itemId);
+
+	return dispatch => {
+		dispatch ({
+			type: "removeNewOrderItem", 
+			payload: newOrderItemList		
+		})
+	}
+}
+
 
 
 const ALLOW_ITEM_INPUT = () => {

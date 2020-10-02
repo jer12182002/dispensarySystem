@@ -52,7 +52,9 @@
 
 				&>div:first-child{
 					text-align: left;
+					display: inline-block;
 				}
+
 
 				p {
 					font-weight: 900;
@@ -64,6 +66,19 @@
 				&>div:first-child {
 					border: 2px solid black;
 					text-align: left;
+
+					.remvoe-btn {
+						background-color: red;
+						border-radius: 50px; 
+						color: white;
+						padding: 0 5px;
+						margin-right: 10px;
+						cursor: pointer;
+
+						&:hover {
+							box-shadow: 3px 3px lightgray;
+						}
+					}
 				}
 
 				&>div>.row > div {

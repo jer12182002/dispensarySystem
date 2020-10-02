@@ -12,7 +12,7 @@ import {SAVE_NEW_ORDER,
 		SAVE_ORDER_PHONE,
 		SAVE_ORDER_EMAIL,
 		SAVE_ORDER_STATUS,
-		FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
+		FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEW_ORDER_ITEM,REMOVE_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
 
 
 class neworder extends Component {
@@ -86,7 +86,7 @@ class neworder extends Component {
  					{this.props.orderItemList.map((item, key)=>
  						<div key={key} className="items_row row">
  							<div className="col-6">
- 								<p>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
+ 								<p><span className="remvoe-btn" onClick={e=> this.props.REMOVE_NEW_ORDER_ITEM(this.props.orderItemList, item.ID)}>X</span>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
  							</div>
  							<div className="col-6">
  								<div className="row">
@@ -101,8 +101,9 @@ class neworder extends Component {
 	 								</div>
  								</div>
  							</div>
-
  						</div>
+ 					
+ 					
  					)}
  					</>	
  				:
@@ -150,7 +151,8 @@ const mapDispatchToProps = dispatch => {
   return { 
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
-  	ADD_NEW_ORDER_ITEM: orderItemList => dispatch(ADD_NEW_ORDER_ITEM(orderItemList))
+  	ADD_NEW_ORDER_ITEM: orderItemList => dispatch(ADD_NEW_ORDER_ITEM(orderItemList)),
+  	REMOVE_NEW_ORDER_ITEM: (orderItemList,itemId) => dispatch(REMOVE_NEW_ORDER_ITEM(orderItemList, itemId))
   }
 }
 

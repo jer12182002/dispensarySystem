@@ -1,7 +1,7 @@
 const FILTER_ITEM_TYPING = "filteritemtyping";
 const NEWORDER_SUGGESTED_ITEM_CLICKED = "neworderSuggestedItemClicked";
 const ADD_NEW_ORDER_ITEM = "addNewOrderItem"
-
+const REMOVE_NEW_ORDER_ITEM = "removeNewOrderItem";
 
 let newOrder = {
 	orderId: undefined,
@@ -32,10 +32,14 @@ export default (state = {}, action)=> {
 		case ADD_NEW_ORDER_ITEM:
 			
 			newOrder.orderItemList.push(action.payload);
-			let newOrderWithOrderItemList = JSON.parse(JSON.stringify(newOrder));
 			
-			return newOrderWithOrderItemList;
+			return JSON.parse(JSON.stringify(newOrder));
 			break;
+
+		case REMOVE_NEW_ORDER_ITEM:
+			newOrder.orderItemList = action.payload;
+
+			return JSON.parse(JSON.stringify(newOrder));
 
 		default:
 		return state;
