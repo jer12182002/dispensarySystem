@@ -3,6 +3,7 @@ import {BrowserRouter as Router,Route,Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import './loggedInUser.scss';
 
+import Header from '../header/header';
 import Inventory from './inventory/inventory';
 import NewOrder from './orders/neworder/neworder';
 import Orders from './orders/orders';
@@ -35,7 +36,7 @@ class loggedInUser extends React.Component {
 			  			</div>
 			  		</div>
 		  		</Route>
-	
+				<Route path = "/" component = {() => <Header userLoggedIn = {this.props.userLoggedIn} userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/inventory" component = {()=> <Inventory userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/neworder" component = {() => <NewOrder userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/orders" component = {()=> <Orders userInformation = {this.props.userInformation}/>}/>

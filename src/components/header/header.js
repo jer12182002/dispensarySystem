@@ -1,6 +1,6 @@
 import React from 'react';
 import './header.scss';
-import {BrowserRouter as Link} from 'react-router-dom';
+import {BrowserRouter as Route,Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {USER_LOGOUT} from 'redux/actions/allAccountAction';
@@ -9,12 +9,11 @@ class header extends React.Component {
 
 	render() {
 		const {USER_LOGOUT} = this.props;
-
 		return (
 			<header className = "container-fluid">
 				{this.props.userLoggedIn?
 					<div className="row">
-						<div className="col-8">
+						<div className="col-8"> 
 							<Link to="/">Dispensary - {this.props.userInformation.account}</Link>
 						</div> 
 						<div className="logOut-container col-4">
