@@ -64,13 +64,11 @@ export const SAVE_ORDER_STATUS = value => {
 
 export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
 	let inputValue = value.trim();
-	console.log(orderItems);
 	return (dispatch) => {
 		if(inputValue) {
 
 			axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/filteritemtyping`,{input : inputValue})
 	            .then(data => {
-	            	console.log(data.data.result);
 	                if(data.data.result) {
 	                    dispatch({
 	                        type: 'filteritemtyping', 
@@ -93,7 +91,9 @@ export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
 	    	SET_INPUT_VALUE("#newOrder_Item input", "");
 	    	dispatch({
 	    		type: 'filteritemtyping', 
-	            payload: []    
+	            payload: {
+	                orderItemList: orderItems    
+	            }   
 	    	})
 	    }
 
@@ -101,7 +101,7 @@ export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
 }
 
 
-export const CLICKED_SUGGESTED_ITEM = (item,account) => {
+export const CLICKED_SUGGESTED_ITEM = (item,orderItemList) => {
 	//ALLOW_ITEM_INPUT();
 	SET_INPUT_VALUE("#newOrder_Item input", `${item.ENGLISH_NAME} ${item.CHINESE_NAME}`);
 	// SET_INPUT_VALUE("#newOrderItem_Raw input", item.RATIO);
@@ -127,7 +127,10 @@ export const CLICKED_SUGGESTED_ITEM = (item,account) => {
 
 	return {
 		type: "neworderSuggestedItemClicked",
-		payload: item
+		payload: {
+			suggestedItem: item, 
+			orderItemList: orderItemList
+		}
 	}
 }
 
@@ -173,18 +176,21 @@ export const ADJUST_GRAM_INPUT = (target, value, item, account) => {
 
 
 export const ADD_NEW_ORDER_ITEM = (orderItemList,suggestedItem) => {
+	let newOrderItemList = [];
 
+	if(orderItemList) {
+		newOrderItemList = orderItemList;
+	}
 	suggestedItem.raw_gram = document.querySelector("#newOrderItem_Raw input").value;
 	suggestedItem.extract_gram = document.querySelector("#newOrderItem_Extract input").value;
 	suggestedItem.final_price = document.querySelector("#newOrderItem_Price input").value;
 
-	
-	orderItemList.push(suggestedItem);
+	newOrderItemList.push(suggestedItem);
 
 	return dispatch => {
 		dispatch ({
 			type: "addNewOrderItem", 
-			payload: orderItemList
+			payload: newOrderItemList
 		})
 
 		SET_INPUT_VALUE("#newOrder_Item input", "");

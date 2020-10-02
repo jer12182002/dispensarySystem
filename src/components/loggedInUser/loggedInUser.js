@@ -49,7 +49,6 @@ class loggedInUser extends React.Component {
 }
 
 const mapStateToPros = state => {
-	console.log(state);
 	return {
 		userLoggedIn: state.accounts.userLoggedIn
 	}

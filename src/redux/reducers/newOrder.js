@@ -22,8 +22,10 @@ export default (state = {}, action)=> {
 
 		case NEWORDER_SUGGESTED_ITEM_CLICKED:
 			let newOrderWithSuggestedItem = JSON.parse(JSON.stringify(newOrder));
-			newOrderWithSuggestedItem.suggestedItem = action.payload;
-		
+			newOrderWithSuggestedItem.suggestedItem = action.payload.suggestedItem;
+			newOrderWithSuggestedItem.orderItemList = action.payload.orderItemList;
+			console.log(newOrderWithSuggestedItem);
+
 			return newOrderWithSuggestedItem;
 			break;
 
