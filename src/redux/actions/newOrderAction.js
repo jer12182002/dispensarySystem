@@ -97,7 +97,13 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 }
 
 
-export const CLICKED_SUGGESTED_ITEM = (item) => {
+export const CLICKED_SUGGESTED_ITEM = (item,orderItemList) => {
+		
+	orderItemList.forEach(orderItem => {
+		if(orderItem.ID === item.ID) {
+			alert(`Item ${item.ENGLISH_NAME} ${item.CHINESE_NAME} is already in order. Add this item, the value will be accumulated!`);
+		}}); 
+	
 	SET_INPUT_VALUE("#newOrder_Item input", `${item.ENGLISH_NAME} ${item.CHINESE_NAME}`);
 
 	return {
@@ -105,6 +111,7 @@ export const CLICKED_SUGGESTED_ITEM = (item) => {
 		payload: item
 	}
 }
+
 
 
 
@@ -146,18 +153,27 @@ export const ADJUST_GRAM_INPUT = (target, value, item, account) => {
 
 
 
-export const ADD_NEW_ORDER_ITEM = (suggestedItem) => {
+export const ADD_NEW_ORDER_ITEM = (suggestedItem,orderItemList) => {
 	
-	suggestedItem.raw_gram = document.querySelector("#newOrderItem_Raw input").value;
-	suggestedItem.extract_gram = document.querySelector("#newOrderItem_Extract input").value;
-	suggestedItem.final_price = document.querySelector("#newOrderItem_Price input").value;
+	suggestedItem.raw_gram = parseFloat(document.querySelector("#newOrderItem_Raw input").value);
+	suggestedItem.extract_gram = parseFloat(document.querySelector("#newOrderItem_Extract input").value);
+	suggestedItem.final_price = parseFloat(document.querySelector("#newOrderItem_Price input").value);
 
-	
+	let newOrderItemList = orderItemList;
+	let index = orderItemList.findIndex(orderItem => orderItem.ID === suggestedItem.ID);
+
+	if(index !== -1) {
+		newOrderItemList[index].raw_gram = parseFloat(newOrderItemList[index].raw_gram) + suggestedItem.raw_gram;
+		newOrderItemList[index].extract_gram = parseFloat(newOrderItemList[index].extract_gram) + suggestedItem.extract_gram;
+		newOrderItemList[index].final_price = parseFloat(newOrderItemList[index].final_price) + suggestedItem.final_price;
+	}else {
+		newOrderItemList.push(suggestedItem);
+	}
 
 	return dispatch => {
 		dispatch ({
 			type: "addNewOrderItem", 
-			payload: suggestedItem
+			payload: newOrderItemList
 		})
 
 		SET_INPUT_VALUE("#newOrder_Item input", "");

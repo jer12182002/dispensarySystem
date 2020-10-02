@@ -31,7 +31,7 @@ export default (state = {}, action)=> {
 
 		case ADD_NEW_ORDER_ITEM:
 			
-			newOrder.orderItemList.push(action.payload);
+			newOrder.orderItemList = action.payload;
 			
 			return JSON.parse(JSON.stringify(newOrder));
 			break;

@@ -8,12 +8,13 @@ import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_N
 class addItemToOrder extends Component {
     
     render() {
+    	console.log(this.props.orderItemList);
         return (
             <div className="addItem_function_bar container-fluid">
  			{(this.props.filteredItems && this.props.filteredItems.length > 0)?
 	 			<div className="suggested_items_container">
 	 				{this.props.filteredItems.map((item,key)=>
-	 					<div key={key} className="row" onClick={(e)=>{e.preventDefault(); this.props.CLICKED_SUGGESTED_ITEM(item);}}>
+	 					<div key={key} className="row" onClick={(e)=>{e.preventDefault(); this.props.CLICKED_SUGGESTED_ITEM(item,this.props.orderItemList);}}>
 		 					<div className="col-12">
 		 						<p>{item.ENGLISH_NAME} {item.CHINESE_NAME} </p>
 		 					</div>
@@ -67,7 +68,7 @@ class addItemToOrder extends Component {
 						onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('PRICE', e.target.value,  this.props.suggestedItem, this.props.account)}}/>
  				</div>
  				<div id="newOrderItem_Btn" className="col-1">
- 					<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_NEW_ORDER_ITEM(this.props.suggestedItem);}}>Add</button>
+ 					<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_NEW_ORDER_ITEM(this.props.suggestedItem,this.props.orderItemList);}}>Add</button>
  				</div>
  			</div>
  			:
@@ -95,8 +96,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value,)),
-  	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
-  	ADD_NEW_ORDER_ITEM: (suggestedItem) => dispatch(ADD_NEW_ORDER_ITEM(suggestedItem))
+  	CLICKED_SUGGESTED_ITEM: (item,orderItemList) => dispatch(CLICKED_SUGGESTED_ITEM(item,orderItemList)),
+  	ADD_NEW_ORDER_ITEM: (suggestedItem,orderItemList) => dispatch(ADD_NEW_ORDER_ITEM(suggestedItem,orderItemList))
   }
 }
 
