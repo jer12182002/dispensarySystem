@@ -39,7 +39,7 @@ class neworder extends Component {
  	orderListDisplay(account){
  		let DisplayTag ;
  		let today = moment().format('YYYY-MM-DD');
-
+ 		console.log(this.props.orderItemList);
  		if(account === "RenDeInc") {
  			DisplayTag = 
  			<div className="order-form-container container-fluid">
@@ -50,7 +50,7 @@ class neworder extends Component {
 	 				<div className="row">
 	 					<div className="col-3">
 	 						<h1>Date:</h1>
-	 						<input type="date" defaultValue={today} onChange={e=>this.props.SAVE_ORDER_DATE(e.target.value)}/>
+	 						<input type="date" defaultValue={today} onChange={e=>SAVE_ORDER_DATE(e.target.value)}/>
 	 					</div>
 	 					<div className="col-9">
 	 						<h1>Customer: </h1>
@@ -76,12 +76,37 @@ class neworder extends Component {
  				</div>
  				<div className="order-body container-fluid">
  				{this.props.orderItemList?
- 					this.props.orderItemList.map((item, key)=>
- 						<div className="row">
- 							{item.ENGLISH_NAME}
+ 					<>
+ 					<div className="items_header row">
+ 						<div className="col-6"><p>Item:</p></div>
+ 						<div className="col-2"><p>Raw Gram:</p></div>
+ 						<div className="col-2"><p>Extract Gram:</p></div>
+ 						<div className="col-2"><p>Unit Price</p></div>
+ 					</div>
+ 					{this.props.orderItemList.map((item, key)=>
+ 						<div key={key} className="items_row row">
+ 							<div className="col-6">
+ 								<p>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
+ 							</div>
+ 							<div className="col-6">
+ 								<div className="row">
+	 								<div className="col-4">
+	 									<p>{item.raw_gram}</p>	
+	 								</div>
+	 								<div className="col-4">
+	 									<p>{item.extract_gram}</p>
+	 								</div>
+	 								<div className="col-4">
+	 									<p>{item.final_price}</p>
+	 								</div>
+ 								</div>
+ 							</div>
+
  						</div>
- 					)
- 				:null
+ 					)}
+ 					</>	
+ 				:
+ 				null
 
  				}
  				</div>
@@ -123,7 +148,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	SAVE_ORDER_DATE: account => dispatch(SAVE_ORDER_DATE(account)),
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
   	ADD_NEW_ORDER_ITEM: orderItemList => dispatch(ADD_NEW_ORDER_ITEM(orderItemList))

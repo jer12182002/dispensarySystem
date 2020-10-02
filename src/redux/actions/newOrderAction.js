@@ -62,7 +62,7 @@ export const SAVE_ORDER_STATUS = value => {
 
 
 
-export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
+export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	let inputValue = value.trim();
 	return (dispatch) => {
 		if(inputValue) {
@@ -72,10 +72,7 @@ export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
 	                if(data.data.result) {
 	                    dispatch({
 	                        type: 'filteritemtyping', 
-	                        payload: {
-	                        	filteredItems: data.data.result, 
-	                        	orderItemList: orderItems    
-	                        }
+	                        payload: data.data.result
 	                    })
 	                }
 	            })
@@ -92,7 +89,6 @@ export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
 	    	dispatch({
 	    		type: 'filteritemtyping', 
 	            payload: {
-	                orderItemList: orderItems    
 	            }   
 	    	})
 	    }
@@ -101,42 +97,17 @@ export const FILTER_ITEM_WHILE_TYPING = (value, orderItems) => {
 }
 
 
-export const CLICKED_SUGGESTED_ITEM = (item,orderItemList) => {
-	//ALLOW_ITEM_INPUT();
+export const CLICKED_SUGGESTED_ITEM = (item) => {
 	SET_INPUT_VALUE("#newOrder_Item input", `${item.ENGLISH_NAME} ${item.CHINESE_NAME}`);
-	// SET_INPUT_VALUE("#newOrderItem_Raw input", item.RATIO);
-	// SET_INPUT_VALUE("#newOrderItem_Extract input", 1);
-
-	// switch (account) {
-	//     case "RenDeInc":   
-	//     	SET_INPUT_VALUE("#newOrderItem_Price input",item.RENDE_PRICE);
-	//     	item.PRICE = item.RENDE_PRICE;
-	//     break;
-
-	//     case "Professor":
-	//     	SET_INPUT_VALUE("#newOrderItem_Price input",item.PROFESSOR_PRICE);
-	//     	item.PRICE = item.PROFESSOR_PRICE;
-	//     break;
-
-	//     case "Student":  
-	//     	SET_INPUT_VALUE("#newOrderItem_Price input",item.STUDENT_PRICE);
-	//     	item.PRICE = item.STUDENT_PRICE;
-	// 	break;
-	// }	
-
 
 	return {
 		type: "neworderSuggestedItemClicked",
-		payload: {
-			suggestedItem: item, 
-			orderItemList: orderItemList
-		}
+		payload: item
 	}
 }
 
 
 
-//export const ADJUST_GRAM_INPUT = (target, value, ratio, price) => {
 export const ADJUST_GRAM_INPUT = (target, value, item, account) => {
 	let price = 0;
 	
@@ -175,22 +146,18 @@ export const ADJUST_GRAM_INPUT = (target, value, item, account) => {
 
 
 
-export const ADD_NEW_ORDER_ITEM = (orderItemList,suggestedItem) => {
-	let newOrderItemList = [];
-
-	if(orderItemList) {
-		newOrderItemList = orderItemList;
-	}
+export const ADD_NEW_ORDER_ITEM = (suggestedItem) => {
+	
 	suggestedItem.raw_gram = document.querySelector("#newOrderItem_Raw input").value;
 	suggestedItem.extract_gram = document.querySelector("#newOrderItem_Extract input").value;
 	suggestedItem.final_price = document.querySelector("#newOrderItem_Price input").value;
 
-	newOrderItemList.push(suggestedItem);
+	
 
 	return dispatch => {
 		dispatch ({
 			type: "addNewOrderItem", 
-			payload: newOrderItemList
+			payload: suggestedItem
 		})
 
 		SET_INPUT_VALUE("#newOrder_Item input", "");

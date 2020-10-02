@@ -13,7 +13,7 @@ class addItemToOrder extends Component {
  			{(this.props.filteredItems && this.props.filteredItems.length > 0)?
 	 			<div className="suggested_items_container">
 	 				{this.props.filteredItems.map((item,key)=>
-	 					<div key={key} className="row" onClick={(e)=>{e.preventDefault(); this.props.CLICKED_SUGGESTED_ITEM(item, this.props.orderItemList);}}>
+	 					<div key={key} className="row" onClick={(e)=>{e.preventDefault(); this.props.CLICKED_SUGGESTED_ITEM(item);}}>
 		 					<div className="col-12">
 		 						<p>{item.ENGLISH_NAME} {item.CHINESE_NAME} </p>
 		 					</div>
@@ -43,7 +43,7 @@ class addItemToOrder extends Component {
  			<div className="row">
  				<div id="newOrder_Item"className="col-4">
  					<p>Item:</p>
- 					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value, this.props.orderItemList)}/>
+ 					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value)}/>
  				</div>
  				<div id="newOrderItem_Raw" className="col-2">
  					<p>Raw Gram</p>
@@ -67,14 +67,14 @@ class addItemToOrder extends Component {
 						onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('PRICE', e.target.value,  this.props.suggestedItem, this.props.account)}}/>
  				</div>
  				<div id="newOrderItem_Btn" className="col-1">
- 					<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_NEW_ORDER_ITEM(this.props.orderItemList, this.props.suggestedItem);}}>Add</button>
+ 					<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_NEW_ORDER_ITEM(this.props.suggestedItem);}}>Add</button>
  				</div>
  			</div>
  			:
  			<div className="row">
  				<div id="newOrder_Item"className="col-4">
  					<p>Item:</p>
- 					<input type="text" onChange={e=>{this.props.FILTER_ITEM_WHILE_TYPING(e.target.value, this.props.orderItemList);}}/>
+ 					<input type="text" onChange={e=>{this.props.FILTER_ITEM_WHILE_TYPING(e.target.value);}}/>
  				</div>
  			</div>
  			}
@@ -94,9 +94,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	FILTER_ITEM_WHILE_TYPING: (value,orderItemList)=> dispatch(FILTER_ITEM_WHILE_TYPING(value,orderItemList)),
-  	CLICKED_SUGGESTED_ITEM: (item,account) => dispatch(CLICKED_SUGGESTED_ITEM(item,account)),
-  	ADD_NEW_ORDER_ITEM: (orderItemList,suggestedItem) => dispatch(ADD_NEW_ORDER_ITEM(orderItemList,suggestedItem))
+  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value,)),
+  	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
+  	ADD_NEW_ORDER_ITEM: (suggestedItem) => dispatch(ADD_NEW_ORDER_ITEM(suggestedItem))
   }
 }
 
