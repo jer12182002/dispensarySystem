@@ -30,7 +30,7 @@ class neworder extends Component {
 					</select>
 				</div>
 				<div className="col-6">
-					<button className="btn btn-success" onClick={e=> {e.preventDefault(); SAVE_NEW_ORDER(account,this.props.orderItemList)}}>Save</button>
+					<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_NEW_ORDER(this.props.orderId,account,this.props.orderItemList)}}>Save</button>
 				</div>
 			</div>
 		</div>);
@@ -159,6 +159,7 @@ class neworder extends Component {
 
 const mapStateToProps = state => {
 	return {
+		orderId: state.newOrder.orderId,
 		filteredItems: state.newOrder.filteredItems,
 		suggestedItem: state.newOrder.suggestedItem,
 		orderItemList: state.newOrder.orderItemList
@@ -172,7 +173,7 @@ const mapDispatchToProps = dispatch => {
   	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
   	ADD_NEW_ORDER_ITEM: orderItemList => dispatch(ADD_NEW_ORDER_ITEM(orderItemList)),
   	REMOVE_NEW_ORDER_ITEM: (orderItemList,itemId) => dispatch(REMOVE_NEW_ORDER_ITEM(orderItemList, itemId)),
-  	SAVE_NEW_ORDER:(account, orderItemList) => dispatch(SAVE_NEW_ORDER(account, orderItemList))
+  	SAVE_NEW_ORDER:(orderId, account, orderItemList) => dispatch(SAVE_NEW_ORDER(orderId, account, orderItemList))
   }
 }
 

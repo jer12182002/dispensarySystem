@@ -158,6 +158,64 @@ app.post('/filteritemtyping',(req,res) => {
 })
 
 
+app.post('/saveorder', (req,res) => {
+	let orderInfo = req.body.newOrderInfo;
+	let sqlQueries = '';
+	//If orderId exists, it means the order has been stored before. Then we need to use "UPDATE"
+	//If not, then "INSERT" a new one, and get ORDER_ID by orderId.
+
+	//IF order status is 'RECEIPT' then decrease the item QTY.
+	if(orderInfo.orderId) {
+
+	}else {
+		connection.beginTransaction(err => {
+			if(err) {
+				throw err;
+			}
+
+			sqlQueries += `INSERT INTO order_info (ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS) VALUES ('${orderInfo.account}', '${orderInfo.date}', '${orderInfo.customer}', '${orderInfo.address}', '${orderInfo.phone}', '${orderInfo.email}', '${orderInfo.status}');`;
+			
+			connection.query(sqlQueries, (err,result1)=> {
+				if(err) {
+					return connection.rollback(()=>{
+						throw err;
+					})
+
+				}else {
+					let insertedOrderId = result1.insertId;
+					let sqlQueries2 = '';
+
+					orderInfo.orderItemList.forEach(item => {
+						sqlQueries2 += `INSERT INTO order_item_list VALUES ('${insertedOrderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+					})
+
+					connection.query(sqlQueries2,(err,result2) => {
+						if(err) {
+							return connection.rollback(()=> {
+								throw err;
+							})
+						}else {
+							connection.commit(err => {
+								if(err) {
+									return connection.rollback(()=> {
+										throw err;
+									})
+								}else {
+									return res.json({result2});
+								}
+							})
+						}
+					})
+
+
+				}
+			
+			})	
+		})
+	}
+
+
+})
 
 
 

@@ -17,11 +17,13 @@ let newOrderInfo = {
 
 
 
-export const SAVE_NEW_ORDER = account => {
+export const SAVE_NEW_ORDER = (orderId, account,orderItemList) => {
+	newOrderInfo.orderId = orderId;
 	newOrderInfo.account = account;
+	newOrderInfo.orderItemList = orderItemList;
 
 	return dispatch => {
-		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveOrder`,{newOrderInfo : newOrderInfo})
+		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
 		.then(data => {
 			console.log(data);
 		})
