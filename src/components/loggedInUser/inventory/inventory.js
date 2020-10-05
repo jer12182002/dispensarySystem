@@ -7,16 +7,16 @@ import {LOAD_ALL_INVENTROY_ITEMS,ITEM_ACTION_TOGGLE,SAVE_ITEM_CHANGE,ITEM_DELETE
 
 class inventory extends React.Component{
    INTERVALNAME = "LOAD_ITEMS";
+
     componentDidMount() {
         const {LOAD_ALL_INVENTROY_ITEMS} = this.props;
         LOAD_ALL_INVENTROY_ITEMS();
     }
 
+
     displayInventoryItemList () {
         const {LOAD_ALL_INVENTROY_ITEMS} = this.props;
         let returnTag;
-
-
 
         if(this.props.errMsg) {  // this will be true if there is error appearing while fetching data from database
             returnTag = <h1 className="errorMsg">{this.props.errMsg}</h1>

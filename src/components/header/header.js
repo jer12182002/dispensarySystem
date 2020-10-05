@@ -14,7 +14,7 @@ class header extends React.Component {
 				{this.props.userLoggedIn?
 					<div className="row">
 						<div className="col-8"> 
-							<Link to="/">Dispensary - {this.props.userInformation.account}</Link>
+							<Link to="/"><h1>Dispensary - {this.props.userInformation.account}</h1></Link>
 						</div> 
 						<div className="logOut-container col-4">
 							<h1 onClick={USER_LOGOUT}>Log Out</h1>

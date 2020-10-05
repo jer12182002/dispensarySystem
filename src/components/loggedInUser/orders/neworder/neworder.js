@@ -12,6 +12,7 @@ import {SAVE_NEW_ORDER,
 		SAVE_ORDER_PHONE,
 		SAVE_ORDER_EMAIL,
 		SAVE_ORDER_STATUS,
+		SAVE_ORDER_NOTE,
 		FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEW_ORDER_ITEM,REMOVE_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
 
 
@@ -123,6 +124,23 @@ class neworder extends Component {
  	}
 
 
+ 	noteArea(){
+ 		return (
+ 			<div className="note-container container-fluid">
+                <div className="row">
+                    <div className="col-12">
+                        <h1>Note:</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12">
+                        <textarea onChange={e=> SAVE_ORDER_NOTE(e.target.value)}/>
+                    </div>
+                </div>
+            </div>
+        );
+ 	}
+
 
  	
 
@@ -131,6 +149,7 @@ class neworder extends Component {
             <div className="neworder-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account)}
     			{this.orderListDisplay(this.props.userInformation.account)}
+    			{this.noteArea()}
     			<AddItemToOrder account={this.props.userInformation.account}/>        	
             </div>
         );
@@ -152,7 +171,8 @@ const mapDispatchToProps = dispatch => {
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
   	ADD_NEW_ORDER_ITEM: orderItemList => dispatch(ADD_NEW_ORDER_ITEM(orderItemList)),
-  	REMOVE_NEW_ORDER_ITEM: (orderItemList,itemId) => dispatch(REMOVE_NEW_ORDER_ITEM(orderItemList, itemId))
+  	REMOVE_NEW_ORDER_ITEM: (orderItemList,itemId) => dispatch(REMOVE_NEW_ORDER_ITEM(orderItemList, itemId)),
+  	SAVE_NEW_ORDER:(account, orderItemList) => dispatch(SAVE_NEW_ORDER(account, orderItemList))
   }
 }
 

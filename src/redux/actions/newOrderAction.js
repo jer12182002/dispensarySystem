@@ -55,6 +55,10 @@ export const SAVE_ORDER_STATUS = value => {
 	newOrderInfo.status = value;
 }
 
+export const SAVE_ORDER_NOTE = value => {
+	newOrderInfo.orderNote = value;
+}
+
 
 
 
