@@ -8,7 +8,6 @@ import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_N
 class addItemToOrder extends Component {
     
     render() {
-    	console.log(this.props.orderItemList);
         return (
             <div className="addItem_function_bar container-fluid">
  			{(this.props.filteredItems && this.props.filteredItems.length > 0)?
@@ -41,7 +40,7 @@ class addItemToOrder extends Component {
 	 			</div>
  			:<></>}
  			{this.props.suggestedItem?
- 			<div className="row">
+ 			<div className="addItem_input_bar row">
  				<div id="newOrder_Item"className="col-4">
  					<p>Item:</p>
  					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value)}/>
@@ -73,7 +72,7 @@ class addItemToOrder extends Component {
  			</div>
  			:
  			<div className="row">
- 				<div id="newOrder_Item"className="col-4">
+ 				<div id="newOrder_Item"className="addItem_input_bar col-12">
  					<p>Item:</p>
  					<input type="text" onChange={e=>{this.props.FILTER_ITEM_WHILE_TYPING(e.target.value);}}/>
  				</div>
