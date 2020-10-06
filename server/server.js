@@ -165,7 +165,38 @@ app.post('/saveorder', (req,res) => {
 	//If not, then "INSERT" a new one, and get ORDER_ID by orderId.
 
 	//IF order status is 'RECEIPT' then decrease the item QTY.
+
 	if(orderInfo.orderId) {
+		sqlQueries += `UPDATE order_info SET DATE = '${orderInfo.date}', CUSTOMER = '${orderInfo.customer}', ADDRESS = '${orderInfo.address}', PHONE = '${orderInfo.phone}', EMAIL = '${orderInfo.email}', STATUS = '${orderInfo.status}' WHERE ORDER_ID = '${orderInfo.orderId}';`;
+		sqlQueries += `DELETE FROM order_item_list WHERE ORDER_ID = '${orderInfo.orderId}';`;
+
+		orderInfo.orderItemList.forEach(item => {
+			sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+		})
+
+		connection.beginTransaction(err => {
+			if(err) {
+				throw err;
+			}
+
+			connection.query(sqlQueries,(err,result) => {
+				if(err) {
+					return connection.rollback(() => {
+						throw err;
+					})
+				}else {
+					connection.commit(err => {
+						if(err) {
+							return connection.rollback(err => {
+								throw err;
+							})
+						}else {
+							return res.json({orderId : orderInfo.orderId});
+						}
+					})
+				}
+			})
+		})
 
 	}else {
 		connection.beginTransaction(err => {
@@ -201,7 +232,7 @@ app.post('/saveorder', (req,res) => {
 										throw err;
 									})
 								}else {
-									return res.json({result2});
+									return res.json({orderId : insertedOrderId});
 								}
 							})
 						}
@@ -213,8 +244,6 @@ app.post('/saveorder', (req,res) => {
 			})	
 		})
 	}
-
-
 })
 
 

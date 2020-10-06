@@ -18,29 +18,33 @@ import {SAVE_NEW_ORDER,
 
 class neworder extends Component {
  	
-	saveOrderFunction(account) {
+	saveOrderFunction(account, orderStatus) {
+
 		return (
+		orderStatus === "Quote"?
 		<div className="saveFunction container-fluid">
 			<div className="row">
 				<div className="col-6">
 					<h1>Save as: </h1>
 					<select onChange={e=>SAVE_ORDER_STATUS(e.target.value)}>
-						<option value="receipt">Receipt</option>
-						<option value="quote">Quote</option>
+						<option value="Receipt">Receipt</option>
+						<option value="Quote">Quote</option>
 					</select>
 				</div>
 				<div className="col-6">
 					<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_NEW_ORDER(this.props.orderId,account,this.props.orderItemList)}}>Save</button>
 				</div>
 			</div>
-		</div>);
+		</div>
+		:
+		null 
+		);
 	}
 
 
- 	orderListDisplay(account){
+ 	orderListDisplay(account, orderStatus){
  		let DisplayTag ;
  		let today = moment().format('YYYY-MM-DD');
- 		console.log(this.props.orderItemList);
  		if(account === "RenDeInc") {
  			DisplayTag = 
  			<div className="order-form-container container-fluid">
@@ -103,8 +107,6 @@ class neworder extends Component {
  								</div>
  							</div>
  						</div>
- 					
- 					
  					)}
  					</>	
  				:
@@ -147,8 +149,8 @@ class neworder extends Component {
     render() {
         return (
             <div className="neworder-wrapper">
-            	{this.saveOrderFunction(this.props.userInformation.account)}
-    			{this.orderListDisplay(this.props.userInformation.account)}
+            	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
+    			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
     			{this.noteArea()}
     			<AddItemToOrder account={this.props.userInformation.account}/>        	
             </div>
@@ -158,8 +160,10 @@ class neworder extends Component {
 
 
 const mapStateToProps = state => {
+	console.log(state);
 	return {
 		orderId: state.newOrder.orderId,
+		orderStatus: state.newOrder.orderStatus,
 		filteredItems: state.newOrder.filteredItems,
 		suggestedItem: state.newOrder.suggestedItem,
 		orderItemList: state.newOrder.orderItemList

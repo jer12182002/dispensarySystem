@@ -25,7 +25,15 @@ export const SAVE_NEW_ORDER = (orderId, account,orderItemList) => {
 	return dispatch => {
 		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
 		.then(data => {
-			console.log(data);
+			if(data.data && data.data.orderId){
+				dispatch({
+					type: "saveOrderStatus",
+					payload: {
+						status: newOrderInfo.status,
+						orderId : data.data.orderId
+					}
+				})
+			}
 		})
 	}
 }

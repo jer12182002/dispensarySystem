@@ -2,8 +2,10 @@ const FILTER_ITEM_TYPING = "filteritemtyping";
 const NEWORDER_SUGGESTED_ITEM_CLICKED = "neworderSuggestedItemClicked";
 const ADD_NEW_ORDER_ITEM = "addNewOrderItem"
 const REMOVE_NEW_ORDER_ITEM = "removeNewOrderItem";
+const SAVE_ORDER_STATUS = "saveOrderStatus";
 
 let newOrder = {
+	orderStatus: 'Quote',
 	orderId: undefined,
 	filteredItems : [],
 	suggestedItem:undefined,
@@ -41,6 +43,12 @@ export default (state = {}, action)=> {
 
 			return JSON.parse(JSON.stringify(newOrder));
 
+
+		case SAVE_ORDER_STATUS:
+			newOrder.orderStatus = action.payload.status;
+			newOrder.orderId = action.payload.orderId;
+
+			return JSON.parse(JSON.stringify(newOrder));
 		default:
 		return state;
 
