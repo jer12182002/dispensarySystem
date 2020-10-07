@@ -5,7 +5,8 @@ import './neworder.scss';
 
 import AddItemToOrder from './addItemToOrder/addItemToOrder';
 
-import {SAVE_NEW_ORDER,
+import {LOAD_DEFAULT_SETTING,
+		SAVE_NEW_ORDER,
 		SAVE_ORDER_DATE,
 		SAVE_ORDER_CUSTOMER,
 		SAVE_ORDER_ADDRESS,
@@ -13,11 +14,21 @@ import {SAVE_NEW_ORDER,
 		SAVE_ORDER_EMAIL,
 		SAVE_ORDER_STATUS,
 		SAVE_ORDER_NOTE,
-		FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEW_ORDER_ITEM,REMOVE_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
+		FILTER_ITEM_WHILE_TYPING,
+		CLICKED_SUGGESTED_ITEM,
+		ADJUST_GRAM_INPUT,
+		ADD_NEW_ORDER_ITEM,
+		REMOVE_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
 
 
 class neworder extends Component {
- 	
+	
+	componentDidMount() {
+		this.props.LOAD_DEFAULT_SETTING();
+	}
+
+
+
 	saveOrderFunction(account, orderStatus) {
 
 		return (
@@ -91,7 +102,11 @@ class neworder extends Component {
  					{this.props.orderItemList.map((item, key)=>
  						<div key={key} className="items_row row">
  							<div className="col-6">
+ 							{orderStatus === "Quote"?
  								<p><span className="remvoe-btn" onClick={e=> this.props.REMOVE_NEW_ORDER_ITEM(this.props.orderItemList, item.ID)}>X</span>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
+ 								:
+ 								<p>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
+ 							}
  							</div>
  							<div className="col-6">
  								<div className="row">
@@ -152,7 +167,11 @@ class neworder extends Component {
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
     			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
     			{this.noteArea()}
-    			<AddItemToOrder account={this.props.userInformation.account}/>        	
+    			{this.props.orderStatus === "Receipt"?
+    				null
+    				:
+    				<AddItemToOrder account={this.props.userInformation.account}/>        	
+    			}
             </div>
         );
     }
@@ -173,6 +192,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
+  	LOAD_DEFAULT_SETTING: orderId => dispatch(LOAD_DEFAULT_SETTING(orderId)),
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
   	ADD_NEW_ORDER_ITEM: orderItemList => dispatch(ADD_NEW_ORDER_ITEM(orderItemList)),

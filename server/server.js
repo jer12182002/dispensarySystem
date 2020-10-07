@@ -170,9 +170,11 @@ app.post('/saveorder', (req,res) => {
 		sqlQueries += `UPDATE order_info SET DATE = '${orderInfo.date}', CUSTOMER = '${orderInfo.customer}', ADDRESS = '${orderInfo.address}', PHONE = '${orderInfo.phone}', EMAIL = '${orderInfo.email}', STATUS = '${orderInfo.status}' WHERE ORDER_ID = '${orderInfo.orderId}';`;
 		sqlQueries += `DELETE FROM order_item_list WHERE ORDER_ID = '${orderInfo.orderId}';`;
 
-		orderInfo.orderItemList.forEach(item => {
-			sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
-		})
+		if(orderInfo.orderItemList.length) {
+			orderInfo.orderItemList.forEach(item => {
+				sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+			})
+		}
 
 		connection.beginTransaction(err => {
 			if(err) {
@@ -203,7 +205,7 @@ app.post('/saveorder', (req,res) => {
 			if(err) {
 				throw err;
 			}
-
+			
 			sqlQueries += `INSERT INTO order_info (ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS) VALUES ('${orderInfo.account}', '${orderInfo.date}', '${orderInfo.customer}', '${orderInfo.address}', '${orderInfo.phone}', '${orderInfo.email}', '${orderInfo.status}');`;
 			
 			connection.query(sqlQueries, (err,result1)=> {
@@ -216,31 +218,35 @@ app.post('/saveorder', (req,res) => {
 					let insertedOrderId = result1.insertId;
 					let sqlQueries2 = '';
 
-					orderInfo.orderItemList.forEach(item => {
-						sqlQueries2 += `INSERT INTO order_item_list VALUES ('${insertedOrderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
-					})
-
-					connection.query(sqlQueries2,(err,result2) => {
-						if(err) {
-							return connection.rollback(()=> {
-								throw err;
-							})
-						}else {
-							connection.commit(err => {
-								if(err) {
-									return connection.rollback(()=> {
-										throw err;
-									})
-								}else {
-									return res.json({orderId : insertedOrderId});
-								}
-							})
-						}
-					})
+					if(orderInfo.orderItemList.length) {
+						orderInfo.orderItemList.forEach(item => {
+							sqlQueries2 += `INSERT INTO order_item_list VALUES ('${insertedOrderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+						})
 
 
+						connection.query(sqlQueries2,(err,result2) => {
+							if(err) {
+								return connection.rollback(()=> {
+									throw err;
+								})
+							}else {
+								connection.commit(err => {
+									if(err) {
+										return connection.rollback(()=> {
+											throw err;
+										})
+									}else {
+										return res.json({orderId : insertedOrderId});
+									}
+								})
+							}
+						})
+					}else {
+						connection.commit(err => {
+							return res.json({orderId : insertedOrderId});
+						})
+					}
 				}
-			
 			})	
 		})
 	}

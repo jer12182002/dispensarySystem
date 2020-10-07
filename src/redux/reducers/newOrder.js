@@ -1,3 +1,4 @@
+const LOAD_DEFAULT_NEWORDER_SETTING = "loadDefaultNewOrderSetting";
 const FILTER_ITEM_TYPING = "filteritemtyping";
 const NEWORDER_SUGGESTED_ITEM_CLICKED = "neworderSuggestedItemClicked";
 const ADD_NEW_ORDER_ITEM = "addNewOrderItem"
@@ -14,7 +15,17 @@ let newOrder = {
 
 export default (state = {}, action)=> {
 	switch(action.type) {
+		case LOAD_DEFAULT_NEWORDER_SETTING:
+			newOrder = {
+				orderStatus: 'Quote',
+				orderId: action.payload,
+				filteredItems : [],
+				suggestedItem:undefined,
+				orderItemList: []				
+			}
 
+			return newOrder;
+			break;
 		case FILTER_ITEM_TYPING:
 			
 			let newOrderWithFilteredItem = JSON.parse(JSON.stringify(newOrder));

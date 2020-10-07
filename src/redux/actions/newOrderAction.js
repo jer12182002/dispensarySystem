@@ -72,7 +72,15 @@ export const SAVE_ORDER_NOTE = value => {
 
 
 
+export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 
+	return dispatch => {
+		dispatch({
+			type: "loadDefaultNewOrderSetting", 
+			payload: orderId
+		})
+	}
+}
 
 
 
