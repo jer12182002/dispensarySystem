@@ -6,7 +6,6 @@ let allOrders = {
 	orders: [], 
 	draftOrders :[], 
 	receiptOrders: []
-
 }
 
 

@@ -7,6 +7,7 @@ import Header from '../header/header';
 import Inventory from './inventory/inventory';
 import NewOrder from './orders/neworder/neworder';
 import Orders from './orders/orders';
+import OrderReview from './orders/orderReview/orderReview';
 import Message from './message/message';
 
 
@@ -39,6 +40,7 @@ class loggedInUser extends React.Component {
 				<Route path = "/" component = {() => <Header userLoggedIn = {this.props.userLoggedIn} userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/inventory" component = {()=> <Inventory userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/neworder" component = {() => <NewOrder userInformation = {this.props.userInformation}/>}/>
+			  	<Route exact path="/orders/orderreview" component = {(props)=><OrderReview userInformation = {this.props.userInformation} order_id={props.location.state.order_id}/>}/>
 			  	<Route exact path="/orders" component = {()=> <Orders userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/message" component = {()=> <Message userInformation = {this.props.userInformation}/>}/>
 

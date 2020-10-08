@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import {BrowserRouter as Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import './allOrders.scss';
@@ -29,7 +30,7 @@ class allOrders extends Component {
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
 							<div className="col-4"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
 							<div className="col-4"><p>{order.CUSTOMER}</p></div>
-							<div className="col-2"><button className="btn btn-success">View</button></div>
+							<div className="col-2"><Link to={{pathname:"/orders/orderreview", state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
 					)}
 				</div>
@@ -60,7 +61,7 @@ class allOrders extends Component {
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
 							<div className="col-3"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
 							<div className="col-4"><p>{order.CUSTOMER}</p></div>
-							<div className="col-2"><button className="btn btn-success">View</button></div>
+							<div className="col-2"><Link to={{pathname:"/orders/orderreview", state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
 					)}
 				</div>

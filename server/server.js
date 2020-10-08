@@ -267,6 +267,22 @@ app.get('/loadallorders', (req,res)=> {
 })
 
 
+
+app.get('/loadreiveworder', (req, res)=> {
+	let order_id = req.query.order_id;
+	let sqlQuery = `SELECT * FROM order_info O RIGHT join order_item_list I on O.ORDER_ID = I.ORDER_ID WHERE O.ORDER_ID = '${order_id}';`;
+
+	connection.query(sqlQuery, (err,result)=> {
+		if(err) {
+			console.log(err);
+		}else {
+			return res.json(result);
+		}
+	})
+})	
+
+
+
 handleDisconnect();
 app.listen(4000,()=> {
 	console.log("########## Dispensary System now listening on Port 4000");
