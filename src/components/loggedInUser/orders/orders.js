@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import {BrowserRouter as Route, Link} from 'react-router-dom';
 import './orders.scss';
 
+import AllOrders from './allOrders/allOrders';
+
 class recordedorder extends Component {
 
     render() {
@@ -10,8 +12,7 @@ class recordedorder extends Component {
             	<div className="newOrder-container">
             		<Link to="/neworder" className="btn btn-success">New Order</Link>
             	</div>
-            	<div className="orderList-container">
-            	</div>
+            	<AllOrders account = {this.props.userInformation.account}/>
             </div>
         );
     }

@@ -1,0 +1,42 @@
+.orderList-container {
+	width: 80%;
+
+	.diplayAllOrders_rendeinc {
+		margin-top: 5vh;
+		
+		button {
+			width: 100%;
+			font-size: 2.5vw;
+			border-radius: 50px;
+		}
+	}
+
+	.orders-container {
+		border: 2px solid black;
+		margin-top: 5vh;
+		background-color: beige;
+
+		h1 {
+			width: 100%;
+			text-align: center;
+			background-color: lightblue;
+			border-bottom: 2px solid black;
+			margin: 0;
+
+		}
+
+		.row  {
+			border-bottom: 1px solid black;
+
+			&.orderHeader {
+				background-color: azure;
+				font-weight: 900;
+				font-size: 1.2vw;
+			}
+
+			&>div {
+				text-align: center;
+			}
+		}
+	}
+}

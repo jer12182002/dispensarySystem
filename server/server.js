@@ -254,6 +254,18 @@ app.post('/saveorder', (req,res) => {
 
 
 
+app.get('/loadallorders', (req,res)=> {
+	let sqlQuery = 'SELECT * FROM `order_info` ORDER BY STATUS, ORDER_ID;';
+
+	connection.query(sqlQuery, (err, result)=> {
+		if(err) {
+			console.log(err);
+		}else {
+			return res.json({result});
+		}
+	})
+})
+
 
 handleDisconnect();
 app.listen(4000,()=> {
