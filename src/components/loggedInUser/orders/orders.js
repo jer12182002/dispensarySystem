@@ -9,8 +9,8 @@ class recordedorder extends Component {
     render() {
         return (
             <div className="orders-wrapper">
-            	<div className="newOrder-container">
-            		<Link to="/neworder" className="btn btn-success">New Order</Link>
+            	<div className="orderEditing-container">
+            		<Link to="/orderediting" className="btn btn-success">New Order</Link>
             	</div>
             	<AllOrders account = {this.props.userInformation.account}/>
             </div>

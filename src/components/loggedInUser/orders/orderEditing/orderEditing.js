@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import './neworder.scss';
+import './orderEditing.scss';
 
 import AddItemToOrder from './addItemToOrder/addItemToOrder';
+import DoseDayFunction from './doseDayFunction/doseDayFunction';
 
 import {LOAD_DEFAULT_SETTING,
 		SAVE_NEW_ORDER,
@@ -21,7 +22,7 @@ import {LOAD_DEFAULT_SETTING,
 		REMOVE_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
 
 
-class neworder extends Component {
+class orderEditing extends Component {
 	
 	componentDidMount() {
 		this.props.LOAD_DEFAULT_SETTING();
@@ -94,29 +95,33 @@ class neworder extends Component {
  				{this.props.orderItemList?
  					<>
  					<div className="items_header row">
- 						<div className="col-6"><p>Item:</p></div>
+ 						<div className="col-4"><p>Item:</p></div>
  						<div className="col-2"><p>Raw Gram:</p></div>
  						<div className="col-2"><p>Extract Gram:</p></div>
+ 						<div className="col-2"><p>Actual Gram:</p></div>	
  						<div className="col-2"><p>Unit Price</p></div>
  					</div>
  					{this.props.orderItemList.map((item, key)=>
  						<div key={key} className="items_row row">
- 							<div className="col-6">
+ 							<div className="col-4">
  							{orderStatus === "Quote"?
  								<p><span className="remvoe-btn" onClick={e=> this.props.REMOVE_NEW_ORDER_ITEM(this.props.orderItemList, item.ID)}>X</span>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
  								:
  								<p>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
  							}
  							</div>
- 							<div className="col-6">
+ 							<div className="col-8">
  								<div className="row">
-	 								<div className="col-4">
+	 								<div className="col-3">
 	 									<p>{item.raw_gram}</p>	
 	 								</div>
-	 								<div className="col-4">
+	 								<div className="col-3">
 	 									<p>{item.extract_gram}</p>
 	 								</div>
-	 								<div className="col-4">
+	 								<div className="col-3">
+	 									<p>{item.extract_gram}</p>
+	 								</div>
+	 								<div className="col-3">
 	 									<p>{item.final_price}</p>
 	 								</div>
  								</div>
@@ -139,6 +144,43 @@ class neworder extends Component {
 
  		return DisplayTag;
  	}
+
+
+ 	totalPriceDisplay (account) {
+ 		let returnTag = "";
+
+ 		switch(account) {
+ 			case 'RenDeInc':
+ 				return (
+ 					<div className="price-display-container container-fluid">
+ 						<div className="col-12 col-lg-3">
+ 							<div className="row">
+ 								<h1>Dosage Information:</h1>
+ 							</div>
+ 							<div className="row">
+ 								<input type="number" defaultValue="1"/><p>Gram(s) Per dose</p>
+ 							</div>
+ 							<div className="row">
+ 								<input type="number" defaultValue="1"/><p>Dosage(s) Per Day</p>
+ 							</div>
+ 							<div className="row">
+ 								<input type="number" defaultValue="1"/><p>Day(s) Per Session</p>
+ 							</div>
+ 						</div>
+ 						<div className="col-12 col-lg-9">
+ 							<div className="row">
+ 								<h1></h1>
+ 							</div>
+ 						</div>
+ 					</div>
+ 				);
+ 			break;
+ 			
+ 			deafult:
+ 			break;
+ 		}
+ 	}
+
 
 
  	noteArea(){
@@ -166,11 +208,15 @@ class neworder extends Component {
             <div className="neworder-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
     			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
+    			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
     			{this.props.orderStatus === "Receipt"?
     				null
     				:
-    				<AddItemToOrder account={this.props.userInformation.account}/>        	
+    				<>
+	    				<AddItemToOrder account={this.props.userInformation.account}/>    
+	    				<DoseDayFunction account={this.props.userInformation.acount}/>    	
+    				</>
     			}
             </div>
         );
@@ -201,4 +247,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(neworder);
+export default connect(mapStateToProps,mapDispatchToProps)(orderEditing);
