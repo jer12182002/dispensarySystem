@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import './addItemToOrder.scss';
 
-import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_NEW_ORDER_ITEM} from 'redux/actions/newOrderAction';
+import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_ORDER_EDITING_ITEM} from 'redux/actions/orderEditingAction';
 
 
 class addItemToOrder extends Component {
@@ -67,7 +67,7 @@ class addItemToOrder extends Component {
 						onChange={e=>{e.preventDefault(); ADJUST_GRAM_INPUT('PRICE', e.target.value,  this.props.suggestedItem, this.props.account)}}/>
  				</div>
  				<div id="newOrderItem_Btn" className="col-1">
- 					<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_NEW_ORDER_ITEM(this.props.suggestedItem,this.props.orderItemList);}}>Add</button>
+ 					<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_ORDER_EDITING_ITEM(this.props.suggestedItem,this.props.orderItemList);}}>Add</button>
  				</div>
  			</div>
  			:
@@ -85,9 +85,9 @@ class addItemToOrder extends Component {
 
 const mapStateToProps = state => {
 	return {
-		filteredItems: state.newOrder.filteredItems,
-		suggestedItem: state.newOrder.suggestedItem,
-		orderItemList: state.newOrder.orderItemList
+		filteredItems: state.orderEditing.filteredItems,
+		suggestedItem: state.orderEditing.suggestedItem,
+		orderItemList: state.orderEditing.orderItemList
 	}
 }
 
@@ -96,7 +96,7 @@ const mapDispatchToProps = dispatch => {
   return { 
   	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value,)),
   	CLICKED_SUGGESTED_ITEM: (item,orderItemList) => dispatch(CLICKED_SUGGESTED_ITEM(item,orderItemList)),
-  	ADD_NEW_ORDER_ITEM: (suggestedItem,orderItemList) => dispatch(ADD_NEW_ORDER_ITEM(suggestedItem,orderItemList))
+  	ADD_ORDER_EDITING_ITEM: (suggestedItem,orderItemList) => dispatch(ADD_ORDER_EDITING_ITEM(suggestedItem,orderItemList))
   }
 }
 

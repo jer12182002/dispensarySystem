@@ -17,7 +17,7 @@ let newOrderInfo = {
 
 
 
-export const SAVE_NEW_ORDER = (orderId, account,orderItemList) => {
+export const SAVE_ORDER_EDITING = (orderId, account,orderItemList) => {
 	newOrderInfo.orderId = orderId;
 	newOrderInfo.account = account;
 	newOrderInfo.orderItemList = orderItemList;
@@ -76,7 +76,7 @@ export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 
 	return dispatch => {
 		dispatch({
-			type: "loadDefaultNewOrderSetting", 
+			type: "loadDefaultorderEditingSetting", 
 			payload: orderId
 		})
 	}
@@ -129,7 +129,7 @@ export const CLICKED_SUGGESTED_ITEM = (item,orderItemList) => {
 	SET_INPUT_VALUE("#newOrder_Item input", `${item.ENGLISH_NAME} ${item.CHINESE_NAME}`);
 
 	return {
-		type: "neworderSuggestedItemClicked",
+		type: "orderEditingSuggestedItemClicked",
 		payload: item
 	}
 }
@@ -175,7 +175,7 @@ export const ADJUST_GRAM_INPUT = (target, value, item, account) => {
 
 
 
-export const ADD_NEW_ORDER_ITEM = (suggestedItem,orderItemList) => {
+export const ADD_ORDER_EDITING_ITEM = (suggestedItem,orderItemList) => {
 	
 	suggestedItem.raw_gram = parseFloat(document.querySelector("#newOrderItem_Raw input").value);
 	suggestedItem.extract_gram = parseFloat(document.querySelector("#newOrderItem_Extract input").value);
@@ -194,7 +194,7 @@ export const ADD_NEW_ORDER_ITEM = (suggestedItem,orderItemList) => {
 
 	return dispatch => {
 		dispatch ({
-			type: "addNewOrderItem", 
+			type: "addOrderEditingItem", 
 			payload: newOrderItemList
 		})
 
@@ -203,12 +203,12 @@ export const ADD_NEW_ORDER_ITEM = (suggestedItem,orderItemList) => {
 }
 
 
-export const REMOVE_NEW_ORDER_ITEM = (orderItemList, itemId) => {
+export const REMOVE_ORDER_EDITING_ITEM = (orderItemList, itemId) => {
 	let newOrderItemList = orderItemList.filter(item => item.ID !== itemId);
 
 	return dispatch => {
 		dispatch ({
-			type: "removeNewOrderItem", 
+			type: "removeOrderEditingItem", 
 			payload: newOrderItemList		
 		})
 	}
