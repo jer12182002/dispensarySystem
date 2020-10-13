@@ -112,7 +112,6 @@ class allOrders extends Component {
 }
 
 const mapStateToPros = state => {
-	console.log(state);
 	return {
 		allAccountPermission: state.allOrders.allAccountPermission,
 		allOrders: state.allOrders.orders, 

@@ -44,12 +44,12 @@ class orderEditing extends Component {
 						</select>
 					</div>
 					<div className="col-6">
-						<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_NEW_ORDER(this.props.orderId,account,this.props.orderItemList)}}>Save</button>
+						<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList)}}>Save</button>
 					</div>
 				</div>
 			</div>
 			:
-			null
+			<Redirect to={{pathname:"/orders/orderreview", state:{order_id: this.props.orderId}}}/>
 			);
 		}
 	}
@@ -159,7 +159,7 @@ class orderEditing extends Component {
  								<h1>Dosage Information:</h1>
  							</div>
  							<div className="row">
- 								<input type="number" defaultValue="1"/><p>Gram(s) Per dose</p>
+ 								<input type="number" defaultValue={this.props.orderItemListSum}/><p>Gram(s) Per dose</p>
  							</div>
  							<div className="row">
  								<input type="number" defaultValue="1"/><p>Dosage(s) Per Day</p>
@@ -231,7 +231,8 @@ const mapStateToProps = state => {
 		orderStatus: state.orderEditing.orderStatus,
 		filteredItems: state.orderEditing.filteredItems,
 		suggestedItem: state.orderEditing.suggestedItem,
-		orderItemList: state.orderEditing.orderItemList
+		orderItemList: state.orderEditing.orderItemList, 
+		orderItemListSum: state.orderEditing.orderItemListSum
 	}
 }
 

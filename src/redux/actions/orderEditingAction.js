@@ -23,6 +23,7 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList) => {
 	newOrderInfo.orderItemList = orderItemList;
 
 	return dispatch => {
+		
 		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
 		.then(data => {
 			if(data.data && data.data.orderId){
@@ -76,7 +77,7 @@ export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 
 	return dispatch => {
 		dispatch({
-			type: "loadDefaultorderEditingSetting", 
+			type: "loadDefaultOrderEditingSetting", 
 			payload: orderId
 		})
 	}
@@ -192,10 +193,15 @@ export const ADD_ORDER_EDITING_ITEM = (suggestedItem,orderItemList) => {
 		newOrderItemList.push(suggestedItem);
 	}
 
+	let newOrderItemListSum = newOrderItemList.reduce((total, item)=> total + item.extract_gram,0 )
+
 	return dispatch => {
 		dispatch ({
 			type: "addOrderEditingItem", 
-			payload: newOrderItemList
+			payload: {
+				orderItemList: newOrderItemList,
+				orderItemListSum: newOrderItemListSum
+			}
 		})
 
 		SET_INPUT_VALUE("#newOrder_Item input", "");
@@ -203,13 +209,19 @@ export const ADD_ORDER_EDITING_ITEM = (suggestedItem,orderItemList) => {
 }
 
 
+
 export const REMOVE_ORDER_EDITING_ITEM = (orderItemList, itemId) => {
 	let newOrderItemList = orderItemList.filter(item => item.ID !== itemId);
 
 	return dispatch => {
+		let newOrderItemListSum = newOrderItemList.reduce((total, item)=> total + item.extract_gram,0 )
+
 		dispatch ({
 			type: "removeOrderEditingItem", 
-			payload: newOrderItemList		
+			payload: {
+				orderItemList: newOrderItemList,
+				orderItemListSum: newOrderItemListSum
+			}	
 		})
 	}
 }

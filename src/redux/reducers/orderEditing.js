@@ -1,4 +1,4 @@
-const LOAD_DEFAULT_ORDER_EDITING_SETTING = "loadDefaultNewOrderSetting";
+const LOAD_DEFAULT_ORDER_EDITING_SETTING = "loadDefaultOrderEditingSetting";
 const FILTER_ITEM_TYPING = "filteritemtyping";
 const ORDER_EDITING_SUGGESTED_ITEM_CLICKED = "orderEditingSuggestedItemClicked";
 const ADD_ORDER_EDITING_ITEM = "addOrderEditingItem"
@@ -10,7 +10,8 @@ let orderEditing = {
 	orderId: undefined,
 	filteredItems : [],
 	suggestedItem:undefined,
-	orderItemList: []
+	orderItemList: [], 
+	orderItemListSum: 0
 }
 
 export default (state = {}, action)=> {
@@ -23,9 +24,10 @@ export default (state = {}, action)=> {
 				suggestedItem:undefined,
 				orderItemList: []				
 			}
-
+		
 			return orderEditing;
 			break;
+			
 		case FILTER_ITEM_TYPING:
 			
 			let orderEditingWithFilteredItem = JSON.parse(JSON.stringify(orderEditing));
@@ -44,13 +46,16 @@ export default (state = {}, action)=> {
 
 		case ADD_ORDER_EDITING_ITEM:
 			
-			orderEditing.orderItemList = action.payload;
-			
+			orderEditing.orderItemList = action.payload.orderItemList;
+			orderEditing.orderItemListSum = action.payload.orderItemListSum
+
 			return JSON.parse(JSON.stringify(orderEditing));
 			break;
 
 		case REMOVE_ORDER_EDITING_ITEM:
-			orderEditing.orderItemList = action.payload;
+			
+			orderEditing.orderItemList = action.payload.orderItemList;
+			orderEditing.orderItemListSum = action.payload.orderItemListSum
 
 			return JSON.parse(JSON.stringify(orderEditing));
 

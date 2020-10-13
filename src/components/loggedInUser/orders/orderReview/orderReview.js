@@ -6,6 +6,7 @@ import {LOAD_REVIEW_ORDER} from 'redux/actions/orderReviewAction'
 
 class orderReview extends Component {
 	componentDidMount(){
+		console.log(this.props);
 		this.props.LOAD_REVIEW_ORDER (this.props.order_id);
 	}
 
