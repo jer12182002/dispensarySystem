@@ -4,6 +4,7 @@ const ORDER_EDITING_SUGGESTED_ITEM_CLICKED = "orderEditingSuggestedItemClicked";
 const ADD_ORDER_EDITING_ITEM = "addOrderEditingItem"
 const REMOVE_ORDER_EDITING_ITEM = "removeOrderEditingItem";
 const SAVE_ORDER_STATUS = "saveOrderStatus";
+const UPDATE_GRAM_SUM = "updateGramSum";
 
 let orderEditing = {
 	orderStatus: 'Quote',
@@ -11,7 +12,8 @@ let orderEditing = {
 	filteredItems : [],
 	suggestedItem:undefined,
 	orderItemList: [], 
-	orderItemListSum: 0
+	defaultGramSum: 0,
+	gramSum:0
 }
 
 export default (state = {}, action)=> {
@@ -24,10 +26,10 @@ export default (state = {}, action)=> {
 				suggestedItem:undefined,
 				orderItemList: []				
 			}
-		
+
 			return orderEditing;
 			break;
-			
+
 		case FILTER_ITEM_TYPING:
 			
 			let orderEditingWithFilteredItem = JSON.parse(JSON.stringify(orderEditing));
@@ -47,7 +49,8 @@ export default (state = {}, action)=> {
 		case ADD_ORDER_EDITING_ITEM:
 			
 			orderEditing.orderItemList = action.payload.orderItemList;
-			orderEditing.orderItemListSum = action.payload.orderItemListSum
+			orderEditing.defaultGramSum = action.payload.orderItemListSum
+			orderEditing.gramSum = action.payload.orderItemListSum;
 
 			return JSON.parse(JSON.stringify(orderEditing));
 			break;
@@ -55,7 +58,8 @@ export default (state = {}, action)=> {
 		case REMOVE_ORDER_EDITING_ITEM:
 			
 			orderEditing.orderItemList = action.payload.orderItemList;
-			orderEditing.orderItemListSum = action.payload.orderItemListSum
+			orderEditing.defaultGramSum = action.payload.orderItemListSum
+			orderEditing.gramSum = action.payload.orderItemListSum;
 
 			return JSON.parse(JSON.stringify(orderEditing));
 
@@ -65,8 +69,12 @@ export default (state = {}, action)=> {
 			orderEditing.orderId = action.payload.orderId;
 
 			return JSON.parse(JSON.stringify(orderEditing));
+			
+		case UPDATE_GRAM_SUM:
+			orderEditing.gramSum = action.payload;
+			return JSON.parse(JSON.stringify(orderEditing));
+		
 		default:
-		return state;
-
+			return state;
 	}
 }

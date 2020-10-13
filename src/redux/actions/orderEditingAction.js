@@ -228,8 +228,14 @@ export const REMOVE_ORDER_EDITING_ITEM = (orderItemList, itemId) => {
 
 
 
-const ALLOW_ITEM_INPUT = () => {
-	REMOVE_ATTRIBUTE("#newOrderItem_Raw input", "disabled");
-	REMOVE_ATTRIBUTE("#newOrderItem_Extract input", "disabled");
-	REMOVE_ATTRIBUTE("#newOrderItem_Price input", "disabled");
+
+export const GRAM_PER_DOSE_ON_CHANGE = newGramSum => {
+
+	return dispatch => {
+		dispatch({
+			type: "updateGramSum", 
+			payload: newGramSum
+		})
+	}
+
 }

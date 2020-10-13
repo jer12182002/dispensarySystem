@@ -19,7 +19,9 @@ import {LOAD_DEFAULT_SETTING,
 		CLICKED_SUGGESTED_ITEM,
 		ADJUST_GRAM_INPUT,
 		ADD_ORDER_EDITING_ITEM,
-		REMOVE_ORDER_EDITING_ITEM} from 'redux/actions/orderEditingAction';
+		REMOVE_ORDER_EDITING_ITEM,
+		GRAM_PER_DOSE_ON_CHANGE
+	} from 'redux/actions/orderEditingAction';
 
 
 class orderEditing extends Component {
@@ -158,14 +160,18 @@ class orderEditing extends Component {
  							<div className="row">
  								<h1>Dosage Information:</h1>
  							</div>
+
  							<div className="row">
- 								<input type="number" defaultValue={this.props.orderItemListSum}/><p>Gram(s) Per dose</p>
+ 								<p>Default:{this.props.defaultGramSum? this.props.defaultGramSum:0}</p>
  							</div>
  							<div className="row">
- 								<input type="number" defaultValue="1"/><p>Dosage(s) Per Day</p>
+ 								<input type="number" value={this.props.gramSum? this.props.gramSum:0} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/><p>Gram(s) Per dose</p>
  							</div>
  							<div className="row">
- 								<input type="number" defaultValue="1"/><p>Day(s) Per Session</p>
+ 								<input type="number" defaultValue="1" min="1"/><p>Dosage(s) Per Day</p>
+ 							</div>
+ 							<div className="row">
+ 								<input type="number" defaultValue="1" min="1"/><p>Day(s) Per Session</p>
  							</div>
  						</div>
  						<div className="col-12 col-lg-9">
@@ -226,13 +232,15 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
+	console.log(state);
 	return {
 		orderId: state.orderEditing.orderId,
 		orderStatus: state.orderEditing.orderStatus,
 		filteredItems: state.orderEditing.filteredItems,
 		suggestedItem: state.orderEditing.suggestedItem,
 		orderItemList: state.orderEditing.orderItemList, 
-		orderItemListSum: state.orderEditing.orderItemListSum
+		defaultGramSum: state.orderEditing.defaultGramSum,
+		gramSum: state.orderEditing.gramSum
 	}
 }
 
@@ -240,11 +248,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
   	LOAD_DEFAULT_SETTING: orderId => dispatch(LOAD_DEFAULT_SETTING(orderId)),
-  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
-  	CLICKED_SUGGESTED_ITEM: (item) => dispatch(CLICKED_SUGGESTED_ITEM(item)),
+  	FILTER_ITEM_WHILE_TYPING: value=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
+  	CLICKED_SUGGESTED_ITEM: item => dispatch(CLICKED_SUGGESTED_ITEM(item)),
   	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(ADD_ORDER_EDITING_ITEM(orderItemList)),
   	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
-  	SAVE_ORDER_EDITING:(orderId, account, orderItemList) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList))
+  	SAVE_ORDER_EDITING:(orderId, account, orderItemList) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList)),
+  	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(GRAM_PER_DOSE_ON_CHANGE(newGramSum))
   }
 }
 
