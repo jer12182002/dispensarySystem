@@ -15,3 +15,15 @@ code {
 .display-none {
 	display: none;
 }
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.no-print {
+  display: none;
+}

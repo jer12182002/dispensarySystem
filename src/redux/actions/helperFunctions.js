@@ -7,6 +7,15 @@ export function ADD_CLASS (target, className) {
 	target.classList.add(className);
 }
 
+export function REMOVE_CLASS(target, className) {
+	target.classList.remove(className);
+}
+
+export function TOGGLE_CLASS (target, className, rule) {
+	alert(rule);
+	target.classList.toggle(className, eval(rule));
+}
+
 export function SET_ATTRIBUTE(target, attribute, value="") {
 	document.querySelector(target).setAttribute(attribute,value);
 }

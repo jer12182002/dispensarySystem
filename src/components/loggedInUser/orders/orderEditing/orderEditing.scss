@@ -1,6 +1,12 @@
 .neworder-wrapper {
+	width: 80%;
+	height: 125vh;
+	margin: 0 auto;
+	margin-bottom: 5vh;
+	border: 3px solid black;
+	background-color: white;
+	
 	.saveFunction {
-		width:60%;
 		margin-bottom: 1vh;
 		&>div>div {
 				text-align: right;
@@ -14,9 +20,7 @@
 
 
 	.order-form-container {
-		background-color: white;
 		text-align: center;
-		width: 60%;
 
 		.order-header {
 			border-bottom: 2px solid black;
@@ -94,11 +98,34 @@
 
 	.price-display-container {
 		background-color: white;
-		width: 60%;
+
+		.row > div> * {
+			display:inline-block;
+		}
+		
+		.row >div:first-child {
+
+			p {
+				font-weight: 900;
+				margin: 0 ;
+			}
+
+		}
+
+		.row > div:not(:first-child) {
+			text-align: center;
+			
+
+			button,input {
+				margin-bottom:1vh;
+				text-align: center;
+				width: 100%;
+			}
+
+		}
 	}
 
 	.note-container {
-		width: 60%;
 		background-color: white;
 
 		h1 {
@@ -107,7 +134,7 @@
 
 		textarea {
 			width: 100%;
-			height:	30vh;
+			height:	10vh;
 		}
 	}
 }

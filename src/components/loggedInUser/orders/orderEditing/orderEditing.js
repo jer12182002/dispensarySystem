@@ -23,7 +23,8 @@ import {LOAD_DEFAULT_SETTING,
 		GRAM_PER_DOSE_ON_CHANGE,
 		UPDATE_GRAM_SUM,
 		UPDATE_DOSAGE_PER_DAY,
-		UPDATE_DAY_PER_SESSION
+		UPDATE_DAY_PER_SESSION,
+		TOGGLE_DISPLAY
 
 	} from 'redux/actions/orderEditingAction';
 
@@ -103,9 +104,9 @@ class orderEditing extends Component {
  					<>
  					<div className="items_header row">
  						<div className="col-4"><p>Item:</p></div>
- 						<div className="col-2"><p>Raw Gram:</p></div>
- 						<div className="col-2"><p>Extract Gram:</p></div>
- 						<div className="col-2"><p>Actual Gram:</p></div>	
+ 						<div className="col-2"><p>Raw Gram(s):</p></div>
+ 						<div className="col-2"><p>Extract Gram(s):</p></div>
+ 						<div className="col-2"><p>Total Gram(s):</p></div>	
  						<div className="col-2"><p>Unit Price</p></div>
  					</div>
  					{this.props.orderItemList.map((item, key)=>
@@ -126,10 +127,10 @@ class orderEditing extends Component {
 	 									<p>{item.extract_gram}</p>
 	 								</div>
 	 								<div className="col-3">
-	 									<p>{item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession}</p>
+	 									<p>{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
 	 								</div>
 	 								<div className="col-3">
-	 									<p>{item.final_price*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession}</p>
+	 									<p>{(item.final_price*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
 	 								</div>
  								</div>
  							</div>
@@ -160,29 +161,101 @@ class orderEditing extends Component {
  			case 'RenDeInc':
  				return (
  					<div className="price-display-container container-fluid">
- 						<div className="col-12 col-lg-3">
- 							<div className="row">
- 								<h1>Dosage Information:</h1>
- 							</div>
-
- 							<div className="row">
- 							<button className="btn btn-success" onClick={e=>this.props.UPDATE_GRAM_SUM(this.props.defaultGramSum)}>Default : {this.props.defaultGramSum} </button>
- 							</div>
- 							<div className="row">
- 								<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/><p>Gram(s) Per dose</p>
- 							</div>
- 							<div className="row">
- 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(e.target.value)}/><p>Dosage(s) Per Day</p>
- 							</div>
- 							<div className="row">
- 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(e.target.value)}/><p>Day(s) Per Session</p>
- 							</div>
- 						</div>
- 						<div className="col-12 col-lg-9">
- 							<div className="row">
- 								<h1></h1>
- 							</div>
- 						</div>
+ 						<div className="container-fluid">
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10"></div>
+	 							<div className="col-12 col-lg-2 align-right">
+	 								<button className="btn btn-success" onClick={e=>this.props.UPDATE_GRAM_SUM(this.props.defaultGramSum)}>Default : {parseFloat(this.props.defaultGramSum).toFixed(2)} </button>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Total Gram(s):</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Dosage(s) Per Day:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(parseInt(e.target.value))}/>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Day(s) Per Session:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(parseInt(e.target.value))}/>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-10 align-right">
+	 								<p>Order Total Gram(s):</p>
+	 							</div>
+	 							<div className="col-2">{this.props.totalActualGram}</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Order Sub Total:</p>
+	 							</div>
+	 							<div className="col-2">${this.props.totalOrderPrice}</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Bottle Fee:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<input type="number" defaultValue="1" min="1"/>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Tablet Fee:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+									<input type="number" defaultValue="3" min="1"/>
+	 							</div>
+	 						</div>
+	 						
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Discount(Price):</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<input type="number" defaultValue="0" min="1"/>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Discount(Percentage):</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<input type="number" className="no-print" defaultValue="0" min="0" onChange={e=>{TOGGLE_DISPLAY(e.target)}}/>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							{/*Discount should be applied before TAX !!!*/}
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<input type="number" defaultValue="13" min="1"/>
+	 								<p>Tax(%):</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<p>${}</p>
+	 							</div>
+	 						</div>
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Toal:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<p>$</p>
+	 							</div>
+	 						</div>
+	 					</div>
  					</div>
  				);
  			break;
@@ -215,7 +288,6 @@ class orderEditing extends Component {
  	
 
     render() {
-    	
         return (
             <div className="neworder-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
@@ -236,7 +308,7 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
-	console.log(state);
+	//console.log(state);
 	return {
 		orderId: state.orderEditing.orderId,
 		orderStatus: state.orderEditing.orderStatus,
@@ -246,7 +318,9 @@ const mapStateToProps = state => {
 		defaultGramSum: state.orderEditing.defaultGramSum,
 		gramSum: state.orderEditing.gramSum,
 		dosagePerDay: state.orderEditing.dosagePerDay,
-		dayPerSession: state.orderEditing.dayPerSession
+		dayPerSession: state.orderEditing.dayPerSession, 
+		totalActualGram: state.orderEditing.orderItemList? (state.orderEditing.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession):0,
+		totalOrderPrice: state.orderEditing.orderItemList? (state.orderEditing.orderItemList.reduce((total, item)=> total + item.final_price,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession):0
 	}
 }
 

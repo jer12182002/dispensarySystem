@@ -1,8 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE} from './helperFunctions';
-
+import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, TOGGLE_CLASS} from './helperFunctions';
 
 let newOrderInfo = {
 	date: moment().format('YYYY-MM-DD'),
@@ -266,4 +265,10 @@ export const UPDATE_DAY_PER_SESSION = newDayPerSession => {
 			payload: newDayPerSession
 		})
 	}
+}
+
+
+export const TOGGLE_DISPLAY = target => {
+	console.log(target);
+	console.log(TOGGLE_CLASS(target, "no-print", target.value === 0));
 }
