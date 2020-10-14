@@ -20,7 +20,11 @@ import {LOAD_DEFAULT_SETTING,
 		ADJUST_GRAM_INPUT,
 		ADD_ORDER_EDITING_ITEM,
 		REMOVE_ORDER_EDITING_ITEM,
-		GRAM_PER_DOSE_ON_CHANGE
+		GRAM_PER_DOSE_ON_CHANGE,
+		UPDATE_GRAM_SUM,
+		UPDATE_DOSAGE_PER_DAY,
+		UPDATE_DAY_PER_SESSION
+
 	} from 'redux/actions/orderEditingAction';
 
 
@@ -122,10 +126,10 @@ class orderEditing extends Component {
 	 									<p>{item.extract_gram}</p>
 	 								</div>
 	 								<div className="col-3">
-	 									<p>{item.extract_gram}</p>
+	 									<p>{item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession}</p>
 	 								</div>
 	 								<div className="col-3">
-	 									<p>{item.final_price}</p>
+	 									<p>{item.final_price*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession}</p>
 	 								</div>
  								</div>
  							</div>
@@ -162,16 +166,16 @@ class orderEditing extends Component {
  							</div>
 
  							<div className="row">
- 								<p>Default:{this.props.defaultGramSum? this.props.defaultGramSum:0}</p>
+ 							<button className="btn btn-success" onClick={e=>this.props.UPDATE_GRAM_SUM(this.props.defaultGramSum)}>Default : {this.props.defaultGramSum} </button>
  							</div>
  							<div className="row">
- 								<input type="number" value={this.props.gramSum? this.props.gramSum:0} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/><p>Gram(s) Per dose</p>
+ 								<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/><p>Gram(s) Per dose</p>
  							</div>
  							<div className="row">
- 								<input type="number" defaultValue="1" min="1"/><p>Dosage(s) Per Day</p>
+ 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(e.target.value)}/><p>Dosage(s) Per Day</p>
  							</div>
  							<div className="row">
- 								<input type="number" defaultValue="1" min="1"/><p>Day(s) Per Session</p>
+ 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(e.target.value)}/><p>Day(s) Per Session</p>
  							</div>
  						</div>
  						<div className="col-12 col-lg-9">
@@ -211,7 +215,7 @@ class orderEditing extends Component {
  	
 
     render() {
-    	console.log(this.props);
+    	
         return (
             <div className="neworder-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
@@ -240,7 +244,9 @@ const mapStateToProps = state => {
 		suggestedItem: state.orderEditing.suggestedItem,
 		orderItemList: state.orderEditing.orderItemList, 
 		defaultGramSum: state.orderEditing.defaultGramSum,
-		gramSum: state.orderEditing.gramSum
+		gramSum: state.orderEditing.gramSum,
+		dosagePerDay: state.orderEditing.dosagePerDay,
+		dayPerSession: state.orderEditing.dayPerSession
 	}
 }
 
@@ -253,8 +259,12 @@ const mapDispatchToProps = dispatch => {
   	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(ADD_ORDER_EDITING_ITEM(orderItemList)),
   	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
   	SAVE_ORDER_EDITING:(orderId, account, orderItemList) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList)),
-  	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(GRAM_PER_DOSE_ON_CHANGE(newGramSum))
+  	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
+  	UPDATE_GRAM_SUM: defaultGramSum => dispatch(UPDATE_GRAM_SUM(defaultGramSum)),
+  	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
+  	UPDATE_DAY_PER_SESSION: newDayPerSession => dispatch(UPDATE_DAY_PER_SESSION(newDayPerSession))
   }
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(orderEditing);
+

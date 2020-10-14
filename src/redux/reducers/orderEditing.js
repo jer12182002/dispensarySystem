@@ -5,6 +5,9 @@ const ADD_ORDER_EDITING_ITEM = "addOrderEditingItem"
 const REMOVE_ORDER_EDITING_ITEM = "removeOrderEditingItem";
 const SAVE_ORDER_STATUS = "saveOrderStatus";
 const UPDATE_GRAM_SUM = "updateGramSum";
+const UPDATE_DOSAGE_PER_DAY = "updateDosagePerDay";
+const UPDATE_DAY_PER_SESSION = "updateDayPerSession";
+
 
 let orderEditing = {
 	orderStatus: 'Quote',
@@ -13,20 +16,27 @@ let orderEditing = {
 	suggestedItem:undefined,
 	orderItemList: [], 
 	defaultGramSum: 0,
-	gramSum:0
+	gramSum:0, 
+	dosagePerDay: 1, 
+	dayPerSession: 1
 }
 
 export default (state = {}, action)=> {
 	switch(action.type) {
 		case LOAD_DEFAULT_ORDER_EDITING_SETTING:
-			orderEditing = {
+				orderEditing = {
 				orderStatus: 'Quote',
-				orderId: action.payload,
+				orderId: undefined,
 				filteredItems : [],
 				suggestedItem:undefined,
-				orderItemList: []				
+				orderItemList: [], 
+				defaultGramSum: 0,
+				gramSum:0, 
+				dosagePerDay: 1, 
+				dayPerSession: 1		
 			}
 
+			console.log(orderEditing);
 			return orderEditing;
 			break;
 
@@ -62,18 +72,33 @@ export default (state = {}, action)=> {
 			orderEditing.gramSum = action.payload.orderItemListSum;
 
 			return JSON.parse(JSON.stringify(orderEditing));
-
+			break;
 
 		case SAVE_ORDER_STATUS:
 			orderEditing.orderStatus = action.payload.status;
 			orderEditing.orderId = action.payload.orderId;
 
 			return JSON.parse(JSON.stringify(orderEditing));
-			
+			break;
+
 		case UPDATE_GRAM_SUM:
 			orderEditing.gramSum = action.payload;
-			return JSON.parse(JSON.stringify(orderEditing));
 		
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+		case UPDATE_DOSAGE_PER_DAY:
+			orderEditing.dosagePerDay = action.payload; 
+	
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+		case UPDATE_DAY_PER_SESSION:
+			orderEditing.dayPerSession = action.payload;
+
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
 		default:
 			return state;
 	}

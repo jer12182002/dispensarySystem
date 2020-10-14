@@ -237,5 +237,33 @@ export const GRAM_PER_DOSE_ON_CHANGE = newGramSum => {
 			payload: newGramSum
 		})
 	}
+}
 
+export const UPDATE_GRAM_SUM = defaultGramSum => {
+	return dispatch => {
+		dispatch ({
+			type: "updateGramSum", 
+			payload:defaultGramSum
+		})
+	}
+}
+
+
+export const UPDATE_DOSAGE_PER_DAY = newDosagePerDay => {
+	return dispatch => {
+		dispatch({
+			type:"updateDosagePerDay",
+			payload: newDosagePerDay
+		})
+	}
+}
+
+
+export const UPDATE_DAY_PER_SESSION = newDayPerSession => {
+	return dispatch => {
+		dispatch({
+			type:"updateDayPerSession",
+			payload: newDayPerSession
+		})
+	}
 }
