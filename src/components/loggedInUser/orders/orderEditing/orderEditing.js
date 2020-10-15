@@ -24,8 +24,12 @@ import {LOAD_DEFAULT_SETTING,
 		UPDATE_GRAM_SUM,
 		UPDATE_DOSAGE_PER_DAY,
 		UPDATE_DAY_PER_SESSION,
-		TOGGLE_DISPLAY
-
+		UPDATE_DISCOUNT_PRICE, 
+		UPDATE_DISCOUNT_PERCENTAGE, 
+		UPDATE_BOTTLE_FEE, 
+		UPDATE_TABLET_FEE, 
+		UPDATE_DELIVERY_FEE,
+		UPDATE_TAX
 	} from 'redux/actions/orderEditingAction';
 
 
@@ -51,7 +55,7 @@ class orderEditing extends Component {
 						</select>
 					</div>
 					<div className="col-6">
-						<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList)}}>Save</button>
+						<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList,this.props.gramSum)}}>Save</button>
 					</div>
 				</div>
 			</div>
@@ -168,6 +172,8 @@ class orderEditing extends Component {
 	 								<button className="btn btn-success" onClick={e=>this.props.UPDATE_GRAM_SUM(this.props.defaultGramSum)}>Default : {parseFloat(this.props.defaultGramSum).toFixed(2)} </button>
 	 							</div>
 	 						</div>
+	 						
+
 	 						<div className="row">
 	 							<div className="col-12 col-lg-10 align-right">
 	 								<p>Total Gram(s):</p>
@@ -176,6 +182,8 @@ class orderEditing extends Component {
 	 								<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/>
 	 							</div>
 	 						</div>
+	 						
+
 	 						<div className="row">
 	 							<div className="col-12 col-lg-10 align-right">
 	 								<p>Dosage(s) Per Day:</p>
@@ -184,6 +192,8 @@ class orderEditing extends Component {
 	 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(parseInt(e.target.value))}/>
 	 							</div>
 	 						</div>
+	 						
+
 	 						<div className="row">
 	 							<div className="col-12 col-lg-10 align-right">
 	 								<p>Day(s) Per Session:</p>
@@ -192,67 +202,101 @@ class orderEditing extends Component {
 	 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(parseInt(e.target.value))}/>
 	 							</div>
 	 						</div>
+	 						
+
 	 						<div className="row">
 	 							<div className="col-10 align-right">
 	 								<p>Order Total Gram(s):</p>
 	 							</div>
 	 							<div className="col-2">{this.props.totalActualGram}</div>
 	 						</div>
+	 						
+
 	 						<div className="row">
 	 							<div className="col-12 col-lg-10 align-right">
 	 								<p>Order Sub Total:</p>
 	 							</div>
 	 							<div className="col-2">${this.props.totalOrderPrice}</div>
 	 						</div>
-	 						<div className="row">
-	 							<div className="col-12 col-lg-10 align-right">
-	 								<p>Bottle Fee:</p>
-	 							</div>
-	 							<div className="col-12 col-lg-2">
-	 								<input type="number" defaultValue="1" min="1"/>
-	 							</div>
-	 						</div>
-	 						<div className="row">
-	 							<div className="col-12 col-lg-10 align-right">
-	 								<p>Tablet Fee:</p>
-	 							</div>
-	 							<div className="col-12 col-lg-2">
-									<input type="number" defaultValue="3" min="1"/>
-	 							</div>
-	 						</div>
-	 						
+
 	 						<div className="row">
 	 							<div className="col-12 col-lg-10 align-right">
 	 								<p>Discount(Price):</p>
 	 							</div>
 	 							<div className="col-12 col-lg-2">
-	 								<input type="number" defaultValue="0" min="1"/>
+	 								<input type="number" value={this.props.discountPrice} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PRICE(e.target.value)} disabled={this.props.discountPercentage > 0}/>
 	 							</div>
 	 						</div>
+	 						
+
 	 						<div className="row">
 	 							<div className="col-12 col-lg-10 align-right">
-	 								<p>Discount(Percentage):</p>
+	 								<p>Discount</p>
+	 								<input type="number" value={this.props.discountPercentage} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PERCENTAGE(e.target.value)} disabled={this.props.discountPrice > 0}/>
+	 								<p>%:</p>
 	 							</div>
 	 							<div className="col-12 col-lg-2">
-	 								<input type="number" className="no-print" defaultValue="0" min="0" onChange={e=>{TOGGLE_DISPLAY(e.target)}}/>
+	 								<p>{(this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
 	 							</div>
 	 						</div>
+	 						
+
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Sub Toal:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<p>{(this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
+	 							</div>
+	 						</div>
+	 						
+	 						
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Bottle Fee:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+	 								<input type="number" value={this.props.bottleFee} min="0" onChange={e=>this.props.UPDATE_BOTTLE_FEE(e.target.value)}/>
+	 							</div>
+	 						</div>
+	 						
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Tablet Fee:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+									<input type="number" value={this.props.tabletFee} min="0" onChange={e=>this.props.UPDATE_TABLET_FEE(e.target.value)}/>
+	 							</div>
+	 						</div>
+	 						
+
+	 						<div className="row">
+	 							<div className="col-12 col-lg-10 align-right">
+	 								<p>Delivery Fee:</p>
+	 							</div>
+	 							<div className="col-12 col-lg-2">
+									<input type="number" value={this.props.deliveryFee} min="0" onChange={e=>this.props.UPDATE_DELIVERY_FEE(e.target.value)}/>
+	 							</div>
+	 						</div>
+	 						
 	 						<div className="row">
 	 							{/*Discount should be applied before TAX !!!*/}
 	 							<div className="col-12 col-lg-10 align-right">
-	 								<input type="number" defaultValue="13" min="1"/>
-	 								<p>Tax(%):</p>
+	 								<p>Tax</p>
+	 								<input type="number" value={this.props.tax} min="0" onChange={e=>this.props.UPDATE_TAX(e.target.value)}/>
+	 								<p>%:</p>
 	 							</div>
 	 							<div className="col-12 col-lg-2">
-	 								<p>${}</p>
+	 								<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*this.props.tax/100).toFixed(2)}</p>
 	 							</div>
 	 						</div>
+	 						
 	 						<div className="row">
 	 							<div className="col-12 col-lg-10 align-right">
-	 								<p>Toal:</p>
+	 								<p>Total:</p>
 	 							</div>
 	 							<div className="col-12 col-lg-2">
-	 								<p>$</p>
+	 								<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*(this.props.tax+100)/100).toFixed(2)}</p>
 	 							</div>
 	 						</div>
 	 					</div>
@@ -260,7 +304,7 @@ class orderEditing extends Component {
  				);
  			break;
  			
- 			deafult:
+ 			default:
  			break;
  		}
  	}
@@ -288,6 +332,7 @@ class orderEditing extends Component {
  	
 
     render() {
+    	console.log(this.props);
         return (
             <div className="neworder-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
@@ -319,8 +364,14 @@ const mapStateToProps = state => {
 		gramSum: state.orderEditing.gramSum,
 		dosagePerDay: state.orderEditing.dosagePerDay,
 		dayPerSession: state.orderEditing.dayPerSession, 
-		totalActualGram: state.orderEditing.orderItemList? (state.orderEditing.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession):0,
-		totalOrderPrice: state.orderEditing.orderItemList? (state.orderEditing.orderItemList.reduce((total, item)=> total + item.final_price,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession):0
+		totalActualGram: state.orderEditing.orderItemList? parseFloat((state.orderEditing.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession)):0,
+		totalOrderPrice: state.orderEditing.orderItemList? parseFloat((state.orderEditing.orderItemList.reduce((total, item)=> total + item.final_price,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession)):0,
+		discountPrice: parseFloat(state.orderEditing.discountPrice), 
+		discountPercentage: parseFloat(state.orderEditing.discountPercentage), 
+		bottleFee: parseFloat(state.orderEditing.bottleFee),
+		tabletFee: parseFloat(state.orderEditing.tabletFee),
+		deliveryFee: parseFloat(state.orderEditing.deliveryFee),
+		tax: parseFloat(state.orderEditing.tax)
 	}
 }
 
@@ -332,11 +383,17 @@ const mapDispatchToProps = dispatch => {
   	CLICKED_SUGGESTED_ITEM: item => dispatch(CLICKED_SUGGESTED_ITEM(item)),
   	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(ADD_ORDER_EDITING_ITEM(orderItemList)),
   	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
-  	SAVE_ORDER_EDITING:(orderId, account, orderItemList) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList)),
+  	SAVE_ORDER_EDITING:(orderId, account, orderItemList,totalGram) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList,totalGram)),
   	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
   	UPDATE_GRAM_SUM: defaultGramSum => dispatch(UPDATE_GRAM_SUM(defaultGramSum)),
   	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
-  	UPDATE_DAY_PER_SESSION: newDayPerSession => dispatch(UPDATE_DAY_PER_SESSION(newDayPerSession))
+  	UPDATE_DAY_PER_SESSION: newDayPerSession => dispatch(UPDATE_DAY_PER_SESSION(newDayPerSession)),
+	UPDATE_DISCOUNT_PRICE: newDiscountPrice => dispatch (UPDATE_DISCOUNT_PRICE(newDiscountPrice)),
+	UPDATE_DISCOUNT_PERCENTAGE: newDiscountPercentage => dispatch(UPDATE_DISCOUNT_PERCENTAGE(newDiscountPercentage)),
+  	UPDATE_BOTTLE_FEE: newBottleFee => dispatch(UPDATE_BOTTLE_FEE(newBottleFee)), 
+	UPDATE_TABLET_FEE: newTabletFee => dispatch(UPDATE_TABLET_FEE(newTabletFee)), 
+	UPDATE_DELIVERY_FEE: newDelievryFee => dispatch(UPDATE_DELIVERY_FEE(newDelievryFee)),
+	UPDATE_TAX: newTax => dispatch(UPDATE_TAX(newTax))
   }
 }
 

@@ -11,15 +11,25 @@ let newOrderInfo = {
 	phone: "",
 	email: "",
 	status: 'Receipt',
+	totalGram: 0, 
+	dosagePerDay: 1, 
+	dayPerSession:1, 
+	discountPrice: 0, 
+	discountPercentage: 0, 
+	bottleFee: 2, 
+	tabletFee: 0, 
+	deliveryFee:0, 
+	tax: 13,
 	orderNote: ""
 }
 
 
 
-export const SAVE_ORDER_EDITING = (orderId, account,orderItemList) => {
+export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) => {
 	newOrderInfo.orderId = orderId;
 	newOrderInfo.account = account;
 	newOrderInfo.orderItemList = orderItemList;
+	newOrderInfo.totalGram = totalGram;
 
 	return dispatch => {
 		
@@ -192,7 +202,7 @@ export const ADD_ORDER_EDITING_ITEM = (suggestedItem,orderItemList) => {
 		newOrderItemList.push(suggestedItem);
 	}
 
-	let newOrderItemListSum = newOrderItemList.reduce((total, item)=> total + item.extract_gram,0 )
+	let newOrderItemListSum = newOrderItemList.reduce((total, item)=> total + item.extract_gram, 0);
 
 	return dispatch => {
 		dispatch ({
@@ -227,6 +237,17 @@ export const REMOVE_ORDER_EDITING_ITEM = (orderItemList, itemId) => {
 
 
 
+//================================================================
+//===================price-display-container functions============
+//================================================================
+export const UPDATE_GRAM_SUM = defaultGramSum => {
+	return dispatch => {
+		dispatch ({
+			type: "updateGramSum", 
+			payload:defaultGramSum
+		})
+	}
+}
 
 export const GRAM_PER_DOSE_ON_CHANGE = newGramSum => {
 
@@ -238,17 +259,10 @@ export const GRAM_PER_DOSE_ON_CHANGE = newGramSum => {
 	}
 }
 
-export const UPDATE_GRAM_SUM = defaultGramSum => {
-	return dispatch => {
-		dispatch ({
-			type: "updateGramSum", 
-			payload:defaultGramSum
-		})
-	}
-}
 
 
 export const UPDATE_DOSAGE_PER_DAY = newDosagePerDay => {
+	newOrderInfo.dosagePerDay = newDosagePerDay;
 	return dispatch => {
 		dispatch({
 			type:"updateDosagePerDay",
@@ -259,6 +273,7 @@ export const UPDATE_DOSAGE_PER_DAY = newDosagePerDay => {
 
 
 export const UPDATE_DAY_PER_SESSION = newDayPerSession => {
+	newOrderInfo.dayPerSession = newDayPerSession;
 	return dispatch => {
 		dispatch({
 			type:"updateDayPerSession",
@@ -268,7 +283,64 @@ export const UPDATE_DAY_PER_SESSION = newDayPerSession => {
 }
 
 
-export const TOGGLE_DISPLAY = target => {
-	console.log(target);
-	console.log(TOGGLE_CLASS(target, "no-print", target.value === 0));
+export const UPDATE_DISCOUNT_PRICE = newDiscountPrice => {
+	newOrderInfo.discountPrice = newDiscountPrice;
+	return dispatch => {
+		dispatch({
+			type: "updateDiscountPrice",
+			payload: newDiscountPrice
+		})
+	}
+}
+
+export const UPDATE_DISCOUNT_PERCENTAGE = newDiscountPercentage => {
+	newOrderInfo.discountPercentage = newDiscountPercentage;
+	return dispatch => {
+		dispatch ({
+			type: "updateDiscountPercentage", 
+			payload: newDiscountPercentage
+		})
+	}
+}
+
+
+export const UPDATE_BOTTLE_FEE = newBottleFee => {
+	newOrderInfo.bottleFee = newBottleFee;
+	return dispatch => {
+		dispatch({
+			type:"updateBottleFee", 
+			payload: newBottleFee
+		})
+	}
+}
+
+export const UPDATE_TABLET_FEE = newTabletFee => {
+	newOrderInfo.tabletFee = newTabletFee;
+	return dispatch => {
+		dispatch({
+			type:"updateTabletFee", 
+			payload: newTabletFee
+		})
+	}
+}
+
+export const UPDATE_DELIVERY_FEE = newDeliveryFee => {
+	newOrderInfo.deliveryFee = newDeliveryFee;
+	return dispatch => {
+		dispatch({
+			type:"updateDeliveryFee",
+			payload: newDeliveryFee
+		})
+	}
+}
+
+
+export const UPDATE_TAX = newTax => {
+	newOrderInfo.tax = newTax;
+	return dispatch => {
+		dispatch({
+			type:"updateTax", 
+			payload: newTax
+		})
+	}
 }

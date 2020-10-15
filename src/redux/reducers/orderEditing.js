@@ -7,7 +7,12 @@ const SAVE_ORDER_STATUS = "saveOrderStatus";
 const UPDATE_GRAM_SUM = "updateGramSum";
 const UPDATE_DOSAGE_PER_DAY = "updateDosagePerDay";
 const UPDATE_DAY_PER_SESSION = "updateDayPerSession";
-
+const UPDATE_DISCOUNT_PRICE = "updateDiscountPrice";
+const UPDATE_DISCOUNT_PERCENTAGE = "updateDiscountPercentage";
+const UPDATE_BOTTLE_FEE = "updateBottleFee";
+const UPDATE_TABLET_FEE = "updateTabletFee";
+const UPDATE_DELIVERY_FEE = "updateDeliveryFee";
+const UPDATE_TAX = "updateTax";
 
 let orderEditing = {
 	orderStatus: 'Quote',
@@ -18,7 +23,13 @@ let orderEditing = {
 	defaultGramSum: 0,
 	gramSum:0, 
 	dosagePerDay: 1, 
-	dayPerSession: 1
+	dayPerSession: 1, 
+	discountPrice:0, 
+	discountPercentage:0, 
+	bottleFee:2, 
+	tabletFee: 0,
+	deliveryFee:0,
+	tax: 13
 }
 
 export default (state = {}, action)=> {
@@ -33,10 +44,15 @@ export default (state = {}, action)=> {
 				defaultGramSum: 0,
 				gramSum:0, 
 				dosagePerDay: 1, 
-				dayPerSession: 1		
+				dayPerSession: 1,
+				discountPrice:0, 
+				discountPercentage:0, 
+				bottleFee:2, 
+				tabletFee: 0,
+				deliveryFee:0,
+				tax: 13	
 			}
 
-			console.log(orderEditing);
 			return orderEditing;
 			break;
 
@@ -96,6 +112,38 @@ export default (state = {}, action)=> {
 		case UPDATE_DAY_PER_SESSION:
 			orderEditing.dayPerSession = action.payload;
 
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+
+		case UPDATE_DISCOUNT_PRICE:
+			orderEditing.discountPrice = action.payload;
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+
+		case UPDATE_DISCOUNT_PERCENTAGE:
+			orderEditing.discountPercentage = action.payload;
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+		case UPDATE_BOTTLE_FEE:
+			orderEditing.bottleFee = action.payload;
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+		case UPDATE_TABLET_FEE:
+			orderEditing.tabletFee = action.payload;
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+		case UPDATE_DELIVERY_FEE:
+			orderEditing.deliveryFee = action.payload;
+			return JSON.parse(JSON.stringify(orderEditing));
+			break;
+
+		case UPDATE_TAX:
+			orderEditing.tax = action.payload;
 			return JSON.parse(JSON.stringify(orderEditing));
 			break;
 

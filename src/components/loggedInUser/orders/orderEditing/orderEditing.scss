@@ -99,10 +99,18 @@
 	.price-display-container {
 		background-color: white;
 
-		.row > div> * {
-			display:inline-block;
+		.row > div {
+			&>* {
+				display:inline-block;
+			}
+
+			& > input {
+				text-align: right;
+				width: 3.5em;
+				margin-left:1em;
+			}
 		}
-		
+
 		.row >div:first-child {
 
 			p {

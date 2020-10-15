@@ -28,7 +28,6 @@ export function SET_INPUT_VALUE (target,value) {
 	document.querySelector(target).value = value;
 }
 
-
 export function CLEAR_CHILDREN_INPUT_VALUE (target) {
 	document.querySelectorAll(target).forEach(select =>select.value = "");
 }
