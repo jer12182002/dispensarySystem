@@ -1,6 +1,7 @@
-.neworder-wrapper {
+@import '~sass-mq';
+
+.orderEditing-wrapper {
 	width: 80%;
-	height: 125vh;
 	margin: 0 auto;
 	margin-bottom: 5vh;
 	border: 3px solid black;
@@ -96,6 +97,7 @@
 		}
 	}
 
+
 	.price-display-container {
 		background-color: white;
 
@@ -111,30 +113,36 @@
 			}
 		}
 
+		.row > div > *{
+			margin: 1vh 0;
+		}
 		.row >div:first-child {
 
-			p {
+			p {	
 				font-weight: 900;
-				margin: 0 ;
 			}
 
 		}
 
 		.row > div:not(:first-child) {
 			text-align: center;
-			
 
 			button,input {
-				margin-bottom:1vh;
+				margin: 1vh auto;
 				text-align: center;
 				width: 100%;
 			}
+		}
 
+		.row:last-child{
+			font-weight: 900;
 		}
 	}
 
+
 	.note-container {
 		background-color: white;
+		margin-top: 5vh;
 
 		h1 {
 			text-align: center;
@@ -142,7 +150,104 @@
 
 		textarea {
 			width: 100%;
-			height:	10vh;
+			height:	20vh;
+			font-size: 2vw;
+		}
+	}
+}
+
+
+@include mq($until: desktop) {
+	.orderEditing-wrapper {
+		.order-form-container {
+			text-align: center;
+
+			.order-header {
+
+				h1 {
+					font-size: 1.5vw;
+				}
+
+				input {
+					width: 75%;
+					font-size: 1.5vw;
+				}
+			}
+
+			.order-body {
+				.items_header {
+
+					p {
+						font-size: 1.7vw;
+					}
+				}
+
+				.items_row {
+
+					p {
+						font-size: 1.8vw;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@include mq($until: tablet) {
+	.orderEditing-wrapper {
+		width: 100%;
+
+		.order-form-container {
+			text-align: center;
+
+			.order-header {
+
+				.row > div {
+					text-align: left;
+					display: inline-block;
+				}
+
+				h1 {
+					display: inline-block;
+					font-size: 3vw;
+				}
+
+				input {
+					width: 100%;
+					height: 50%;
+					font-size: 3vw;
+				}
+			}
+
+			.order-body {
+				.items_header {
+					p {
+						font-size: 2vw;
+					}
+				}
+
+				.items_row {
+				
+					p {
+						font-size: 2vw;
+					}
+				}
+			}
+		}
+	
+		.price-display-container {
+	
+			.row >div:first-child {
+				font-size: 3vw;
+			}
+
+			.row > div:not(:first-child) {
+				
+				button,input,p {
+					font-size: 3vw;
+				}
+			}
 		}
 	}
 }
