@@ -6,7 +6,9 @@ import './orderEditing.scss';
 
 import AddItemToOrder from './addItemToOrder/addItemToOrder';
 
-import {LOAD_DEFAULT_SETTING,
+import {
+		LOAD_SAVED_ORDER,
+		LOAD_DEFAULT_SETTING,
 		SAVE_ORDER_EDITING,
 		SAVE_ORDER_DATE,
 		SAVE_ORDER_CUSTOMER,
@@ -36,7 +38,11 @@ import {LOAD_DEFAULT_SETTING,
 class orderEditing extends Component {
 	
 	componentDidMount() {
-		this.props.LOAD_DEFAULT_SETTING();
+		if(this.props.order_id) {
+			this.props.LOAD_SAVED_ORDER(this.props.order_id)
+		}else {
+			this.props.LOAD_DEFAULT_SETTING();
+		}
 	}
 
 
@@ -69,7 +75,7 @@ class orderEditing extends Component {
  	orderListDisplay(account, orderStatus){
  		let DisplayTag ;
  		let today = moment().format('YYYY-MM-DD');
- 		if(account === "RenDeInc") {
+ 
  			DisplayTag = 
  			<div className="order-form-container container-fluid">
  				<div className="order-header container-fluid">
@@ -148,169 +154,157 @@ class orderEditing extends Component {
  				</div>
  			</div>
 
- 		}else if(account === "Professor"){
-
- 		}else if(account === "Student") {
-
- 		}
-
+ 		
  		return DisplayTag;
  	}
 
 
  	totalPriceDisplay (account) {
- 		let returnTag = "";
-
- 		switch(account) {
- 			case 'RenDeInc':
- 				return (
- 					<div className="price-display-container container-fluid">
- 						<div className="container-fluid">
-	 						<div className="row">
-	 							<div className="col-12 col-lg-10"></div>
-	 							<div className="col-12 col-lg-2 align-right">
-	 								<button className="btn btn-success" onClick={e=>this.props.UPDATE_GRAM_SUM(this.props.defaultGramSum)}>Default : {parseFloat(this.props.defaultGramSum).toFixed(2)} </button>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Total Gram(s):</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Dosage(s) Per Day:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(parseInt(e.target.value))}/>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row border-bottom">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Day(s) Per Session:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(parseInt(e.target.value))}/>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Order Total Gram(s):</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<p>{this.props.totalActualGram}</p>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row border-bottom">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Order Sub Total:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<p>${this.props.totalOrderPrice}</p>
-	 							</div>
-	 						</div>
-
-	 						<div className="row text-red">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Discount(Price):</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<input type="number" className="text-red" value={this.props.discountPrice} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PRICE(e.target.value)} disabled={this.props.discountPercentage > 0}/>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row border-bottom text-red">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Discount</p>
-	 								<input type="number" className="text-red" value={this.props.discountPercentage} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PERCENTAGE(e.target.value)} disabled={this.props.discountPrice > 0}/>
-	 								<p>%:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<p>{(this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row border-bottom">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Sub Toal:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<p>{(this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
-	 							</div>
-	 						</div>
-	 						
-	 						
-	 						<div className="row">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Bottle Fee:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<input type="number" value={this.props.bottleFee} min="0" onChange={e=>this.props.UPDATE_BOTTLE_FEE(e.target.value)}/>
-	 							</div>
-	 						</div>
-	 						
-	 						<div className="row">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Tablet Fee:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-									<input type="number" value={this.props.tabletFee} min="0" onChange={e=>this.props.UPDATE_TABLET_FEE(e.target.value)}/>
-	 							</div>
-	 						</div>
-	 						
-
-	 						<div className="row">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Delivery Fee:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-									<input type="number" value={this.props.deliveryFee} min="0" onChange={e=>this.props.UPDATE_DELIVERY_FEE(e.target.value)}/>
-	 							</div>
-	 						</div>
-	 						
-	 						<div className="row border-bottom">
-	 							{/*Discount should be applied before TAX !!!*/}
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Tax</p>
-	 								<input type="number" value={this.props.tax} min="0" onChange={e=>this.props.UPDATE_TAX(e.target.value)}/>
-	 								<p>%:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*this.props.tax/100).toFixed(2)}</p>
-	 							</div>
-	 						</div>
-	 						
-	 						<div className="row">
-	 							<div className="col-6 col-lg-10 align-right">
-	 								<p>Total:</p>
-	 							</div>
-	 							<div className="col-6 col-lg-2">
-	 								<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*(this.props.tax+100)/100).toFixed(2)}</p>
-	 							</div>
-	 						</div>
+ 	
+ 		return (
+ 			<div className="price-display-container container-fluid">
+ 				<div className="container-fluid">
+	 				<div className="row">
+	 					<div className="col-12 col-lg-10"></div>
+	 					<div className="col-12 col-lg-2 align-right">
+	 						<button className="btn btn-success" onClick={e=>this.props.UPDATE_GRAM_SUM(this.props.defaultGramSum)}>Default : {parseFloat(this.props.defaultGramSum).toFixed(2)} </button>
 	 					</div>
- 					</div>
- 				);
- 			break;
+	 				</div>
+	 						
+
+	 				<div className="row">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Total Gram(s):</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/>
+	 					</div>
+	 				</div>
+	 						
+
+	 				<div className="row">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Dosage(s) Per Day:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(parseInt(e.target.value))}/>
+	 					</div>
+	 				</div>
+	 					
+
+	 				<div className="row border-bottom">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Day(s) Per Session:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(parseInt(e.target.value))}/>
+	 					</div>
+	 				</div>
+	 						
+
+	 				<div className="row">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Order Total Gram(s):</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<p>{this.props.totalActualGram}</p>
+	 					</div>
+	 				</div>
+	 					
+
+	 				<div className="row border-bottom">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Order Sub Total:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<p>${this.props.totalOrderPrice}</p>
+	 					</div>
+	 				</div>
+
+	 				<div className="row text-red">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Discount(Price):</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<input type="number" className="text-red" value={this.props.discountPrice} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PRICE(e.target.value)} disabled={this.props.discountPercentage > 0}/>
+	 					</div>
+	 				</div>
+	 						
+
+	 				<div className="row border-bottom text-red">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Discount</p>
+	 						<input type="number" className="text-red" value={this.props.discountPercentage} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PERCENTAGE(e.target.value)} disabled={this.props.discountPrice > 0}/>
+	 						<p>%:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<p>{(this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
+	 					</div>
+	 				</div>
+	 						
+
+	 				<div className="row border-bottom">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Sub Toal:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<p>{(this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
+	 					</div>
+	 				</div>
+	 					
+	 						
+	 				<div className="row">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Bottle Fee:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<input type="number" value={this.props.bottleFee} min="0" onChange={e=>this.props.UPDATE_BOTTLE_FEE(e.target.value)}/>
+	 					</div>
+	 				</div>
+	 						
+	 				<div className="row">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Tablet Fee:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+							<input type="number" value={this.props.tabletFee} min="0" onChange={e=>this.props.UPDATE_TABLET_FEE(e.target.value)}/>
+	 					</div>
+	 				</div>
+	 					
+
+	 				<div className="row">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Delivery Fee:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+							<input type="number" value={this.props.deliveryFee} min="0" onChange={e=>this.props.UPDATE_DELIVERY_FEE(e.target.value)}/>
+	 					</div>
+	 				</div>
+	 					
+	 				<div className="row border-bottom">
+	 					{/*Discount should be applied before TAX !!!*/}
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Tax</p>
+	 						<input type="number" value={this.props.tax} min="0" onChange={e=>this.props.UPDATE_TAX(e.target.value)}/>
+	 						<p>%:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*this.props.tax/100).toFixed(2)}</p>
+	 					</div>
+	 				</div>
+	 						
+	 				<div className="row">
+	 					<div className="col-6 col-lg-10 align-right">
+	 						<p>Total:</p>
+	 					</div>
+	 					<div className="col-6 col-lg-2">
+	 						<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*(this.props.tax+100)/100).toFixed(2)}</p>
+	 					</div>
+	 				</div>
+	 			</div>
+ 			</div>
+ 		);
  			
- 			default:
- 			break;
- 		}
  	}
 
 
@@ -356,7 +350,7 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
-	//console.log(state);
+	console.log(state);
 	return {
 		orderId: state.orderEditing.orderId,
 		orderStatus: state.orderEditing.orderStatus,
@@ -381,6 +375,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
+  	LOAD_SAVED_ORDER: orderId => dispatch(LOAD_SAVED_ORDER(orderId)),
   	LOAD_DEFAULT_SETTING: orderId => dispatch(LOAD_DEFAULT_SETTING(orderId)),
   	FILTER_ITEM_WHILE_TYPING: value=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: item => dispatch(CLICKED_SUGGESTED_ITEM(item)),

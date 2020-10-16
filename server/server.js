@@ -270,7 +270,7 @@ app.get('/loadallorders', (req,res)=> {
 
 
 
-app.get('/loadreiveworder', (req, res)=> {
+app.get('/loadsavedorder', (req, res)=> {
 	let order_id = req.query.order_id;
 	let sqlQuery = `SELECT * FROM order_info O LEFT join order_item_list I on O.ORDER_ID = I.ORDER_ID WHERE O.ORDER_ID = '${order_id}';`;
 

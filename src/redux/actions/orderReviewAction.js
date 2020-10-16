@@ -4,7 +4,7 @@ import axios from 'axios';
 export const LOAD_REVIEW_ORDER = order_id => {
 	return dispatch => {
 		if(order_id){
-			axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/loadreiveworder?order_id=${order_id}`)
+			axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/loadsavedorder?order_id=${order_id}`)
 			.then(data => {
 				let orderDetail = {
 					ORDER_ID: order_id, 

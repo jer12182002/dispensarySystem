@@ -7,10 +7,11 @@ import AllOrders from './allOrders/allOrders';
 class recordedorder extends Component {
 
     render() {
+
         return (
             <div className="orders-wrapper">
             	<div className="orderEditing-container">
-            		<Link to="/orderediting" className="btn btn-success">New Order</Link>
+                    <Link to={{pathname:"/orderediting", state:{order_id: null}}} className="btn btn-success">New Order</Link>
             	</div>
             	<AllOrders account = {this.props.userInformation.account}/>
             </div>

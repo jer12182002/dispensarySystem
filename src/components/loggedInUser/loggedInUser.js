@@ -39,7 +39,7 @@ class loggedInUser extends React.Component {
 		  		</Route>
 				<Route path = "/" component = {() => <Header userLoggedIn = {this.props.userLoggedIn} userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/inventory" component = {()=> <Inventory userInformation = {this.props.userInformation}/>}/>
-			  	<Route exact path="/orderediting" component = {() => <OrderEditing userInformation = {this.props.userInformation}/>}/>
+			  	<Route exact path="/orderediting" component = {(props) => <OrderEditing userInformation = {this.props.userInformation} order_id={props.location.state.order_id}/>}/>
 			  	<Route exact path="/orders/orderreview" component = {(props)=><OrderReview userInformation = {this.props.userInformation} order_id={props.location.state.order_id}/>}/>
 			  	<Route exact path="/orders" component = {()=> <Orders userInformation = {this.props.userInformation}/>}/>
 			  	<Route exact path="/message" component = {()=> <Message userInformation = {this.props.userInformation}/>}/>
