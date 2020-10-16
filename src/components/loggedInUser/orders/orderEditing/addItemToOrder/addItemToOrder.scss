@@ -1,3 +1,5 @@
+@import '~sass-mq';
+
 .addItem_function_bar {
 	position: fixed;
 	bottom: 0;
@@ -36,4 +38,61 @@
 	.addItem_input_bar {
 		background-color: floralwhite;
 	}
+}
+
+
+@include mq($until: desktop) {
+	.addItem_function_bar {
+
+		.suggested_items_container {
+			width: 100%;
+			height:20vh;
+		}
+
+		.addItem_input_bar {
+
+			&>div {
+				
+				p {
+					width:100%;
+				}
+				input {
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
+
+
+@include mq($until: tablet) {
+	.addItem_function_bar {
+
+		.suggested_items_container {
+			width: 100%;
+			height:20vh;
+			font-size: 3vw;
+		}
+
+		.addItem_input_bar {
+
+			&>div {
+				p {
+
+					width:100%;
+					height:8vh;
+					font-size: 4vw;
+				}
+				input {
+					
+				}
+				button {
+					position: absolute;
+					bottom:0;
+				}
+			}
+		}
+	}
+
 }
