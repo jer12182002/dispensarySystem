@@ -32,13 +32,22 @@ let newOrderInfo = {
 
 
 export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) => {
-	return dispatch => {
+	newOrderInfo.orderId = orderId;
+	newOrderInfo.account = account;
+	newOrderInfo.orderItemList = orderItemList;
+	newOrderInfo.totalGram = totalGram;
+
+	 return dispatch => {
+		
 		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
 		.then(data => {
 			if(data.data && data.data.orderId){
-				dispatch ({
-					type: "updateOrderInfo", 
-					payload: {orderDetail: newOrderInfo}
+				dispatch({
+					type: "saveOrderStatus",
+					payload: {
+						status: newOrderInfo.status,
+						orderId : data.data.orderId
+					}
 				})
 			}
 		})
