@@ -11,7 +11,7 @@ class allOrders extends Component {
 	}
 
 
-	displayOrders (orderTitle, orders){
+	displayOrders (orderTitle, orders, link){
 		if(orders) {
 			return (
 				<div className="orders-container container-fluid">
@@ -30,7 +30,7 @@ class allOrders extends Component {
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
 							<div className="col-4"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
 							<div className="col-4"><p>{order.CUSTOMER}</p></div>
-							<div className="col-2"><Link to={{pathname:"/orders/orderreview", state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
+							<div className="col-2"><Link to={{pathname:`${link}`, state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
 					)}
 				</div>
@@ -40,7 +40,7 @@ class allOrders extends Component {
 		}
 	}
 
-	displayOrdersForRenDeInc (orderTitle, orders){
+	displayOrdersForRenDeInc (orderTitle, orders, link){
 		if(orders) {
 			return (
 				<div className="orders-container orders-container-rendeinc-display container-fluid">
@@ -61,7 +61,7 @@ class allOrders extends Component {
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
 							<div className="col-2"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
 							<div className="col-4"><p>{order.CUSTOMER}</p></div>
-							<div className="col-1"><Link to={{pathname:"/orders/orderreview", state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
+							<div className="col-1"><Link to={{pathname:`${link}`, state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
 					)}
 				</div>
@@ -89,20 +89,20 @@ class allOrders extends Component {
             		</div>
             		{this.props.allAccountPermission?
 	            		<>
-	            		{this.displayOrdersForRenDeInc("Draft Orders", this.props.draftOrders)}
-	        			{this.displayOrdersForRenDeInc("Receipt Orders", this.props.receiptOrders)}
+	            		{this.displayOrdersForRenDeInc("Draft Orders", this.props.draftOrders,"/orderediting")}
+	        			{this.displayOrdersForRenDeInc("Receipt Orders", this.props.receiptOrders,"/orders/orderreview")}
 	        			</>
 	        			:
 	        			<>
-	        			{this.displayOrders("Draft Orders", this.props.draftOrders)}
-        				{this.displayOrders("Receipt Orders", this.props.receiptOrders)}
+	        			{this.displayOrders("Draft Orders", this.props.draftOrders,"/orderediting")}
+        				{this.displayOrders("Receipt Orders", this.props.receiptOrders,"/orders/orderreview")}
         				</>
             		}
         			</>
             		:
             		<>
-            			{this.displayOrders("Draft Orders", this.props.draftOrders)}
-        				{this.displayOrders("Receipt Orders", this.props.receiptOrders)}
+            			{this.displayOrders("Draft Orders", this.props.draftOrders,"/orderediting")}
+        				{this.displayOrders("Receipt Orders", this.props.receiptOrders,"/orders/orderreview")}
             		</>
             	}
         		
