@@ -43,25 +43,25 @@ class allOrders extends Component {
 	displayOrdersForRenDeInc (orderTitle, orders){
 		if(orders) {
 			return (
-				<div className="orders-container container-fluid">
+				<div className="orders-container orders-container-rendeinc-display container-fluid">
 					<div className="row">
 						<h1>{orderTitle}</h1>
 					</div>
 					<div className="orderHeader row">
-						<div className="col-1"><p>Account</p></div>
+						<div className="col-2"><p>Account</p></div>
 						<div className="col-2"><p>Order No.</p></div>
-						<div className="col-3"><p>Order Time</p></div>
+						<div className="col-2"><p>Order Time</p></div>
 						<div className="col-4"><p>Customer</p></div>
-						<div className="col-2"><p>Action</p></div>
+						<div className="col-1"><p>Action</p></div>
 						
 					</div>
 					{orders.map((order,key)=>
 						<div className="row">
-							<div className="col-1"><p>{order.ACCOUNT}</p></div>
+							<div className="col-2"><p>{order.ACCOUNT}</p></div>
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
-							<div className="col-3"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
+							<div className="col-2"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
 							<div className="col-4"><p>{order.CUSTOMER}</p></div>
-							<div className="col-2"><Link to={{pathname:"/orders/orderreview", state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
+							<div className="col-1"><Link to={{pathname:"/orders/orderreview", state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
 					)}
 				</div>
