@@ -1,3 +1,5 @@
+@import '~sass-mq';
+
 .orderList-container {
 	width: 80%;
 
@@ -36,6 +38,50 @@
 
 			&>div {
 				text-align: center;
+			}
+		}
+	}
+}
+
+@include mq ($until: tablet) {
+	.orderList-container {
+		width: 100%;
+
+		.diplayAllOrders_rendeinc {
+			margin-top: 2vh;
+			
+			button {
+				font-size: 4vw;			
+			}
+		}
+
+		.orders-container {
+			margin-top: 2vh;
+
+			h1 {
+				font-size: 4vw;
+			}
+
+			.row  {
+				border-bottom: 1px solid black;
+
+				&.orderHeader {
+					font-size: 3vw;
+				}
+
+				&>div {
+					padding: 0;
+
+					p {
+						margin: 5px;
+					}
+
+					a {
+						font-size: 3vw;
+						padding: 5px;
+						margin: 5px;
+					}
+				}
 			}
 		}
 	}

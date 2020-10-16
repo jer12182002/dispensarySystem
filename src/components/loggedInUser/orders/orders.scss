@@ -1,3 +1,5 @@
+@import '~sass-mq';
+
 .orders-wrapper {
 	.orderEditing-container {
 		text-align: center;
@@ -12,5 +14,26 @@
 				transform:scale(1.1);
 			}
 		}
+	}
+}
+
+
+
+@include mq($until: tablet) {
+
+	.orders-wrapper {
+		.orderEditing-container {
+			a {
+				width: 100%;
+				font-size: 4vw;
+				border-radius: 50px;
+
+				&:hover {
+					box-shadow: 10px 10px lightgray;
+					transform:scale(1.1);
+				}
+			}
+
+		}		
 	}
 }
