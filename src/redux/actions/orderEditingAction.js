@@ -134,9 +134,33 @@ export const SAVE_ORDER_NOTE = value => {
 
 export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 
+	newOrderInfo = {
+		orderId: undefined,
+		date: new Date(),
+		account: "",
+		customer: "",
+		address: "",
+		phone: "",
+		email: "",
+		orderStatus: 'Quote',
+		orderId: undefined,
+		filteredItems : [],
+		suggestedItem:undefined,
+		orderItemList: [], 
+		defaultGramSum: 0,
+		gramSum:0, 
+		dosagePerDay: 1, 
+		dayPerSession: 1,
+		discountPrice:0, 
+		discountPercentage:0, 
+		bottleFee:2, 
+		tabletFee: 0,
+		deliveryFee:0,
+		tax: 13	
+	}
 	return dispatch => {
 		dispatch({
-			type: "loadDefaultOrderEditingSetting", 
+			type: "updateOrderInfo", 
 			payload: {orderDetail: newOrderInfo}
 		})
 	}
