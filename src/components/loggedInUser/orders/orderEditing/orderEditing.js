@@ -321,7 +321,7 @@ class orderEditing extends Component {
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <textarea onChange={e=> SAVE_ORDER_NOTE(e.target.value)}/>
+                        <textarea value={this.props.orderNote} onChange={e=> this.props.SAVE_ORDER_NOTE(e.target.value)}/>
                     </div>
                 </div>
             </div>
@@ -361,6 +361,7 @@ const mapStateToProps = state => {
 		address: state.orderEditing.address,
 		phone: state.orderEditing.phone,
 		email: state.orderEditing.email,
+		orderNote: state.orderEditing.orderNote,
 		filteredItems: state.orderEditing.filteredItems,
 		suggestedItem: state.orderEditing.suggestedItem,
 		orderItemList: state.orderEditing.orderItemList, 
@@ -394,6 +395,7 @@ const mapDispatchToProps = dispatch => {
   	SAVE_ORDER_ADDRESS: newAddress => dispatch(SAVE_ORDER_ADDRESS(newAddress)),
   	SAVE_ORDER_PHONE: newPhone => dispatch(SAVE_ORDER_PHONE(newPhone)),
   	SAVE_ORDER_EMAIL: newEmail => dispatch(SAVE_ORDER_EMAIL(newEmail)),
+  	SAVE_ORDER_NOTE: newNote => dispatch(SAVE_ORDER_NOTE(newNote)),
   	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
   	UPDATE_GRAM_SUM: defaultGramSum => dispatch(UPDATE_GRAM_SUM(defaultGramSum)),
   	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
