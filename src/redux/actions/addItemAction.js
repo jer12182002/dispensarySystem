@@ -7,7 +7,7 @@ let inputValue = {
 	ENGLISH_NAME : "",
 	CHINESE_NAME : "",
 	TYPE : "",
-  RATIO: "",
+  RATIO: "7",
 	QTY : "",
 	RENDE_PRICE : 0,
 	STUDENT_PRICE : 0, 
@@ -106,6 +106,7 @@ export const ADD_BTN_CLICKED = dispatch => {
     }
     else {
       alert("please type in valid input");
+      
       return dispatch => ({
         type: 'errMsg', 
         payload: 'invalid input'
