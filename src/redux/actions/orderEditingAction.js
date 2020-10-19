@@ -5,7 +5,8 @@ import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, TOGGLE_CLASS} from './
 
 
 let newOrderInfo = {
-	date: moment().format('YYYY-MM-DD'),
+	orderId: undefined,
+	date: new Date(),
 	account: "",
 	customer: "",
 	address: "",
@@ -42,6 +43,7 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
 		.then(data => {
 			if(data.data && data.data.orderId){
+				alert(`Order Saved, Order Number: ${data.data.orderId}`);
 				dispatch({
 					type: "saveOrderStatus",
 					payload: {
@@ -55,8 +57,8 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 }
 
 
-export const SAVE_ORDER_DATE = value => {
-	newOrderInfo.date = value;
+export const SAVE_ORDER_DATE = newDate => {
+	newOrderInfo.date = moment(newDate).format('YYYY-MM-DD');
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -88,7 +90,7 @@ export const SAVE_ORDER_ADDRESS = value => {
 }
 
 export const SAVE_ORDER_PHONE = value => {
-	newOrderInfo.phone = value;
+	newOrderInfo.phone = value.replace(/[^0-9]/g,"");
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -194,7 +196,7 @@ export const LOAD_SAVED_ORDER = orderId => {
 
 				newOrderInfo.orderItemList = orderItemList;
 				newOrderInfo.defaultGramSum = defaultGramSum;
-			
+				
 				dispatch({
 					type:"loadSavedOrderEditing", 
 					payload: {orderDetail: newOrderInfo}
@@ -323,6 +325,9 @@ export const ADD_ORDER_EDITING_ITEM = (suggestedItem,orderItemList) => {
 	newOrderInfo.orderItemList = newOrderItemList;
 	newOrderInfo.defaultGramSum = newOrderItemListSum;
 	newOrderInfo.gramSum = newOrderItemListSum;
+
+	newOrderInfo.suggestedItem = undefined;
+
 
 	return dispatch => {
 		dispatch ({

@@ -16,7 +16,8 @@ export default (state = {}, action)=> {
 
 		case LOAD_DEFAULT_ORDER_EDITING_SETTING:
 			orderEditing = {
-				date: null,
+				orderId: undefined,
+				date: new Date(),
 				account: "",
 				customer: "",
 				address: "",

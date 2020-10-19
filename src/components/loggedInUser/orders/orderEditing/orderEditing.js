@@ -53,14 +53,17 @@ class orderEditing extends Component {
 			orderStatus === "Quote"?
 			<div className="saveFunction container-fluid">
 				<div className="row">
-					<div className="col-6">
+					<div className="col-4">
+						<h1>Order Number: {this.props.orderId}</h1>
+					</div>
+					<div className="col-4">
 						<h1>Save as: </h1>
 						<select onChange={e=>SAVE_ORDER_STATUS(e.target.value)}>
 							<option value="Receipt">Receipt</option>
 							<option value="Quote">Quote</option>
 						</select>
 					</div>
-					<div className="col-6">
+					<div className="col-4">
 						<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList,this.props.gramSum)}}>Save</button>
 					</div>
 				</div>
@@ -74,7 +77,6 @@ class orderEditing extends Component {
 
  	orderListDisplay(account, orderStatus){
  		let DisplayTag ;
- 		let today = moment().format('YYYY-MM-DD');
  
  			DisplayTag = 
  			<div className="order-form-container container-fluid">
@@ -85,27 +87,27 @@ class orderEditing extends Component {
 	 				<div className="row">
 	 					<div className="col-3">
 	 						<h1>Date:</h1>
-	 						<input type="date" defaultValue={today} onChange={e=>SAVE_ORDER_DATE(e.target.value)}/>
+	 						<input type="date" value = {moment(this.props.date).format('YYYY-MM-DD')} onChange={e=>this.props.SAVE_ORDER_DATE(moment(e.target.value).format('YYYY-MM-DD'))}/>
 	 					</div>
 	 					<div className="col-9">
 	 						<h1>Customer: </h1>
-	 						<input type="text" onChange={e=>SAVE_ORDER_CUSTOMER(e.target.value)}/>
+	 						<input type="text" value = {this.props.customer} onChange={e=>this.props.SAVE_ORDER_CUSTOMER(e.target.value)}/>
 	 					</div>
 	 				</div>
 	 				<div className="row">
 	 					<div className="col-12">
 		 					<h1>Address: </h1>
-		 					<input type="text" onChange={e=>SAVE_ORDER_ADDRESS(e.target.value)}/>
+		 					<input type="text" value={this.props.address} onChange={e=>this.props.SAVE_ORDER_ADDRESS(e.target.value)}/>
 	 					</div>
 	 				</div>
 	 				<div className="row">
 	 					<div className="col-6">
 		 					<h1>Phone: </h1>
-		 					<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onChange={e=>SAVE_ORDER_PHONE(e.target.value)}/>
+		 					<input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value={this.props.phone} onChange={e=>this.props.SAVE_ORDER_PHONE(e.target.value)}/>
 	 					</div>
 	 					<div className="col-6">
 	 						<h1>Email: </h1>	
-		 					<input type="email" onChange={e=>SAVE_ORDER_EMAIL(e.target.value)}/>
+		 					<input type="email" value={this.props.email} onChange={e=>this.props.SAVE_ORDER_EMAIL(e.target.value)}/>
 	 					</div>
 	 				</div>
  				</div>
@@ -354,6 +356,11 @@ const mapStateToProps = state => {
 	return {
 		orderId: state.orderEditing.orderId,
 		orderStatus: state.orderEditing.orderStatus,
+		date: state.orderEditing.date,
+		customer: state.orderEditing.customer,
+		address: state.orderEditing.address,
+		phone: state.orderEditing.phone,
+		email: state.orderEditing.email,
 		filteredItems: state.orderEditing.filteredItems,
 		suggestedItem: state.orderEditing.suggestedItem,
 		orderItemList: state.orderEditing.orderItemList, 
@@ -382,6 +389,11 @@ const mapDispatchToProps = dispatch => {
   	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(ADD_ORDER_EDITING_ITEM(orderItemList)),
   	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
   	SAVE_ORDER_EDITING:(orderId, account, orderItemList,totalGram) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList,totalGram)),
+  	SAVE_ORDER_DATE: newDate => dispatch (SAVE_ORDER_DATE(newDate)),
+  	SAVE_ORDER_CUSTOMER: newCustomer => dispatch (SAVE_ORDER_CUSTOMER(newCustomer)),
+  	SAVE_ORDER_ADDRESS: newAddress => dispatch(SAVE_ORDER_ADDRESS(newAddress)),
+  	SAVE_ORDER_PHONE: newPhone => dispatch(SAVE_ORDER_PHONE(newPhone)),
+  	SAVE_ORDER_EMAIL: newEmail => dispatch(SAVE_ORDER_EMAIL(newEmail)),
   	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
   	UPDATE_GRAM_SUM: defaultGramSum => dispatch(UPDATE_GRAM_SUM(defaultGramSum)),
   	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
