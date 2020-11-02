@@ -17,9 +17,7 @@ export const USER_LOGIN = () => {
 }
 
 export const USER_LOGOUT = () => {
-	return {
-		type: "userLogOut"
-	}
+	window.location.href = "/";	
 }
 
 //Event Functions

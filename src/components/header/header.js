@@ -8,7 +8,7 @@ import {USER_LOGOUT} from 'redux/actions/allAccountAction';
 class header extends React.Component {
 
 	render() {
-		const {USER_LOGOUT} = this.props;
+		
 		return (
 			<header className = "container-fluid">
 				{this.props.userLoggedIn?
@@ -17,7 +17,7 @@ class header extends React.Component {
 							<Link to="/"><h1>Dispensary - {this.props.userInformation.account}</h1></Link>
 						</div> 
 						<div className="logOut-container col-4">
-							<h1 onClick={USER_LOGOUT}>Log Out</h1>
+							<h1 onClick= {USER_LOGOUT}>Log Out</h1>
 						</div>
 					</div>
 					:
@@ -29,11 +29,4 @@ class header extends React.Component {
 }
 
 
-const mapDispatchToProps = dispatch => {
-  return { 
-    USER_LOGOUT: () => dispatch(USER_LOGOUT())
-  }
-};
-
-
-export default connect(null,mapDispatchToProps)(header);
+export default header;

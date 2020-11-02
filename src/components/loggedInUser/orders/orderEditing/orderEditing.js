@@ -49,28 +49,28 @@ class orderEditing extends Component {
 
 	saveOrderFunction(account, orderStatus) {
 		if(this.props.orderItemList && this.props.orderItemList.length > 0) {
-			return (
-			orderStatus === "Quote"?
-			<div className="saveFunction container-fluid">
-				<div className="row">
-					<div className="col-4">
-						<h1>Order Number: {this.props.orderId}</h1>
+			if(orderStatus === "Quote") {
+				return (
+				<div className="saveFunction container-fluid">
+					<div className="row">
+						<div className="col-4">
+							<h1>Order Number: {this.props.orderId}</h1>
+						</div>
+						<div className="col-4">
+							<h1>Save as: </h1>
+							<select onChange={e=>this.props.SAVE_ORDER_STATUS(e.target.value)}>
+								<option value="Quote">Quote</option>
+								<option value="Receipt">Receipt</option>
+							</select>
+						</div>
+						<div className="col-4">
+							<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList,this.props.gramSum)}}>Save</button>
+						</div>
 					</div>
-					<div className="col-4">
-						<h1>Save as: </h1>
-						<select onChange={e=>SAVE_ORDER_STATUS(e.target.value)}>
-							<option value="Receipt">Receipt</option>
-							<option value="Quote">Quote</option>
-						</select>
-					</div>
-					<div className="col-4">
-						<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList,this.props.gramSum)}}>Save</button>
-					</div>
-				</div>
-			</div>
-			:
-			<Redirect to={{pathname:"/orders/orderreview", state:{order_id: this.props.orderId}}}/>
-			);
+				</div>);
+			}else {
+				return (<Redirect to={{pathname:"/orders/orderreview", state:{order_id: this.props.orderId}}}/>);
+			}
 		}
 	}
 
@@ -338,13 +338,9 @@ class orderEditing extends Component {
     			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
     			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
-    			{this.props.orderStatus === "Receipt"?
-    				null
-    				:
-    				<>
-	    				<AddItemToOrder account={this.props.userInformation.account}/>    
-    				</>
-    			}
+    			
+	    		<AddItemToOrder account={this.props.userInformation.account}/>    
+    			
             </div>
         );
     }
@@ -389,6 +385,7 @@ const mapDispatchToProps = dispatch => {
   	CLICKED_SUGGESTED_ITEM: item => dispatch(CLICKED_SUGGESTED_ITEM(item)),
   	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(ADD_ORDER_EDITING_ITEM(orderItemList)),
   	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
+  	SAVE_ORDER_STATUS: newStatus => dispatch(SAVE_ORDER_STATUS(newStatus)),
   	SAVE_ORDER_EDITING:(orderId, account, orderItemList,totalGram) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList,totalGram)),
   	SAVE_ORDER_DATE: newDate => dispatch (SAVE_ORDER_DATE(newDate)),
   	SAVE_ORDER_CUSTOMER: newCustomer => dispatch (SAVE_ORDER_CUSTOMER(newCustomer)),

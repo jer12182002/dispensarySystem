@@ -1,7 +1,5 @@
 const GET_LOGIN_PANEL = "getAllAccounts";
 const USER_LOGIN = "userLogin";
-const USER_LOGOUT = "userLogOut";
-
 
 let initAccounts = { 
 	userLoggedIn: false,
@@ -60,19 +58,6 @@ export default (state = {}, action) =>{
 			return {...initAccounts};
 			break;
 
-
-		case USER_LOGOUT:
-			initAccounts.loginAccount = {
-				id : null, 
-				account : null
-			}
-
-			initAccounts.userLoggedIn = false;
-			initAccounts.logErrorMsg = '';
-
-			return {...initAccounts}
-			break;
-		
 		default:
 			let accounts = {...initAccounts};
 

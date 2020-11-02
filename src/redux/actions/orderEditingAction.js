@@ -13,7 +13,8 @@ let newOrderInfo = {
 	phone: "",
 	email: "",
 	orderNote: "",
-	orderStatus: 'Quote',
+	status: "Quote",
+	orderStatus: "Quote",
 	filteredItems : [],
 	suggestedItem:undefined,
 	orderItemList: [], 
@@ -37,22 +38,23 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 	newOrderInfo.account = account;
 	newOrderInfo.orderItemList = orderItemList;
 	newOrderInfo.totalGram = totalGram;
+	newOrderInfo.orderStatus = newOrderInfo.status;
 
 	 return dispatch => {
-		
-		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
-		.then(data => {
-			if(data.data && data.data.orderId){
-				alert(`Order Saved, Order Number: ${data.data.orderId}`);
-				dispatch({
-					type: "saveOrderStatus",
-					payload: {
-						status: newOrderInfo.status,
-						orderId : data.data.orderId
-					}
-				})
-			}
-		})
+		console.log(newOrderInfo);
+		// axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
+		// .then(data => {
+		// 	if(data.data && data.data.orderId){
+		// 		alert(`Order Saved, Order Number: ${data.data.orderId}`);
+		// 		dispatch({
+		// 			type: "saveOrderStatus",
+		// 			payload: {
+		// 				status: newOrderInfo.orderStatus,
+		// 				orderId : data.data.orderId
+		// 			}
+		// 		})
+		// 	}
+		// })
 	}
 }
 
@@ -111,6 +113,7 @@ export const SAVE_ORDER_EMAIL = value => {
 
 export const SAVE_ORDER_STATUS = value => {
 	newOrderInfo.status = value;
+	console.log(`@@@@${value}`);
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -143,6 +146,7 @@ export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 		phone: "",
 		email: "",
 		orderNote: "",
+		status: "Quote",
 		orderStatus: 'Quote',
 		filteredItems : [],
 		suggestedItem:undefined,
