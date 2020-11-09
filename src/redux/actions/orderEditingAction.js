@@ -412,7 +412,8 @@ export const GRAM_PER_DOSE_ON_CHANGE = newGramSum => {
 
 
 export const UPDATE_DOSAGE_PER_DAY = newDosagePerDay => {
-	newOrderInfo.dosagePerDay = newDosagePerDay;
+	newOrderInfo.dosagePerDay = isNaN(newDosagePerDay)? 1 : newDosagePerDay;
+	console.log(newOrderInfo.dosagePerDay);
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -423,7 +424,7 @@ export const UPDATE_DOSAGE_PER_DAY = newDosagePerDay => {
 
 
 export const UPDATE_DAY_PER_SESSION = newDayPerSession => {
-	newOrderInfo.dayPerSession = newDayPerSession;
+	newOrderInfo.dayPerSession = isNaN(newDayPerSession)? 1 : newDayPerSession;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -434,7 +435,7 @@ export const UPDATE_DAY_PER_SESSION = newDayPerSession => {
 
 
 export const UPDATE_DISCOUNT_PRICE = newDiscountPrice => {
-	newOrderInfo.discountPrice = newDiscountPrice;
+	newOrderInfo.discountPrice = isNaN(newDiscountPrice)? 0 : newDiscountPrice;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -444,7 +445,7 @@ export const UPDATE_DISCOUNT_PRICE = newDiscountPrice => {
 }
 
 export const UPDATE_DISCOUNT_PERCENTAGE = newDiscountPercentage => {
-	newOrderInfo.discountPercentage = newDiscountPercentage;
+	newOrderInfo.discountPercentage = isNaN(newDiscountPercentage)? 0 : newDiscountPercentage;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -455,7 +456,7 @@ export const UPDATE_DISCOUNT_PERCENTAGE = newDiscountPercentage => {
 
 
 export const UPDATE_BOTTLE_FEE = newBottleFee => {
-	newOrderInfo.bottleFee = newBottleFee;
+	newOrderInfo.bottleFee = isNaN(newBottleFee)? 0 : newBottleFee;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -465,7 +466,7 @@ export const UPDATE_BOTTLE_FEE = newBottleFee => {
 }
 
 export const UPDATE_TABLET_FEE = newTabletFee => {
-	newOrderInfo.tabletFee = newTabletFee;
+	newOrderInfo.tabletFee = isNaN(newTabletFee)? 0 : newTabletFee;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -475,7 +476,7 @@ export const UPDATE_TABLET_FEE = newTabletFee => {
 }
 
 export const UPDATE_DELIVERY_FEE = newDeliveryFee => {
-	newOrderInfo.deliveryFee = newDeliveryFee;
+	newOrderInfo.deliveryFee = isNaN(newDeliveryFee)? 0 : newDeliveryFee;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -486,7 +487,7 @@ export const UPDATE_DELIVERY_FEE = newDeliveryFee => {
 
 
 export const UPDATE_TAX = newTax => {
-	newOrderInfo.tax = newTax;
+	newOrderInfo.tax = isNaN(newTax)? 0 : newTax;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 

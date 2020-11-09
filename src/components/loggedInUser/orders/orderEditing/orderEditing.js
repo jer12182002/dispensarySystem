@@ -189,7 +189,7 @@ class orderEditing extends Component {
 	 						<p>Dosage(s) Per Day:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(parseInt(e.target.value))}/>
+	 						<input type="number" value={this.props.dosagePerDay} min="1" onChange={e => this.props.UPDATE_DOSAGE_PER_DAY(parseInt(e.target.value))}/>
 	 					</div>
 	 				</div>
 	 					
@@ -199,7 +199,7 @@ class orderEditing extends Component {
 	 						<p>Day(s) Per Session:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<input type="number" defaultValue="1" min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(parseInt(e.target.value))}/>
+	 						<input type="number" value={this.props.dayPerSession} min="1" onChange={e => this.props.UPDATE_DAY_PER_SESSION(parseInt(e.target.value))}/>
 	 					</div>
 	 				</div>
 	 						
