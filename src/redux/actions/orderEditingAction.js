@@ -24,9 +24,9 @@ let newOrderInfo = {
 	dayPerSession: 1,
 	discountPrice:0, 
 	discountPercentage:0, 
-	bottleFee:2, 
-	tabletFee: 0,
-	deliveryFee:0,
+	bottleFee:2.00, 
+	tabletFee: 0.00,
+	deliveryFee:0.00,
 	tax: 13	
 }
 
@@ -41,20 +41,19 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 	newOrderInfo.orderStatus = newOrderInfo.status;
 
 	 return dispatch => {
-		console.log(newOrderInfo);
-		// axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
-		// .then(data => {
-		// 	if(data.data && data.data.orderId){
-		// 		alert(`Order Saved, Order Number: ${data.data.orderId}`);
-		// 		dispatch({
-		// 			type: "saveOrderStatus",
-		// 			payload: {
-		// 				status: newOrderInfo.orderStatus,
-		// 				orderId : data.data.orderId
-		// 			}
-		// 		})
-		// 	}
-		// })
+		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/saveorder`,{newOrderInfo : newOrderInfo})
+		.then(data => {
+			if(data.data && data.data.orderId){
+				alert(`Order Saved, Order Number: ${data.data.orderId}`);
+				dispatch({
+					type: "saveOrderStatus",
+					payload: {
+						status: newOrderInfo.orderStatus,
+						orderId : data.data.orderId
+					}
+				})
+			}
+		})
 	}
 }
 
@@ -157,9 +156,9 @@ export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 		dayPerSession: 1,
 		discountPrice:0, 
 		discountPercentage:0, 
-		bottleFee:2, 
-		tabletFee: 0,
-		deliveryFee:0,
+		bottleFee:2.00, 
+		tabletFee: 0.00,
+		deliveryFee:0.00,
 		tax: 13	
 	}
 	return dispatch => {
@@ -400,7 +399,7 @@ export const UPDATE_GRAM_SUM = defaultGramSum => {
 }
 
 export const GRAM_PER_DOSE_ON_CHANGE = newGramSum => {
-	newOrderInfo.gramSum = newGramSum
+	newOrderInfo.gramSum = newGramSum > 0? newGramSum : 0;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -413,7 +412,6 @@ export const GRAM_PER_DOSE_ON_CHANGE = newGramSum => {
 
 export const UPDATE_DOSAGE_PER_DAY = newDosagePerDay => {
 	newOrderInfo.dosagePerDay = isNaN(newDosagePerDay)? 1 : newDosagePerDay;
-	console.log(newOrderInfo.dosagePerDay);
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -435,7 +433,7 @@ export const UPDATE_DAY_PER_SESSION = newDayPerSession => {
 
 
 export const UPDATE_DISCOUNT_PRICE = newDiscountPrice => {
-	newOrderInfo.discountPrice = isNaN(newDiscountPrice)? 0 : newDiscountPrice;
+	newOrderInfo.discountPrice = isNaN(newDiscountPrice)? 0 : newDiscountPrice*1;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -445,7 +443,8 @@ export const UPDATE_DISCOUNT_PRICE = newDiscountPrice => {
 }
 
 export const UPDATE_DISCOUNT_PERCENTAGE = newDiscountPercentage => {
-	newOrderInfo.discountPercentage = isNaN(newDiscountPercentage)? 0 : newDiscountPercentage;
+
+	newOrderInfo.discountPercentage = newDiscountPercentage > 0? newDiscountPercentage : 0;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -456,7 +455,8 @@ export const UPDATE_DISCOUNT_PERCENTAGE = newDiscountPercentage => {
 
 
 export const UPDATE_BOTTLE_FEE = newBottleFee => {
-	newOrderInfo.bottleFee = isNaN(newBottleFee)? 0 : newBottleFee;
+
+	newOrderInfo.bottleFee = newBottleFee > 0? newBottleFee : 0;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -466,7 +466,7 @@ export const UPDATE_BOTTLE_FEE = newBottleFee => {
 }
 
 export const UPDATE_TABLET_FEE = newTabletFee => {
-	newOrderInfo.tabletFee = isNaN(newTabletFee)? 0 : newTabletFee;
+	newOrderInfo.tabletFee = newTabletFee > 0?  newTabletFee : 0;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -476,8 +476,8 @@ export const UPDATE_TABLET_FEE = newTabletFee => {
 }
 
 export const UPDATE_DELIVERY_FEE = newDeliveryFee => {
-	newOrderInfo.deliveryFee = isNaN(newDeliveryFee)? 0 : newDeliveryFee;
-	return dispatch => {
+	newOrderInfo.deliveryFee = newDeliveryFee > 0? newDeliveryFee : 0;
+	return dispatch => { 
 		dispatch ({
 			type: "updateOrderInfo", 
 			payload: {orderDetail: newOrderInfo}
@@ -487,7 +487,7 @@ export const UPDATE_DELIVERY_FEE = newDeliveryFee => {
 
 
 export const UPDATE_TAX = newTax => {
-	newOrderInfo.tax = isNaN(newTax)? 0 : newTax;
+	newOrderInfo.tax = newTax > 0? newTax : 0;
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 

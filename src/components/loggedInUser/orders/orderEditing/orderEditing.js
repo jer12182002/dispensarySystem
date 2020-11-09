@@ -133,10 +133,10 @@ class orderEditing extends Component {
  							<div className="col-8">
  								<div className="row">
 	 								<div className="col-3">
-	 									<p>{item.raw_gram}</p>	
+	 									<p>{(item.raw_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>	
 	 								</div>
 	 								<div className="col-3">
-	 									<p>{item.extract_gram}</p>
+	 									<p>{(item.extract_gram).toFixed(2)}</p>
 	 								</div>
 	 								<div className="col-3">
 	 									<p>{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
@@ -209,7 +209,7 @@ class orderEditing extends Component {
 	 						<p>Order Total Gram(s):</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<p>{this.props.totalActualGram}</p>
+	 						<p>{this.props.totalActualGram.toFixed(2)}</p>
 	 					</div>
 	 				</div>
 	 					
@@ -219,7 +219,7 @@ class orderEditing extends Component {
 	 						<p>Order Sub Total:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<p>${this.props.totalOrderPrice}</p>
+	 						<p>${this.props.totalOrderPrice.toFixed(2)}</p>
 	 					</div>
 	 				</div>
 
@@ -260,7 +260,7 @@ class orderEditing extends Component {
 	 						<p>Bottle Fee:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<input type="number" value={this.props.bottleFee} min="0" onChange={e=>this.props.UPDATE_BOTTLE_FEE(e.target.value)}/>
+	 						<input type="number" value={this.props.bottleFee} min="0" step=".01" onChange={e=>this.props.UPDATE_BOTTLE_FEE(e.target.value)}/>
 	 					</div>
 	 				</div>
 	 						
@@ -361,7 +361,7 @@ const mapStateToProps = state => {
 		filteredItems: state.orderEditing.filteredItems,
 		suggestedItem: state.orderEditing.suggestedItem,
 		orderItemList: state.orderEditing.orderItemList, 
-		defaultGramSum: state.orderEditing.defaultGramSum,
+		defaultGramSum: parseFloat(state.orderEditing.defaultGramSum).toFixed(2),
 		gramSum: state.orderEditing.gramSum,
 		dosagePerDay: state.orderEditing.dosagePerDay,
 		dayPerSession: state.orderEditing.dayPerSession, 
@@ -372,7 +372,7 @@ const mapStateToProps = state => {
 		bottleFee: parseFloat(state.orderEditing.bottleFee),
 		tabletFee: parseFloat(state.orderEditing.tabletFee),
 		deliveryFee: parseFloat(state.orderEditing.deliveryFee),
-		tax: parseFloat(state.orderEditing.tax)
+		tax: parseInt(state.orderEditing.tax)
 	}
 }
 
