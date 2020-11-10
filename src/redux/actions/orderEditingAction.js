@@ -260,11 +260,11 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	    }
 	    else {
 	    	SET_INPUT_VALUE("#newOrder_Item input", "");
-	    	dispatch({
-	    		type: '', 
-	            payload: {
-	            }   
-	    	})
+	    	newOrderInfo.filteredItems = [];
+	    	 dispatch({
+	            type: 'updateOrderInfo', 
+	            payload:{orderDetail: newOrderInfo}
+	        })
 	    }
 
 	}

@@ -23,7 +23,6 @@ export default (state = {}, action)=> {
 
 		case UPDATE_ORDER_INFO:
 			orderEditing = action.payload.orderDetail;
-			console.log(orderEditing);
 			return JSON.parse(JSON.stringify(orderEditing));
 			break;
 

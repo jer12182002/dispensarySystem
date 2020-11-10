@@ -94,7 +94,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value,)),
+  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: (item,orderItemList) => dispatch(CLICKED_SUGGESTED_ITEM(item,orderItemList)),
   	ADD_ORDER_EDITING_ITEM: (suggestedItem,orderItemList) => dispatch(ADD_ORDER_EDITING_ITEM(suggestedItem,orderItemList))
   }
