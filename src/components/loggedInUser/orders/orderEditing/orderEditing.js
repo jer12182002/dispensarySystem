@@ -34,6 +34,7 @@ import {
 		UPDATE_TAX
 	} from 'redux/actions/orderEditingAction';
 
+import {PRINT_FUNCTION} from 'redux/actions/helperFunctions';
 
 class orderEditing extends Component {
 	
@@ -51,7 +52,7 @@ class orderEditing extends Component {
 		if(this.props.orderItemList && this.props.orderItemList.length > 0) {
 			if(orderStatus === "Quote") {
 				return (
-				<div className="saveFunction container-fluid">
+				<div className="saveFunction container-fluid no-print">
 					<div className="row">
 						<div className="col-4">
 							<h1>Order Number: {this.props.orderId}</h1>
@@ -125,7 +126,7 @@ class orderEditing extends Component {
  						<div key={key} className="items_row row">
  							<div className="col-4">
  							{orderStatus === "Quote"?
- 								<p><span className="remvoe-btn" onClick={e=> this.props.REMOVE_ORDER_EDITING_ITEM(this.props.orderItemList, item.ID)}>X</span>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
+ 								<p><span className="remvoe-btn no-print" onClick={e=> this.props.REMOVE_ORDER_EDITING_ITEM(this.props.orderItemList, item.ID)}>X</span>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
  								:
  								<p>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
  							}
@@ -168,7 +169,7 @@ class orderEditing extends Component {
  				<div className="container-fluid">
 	 				<div className="row">
 	 					<div className="col-12 col-lg-10"></div>
-	 					<div className="col-12 col-lg-2 align-right">
+	 					<div className="col-12 col-lg-2 align-right no-print">
 	 						<button className="btn btn-success" onClick={e=>this.props.UPDATE_GRAM_SUM(this.props.defaultGramSum)}>Default : {parseFloat(this.props.defaultGramSum).toFixed(2)} </button>
 	 					</div>
 	 				</div>
@@ -223,7 +224,7 @@ class orderEditing extends Component {
 	 					</div>
 	 				</div>
 
-	 				<div className="row text-red">
+	 				<div className={`row text-red ${this.props.discountPercentage > 0? 'no-print' : ''}`}>
 	 					<div className="col-6 col-lg-10 align-right">
 	 						<p>Discount(Price):</p>
 	 					</div>
@@ -233,7 +234,7 @@ class orderEditing extends Component {
 	 				</div>
 	 						
 
-	 				<div className="row border-bottom text-red">
+	 				<div className={`row border-bottom text-red ${this.props.discountPrice > 0? 'no-print' : ''}`}>
 	 					<div className="col-6 col-lg-10 align-right">
 	 						<p>Discount</p>
 	 						<input type="number" className="text-red" value={this.props.discountPercentage} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PERCENTAGE(e.target.value)} disabled={this.props.discountPrice > 0}/>
@@ -313,7 +314,7 @@ class orderEditing extends Component {
 
  	noteArea(){
  		return (
- 			<div className="note-container container-fluid">
+ 			<div className={`note-container container-fluid ${this.props.orderNote? "" : "no-print"}`}>
                 <div className="row">
                     <div className="col-12">
                         <h1>Note:</h1>
@@ -329,7 +330,20 @@ class orderEditing extends Component {
  	}
 
 
- 	
+	printArea() {
+		return (
+			<div className="print-container container-fluid">
+				<div className="row">
+					<div className="col-6">
+						<button className="no-print" onClick={e => PRINT_FUNCTION()}>Print Order</button>
+					</div>
+					<div className="col-6">
+						<button className="no-print">Print Label</button>
+					</div>
+				</div>
+			</div>
+		);
+	} 	
 
     render() {
         return (
@@ -338,7 +352,7 @@ class orderEditing extends Component {
     			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
     			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
-    			
+    			{this.printArea()}
 	    		<AddItemToOrder account={this.props.userInformation.account}/>    
     			
             </div>

@@ -9,7 +9,7 @@ class addItemToOrder extends Component {
     
     render() {
         return (
-            <div className="addItem_function_bar container-fluid">
+            <div className="addItem_function_bar container-fluid no-print">
  			{(this.props.filteredItems && this.props.filteredItems.length > 0)?
 	 			<div className="suggested_items_container">
 	 				{this.props.filteredItems.map((item,key)=>

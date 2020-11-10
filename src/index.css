@@ -39,6 +39,14 @@ code {
   color: red;
 }
 
-.no-print {
-  display: none;
+
+@media print { 
+
+  .no-print {
+    display: none !important;
+  }
+
+  input {
+    border: 0;
+  }
 }

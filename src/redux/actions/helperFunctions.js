@@ -32,6 +32,9 @@ export function CLEAR_CHILDREN_INPUT_VALUE (target) {
 	document.querySelectorAll(target).forEach(select =>select.value = "");
 }
 
+export function PRINT_FUNCTION () {
+	window.print();
+}
 
 
 

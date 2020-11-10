@@ -10,7 +10,7 @@ class header extends React.Component {
 	render() {
 		
 		return (
-			<header className = "container-fluid">
+			<header className = "container-fluid no-print">
 				{this.props.userLoggedIn?
 					<div className="row">
 						<div className="col-8"> 
