@@ -6,34 +6,7 @@ import './orderEditing.scss';
 
 import AddItemToOrder from './addItemToOrder/addItemToOrder';
 
-import {
-		LOAD_SAVED_ORDER,
-		LOAD_DEFAULT_SETTING,
-		SAVE_ORDER_EDITING,
-		SAVE_ORDER_DATE,
-		SAVE_ORDER_CUSTOMER,
-		SAVE_ORDER_ADDRESS,
-		SAVE_ORDER_PHONE,
-		SAVE_ORDER_EMAIL,
-		SAVE_ORDER_STATUS,
-		SAVE_ORDER_NOTE,
-		FILTER_ITEM_WHILE_TYPING,
-		CLICKED_SUGGESTED_ITEM,
-		ADJUST_GRAM_INPUT,
-		ADD_ORDER_EDITING_ITEM,
-		REMOVE_ORDER_EDITING_ITEM,
-		GRAM_PER_DOSE_ON_CHANGE,
-		UPDATE_GRAM_SUM,
-		UPDATE_DOSAGE_PER_DAY,
-		UPDATE_DAY_PER_SESSION,
-		UPDATE_DISCOUNT_PRICE, 
-		UPDATE_DISCOUNT_PERCENTAGE, 
-		UPDATE_BOTTLE_FEE, 
-		UPDATE_TABLET_FEE, 
-		UPDATE_DELIVERY_FEE,
-		UPDATE_TAX
-	} from 'redux/actions/orderEditingAction';
-
+import * as orderEditingAction from 'redux/actions/orderEditingAction';
 import {PRINT_FUNCTION} from 'redux/actions/helperFunctions';
 
 class orderEditing extends Component {
@@ -117,10 +90,10 @@ class orderEditing extends Component {
  					<>
  					<div className="items_header row">
  						<div className="col-4"><p>Item:</p></div>
- 						<div className="col-2"><p>Raw Gram(s):</p></div>
- 						<div className="col-2"><p>Extract Gram(s):</p></div>
- 						<div className="col-2"><p>Total Gram(s):</p></div>	
- 						<div className="col-2"><p>Unit Price</p></div>
+ 						<div className={`col-2 ${this.props.displayRawGram? "":"no-print"} `}><p>Raw Gram(s):</p></div>
+ 						<div className={`col-2 ${this.props.displayExtractGram? "":"no-print"} `}><p>Extract Gram(s):</p></div>
+ 						<div className={`col-2 ${this.props.displayTotalGram? "":"no-print"} `}><p>Total Gram(s):</p></div>	
+ 						<div className={`col-2 ${this.props.displayUnitPrice? "":"no-print"} `}><p>Unit Price</p></div>
  					</div>
  					{this.props.orderItemList.map((item, key)=>
  						<div key={key} className="items_row row">
@@ -133,16 +106,16 @@ class orderEditing extends Component {
  							</div>
  							<div className="col-8">
  								<div className="row">
-	 								<div className="col-3">
+	 								<div className={`col-3 ${this.props.displayRawGram? "":"no-print"} `}>
 	 									<p>{(item.raw_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>	
 	 								</div>
-	 								<div className="col-3">
+	 								<div className={`col-3 ${this.props.displayExtractGram? "":"no-print"} `}>
 	 									<p>{(item.extract_gram).toFixed(2)}</p>
 	 								</div>
-	 								<div className="col-3">
+	 								<div className={`col-3 ${this.props.displayTotalGram? "":"no-print"} `}>
 	 									<p>{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
 	 								</div>
-	 								<div className="col-3">
+	 								<div className={`col-3 ${this.props.displayUnitPrice? "":"no-print"} `}>
 	 									<p>{(item.final_price*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
 	 								</div>
  								</div>
@@ -177,7 +150,7 @@ class orderEditing extends Component {
 
 	 				<div className="row">
 	 					<div className="col-6 col-lg-10 align-right">
-	 						<p>Total Gram(s):</p>
+	 						<p>Gram(s) Per Dosage:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
 	 						<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/>
@@ -224,7 +197,7 @@ class orderEditing extends Component {
 	 					</div>
 	 				</div>
 
-	 				<div className={`row text-red ${this.props.discountPercentage > 0? 'no-print' : ''}`}>
+	 				<div className={`row text-red ${this.props.discountPrice > 0? '' : 'no-print'}`}>
 	 					<div className="col-6 col-lg-10 align-right">
 	 						<p>Discount(Price):</p>
 	 					</div>
@@ -234,7 +207,7 @@ class orderEditing extends Component {
 	 				</div>
 	 						
 
-	 				<div className={`row border-bottom text-red ${this.props.discountPrice > 0? 'no-print' : ''}`}>
+	 				<div className={`row border-bottom text-red ${this.props.discountPercentage> 0? '' : 'no-print'}`}>
 	 					<div className="col-6 col-lg-10 align-right">
 	 						<p>Discount</p>
 	 						<input type="number" className="text-red" value={this.props.discountPercentage} min="0" onChange={e=>this.props.UPDATE_DISCOUNT_PERCENTAGE(e.target.value)} disabled={this.props.discountPrice > 0}/>
@@ -332,13 +305,46 @@ class orderEditing extends Component {
 
 	printArea() {
 		return (
-			<div className="print-container container-fluid">
+			<div className="print-container container-fluid no-print">
+				<div className="row">
+					<h1>Printer Filter</h1>
+				</div>
+				<div className="row">
+					<div className="side-col-sm-12 col-6 col-lg-3">
+						<p>Raw Gram(s)</p>
+						<label className="switch">
+							<input type="checkbox" checked={this.props.displayRawGram} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayRawGram",e)} />
+							<div className="slider"></div>
+      					</label>
+      				</div>
+					<div className="side-col-sm-12 col-6 col-lg-3">
+						<p>Extract Gram(s)</p>
+						<label className="switch">
+							<input type="checkbox" checked={this.props.displayExtractGram} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayExtractGram",e)} />
+							<div className="slider"></div>
+      					</label>
+					</div>
+					<div className="side-col-sm-12 col-6 col-lg-3"><p>Total Gram(s)
+						</p>
+						<label className="switch">
+							<input type="checkbox" checked = {this.props.displayTotalGram} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayTotalGram",e)} />
+							<div className="slider"></div>
+      					</label>
+      				</div>
+					<div className="side-col-sm-12 col-6 col-lg-3">
+						<p>Unit Price</p>
+						<label className="switch">
+							<input type="checkbox" checked = {this.props.displayUnitPrice} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayUnitPrice",e)} />
+							<div className="slider"></div>
+      					</label>
+      				</div>
+				</div>
 				<div className="row">
 					<div className="col-6">
-						<button className="no-print" onClick={e => PRINT_FUNCTION()}>Print Order</button>
+						<button onClick={e => PRINT_FUNCTION()}>Print Order</button>
 					</div>
 					<div className="col-6">
-						<button className="no-print">Print Label</button>
+						<button>Print Label</button>
 					</div>
 				</div>
 			</div>
@@ -386,37 +392,42 @@ const mapStateToProps = state => {
 		bottleFee: parseFloat(state.orderEditing.bottleFee),
 		tabletFee: parseFloat(state.orderEditing.tabletFee),
 		deliveryFee: parseFloat(state.orderEditing.deliveryFee),
-		tax: parseInt(state.orderEditing.tax)
+		tax: parseInt(state.orderEditing.tax),
+		displayRawGram: state.orderEditing.displayRawGram,
+		displayExtractGram: state.orderEditing.displayExtractGram,
+		displayTotalGram: state.orderEditing.displayTotalGram,
+		displayUnitPrice: state.orderEditing.displayUnitPrice
 	}
 }
 
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	LOAD_SAVED_ORDER: orderId => dispatch(LOAD_SAVED_ORDER(orderId)),
-  	LOAD_DEFAULT_SETTING: orderId => dispatch(LOAD_DEFAULT_SETTING(orderId)),
-  	FILTER_ITEM_WHILE_TYPING: value=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
-  	CLICKED_SUGGESTED_ITEM: item => dispatch(CLICKED_SUGGESTED_ITEM(item)),
-  	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(ADD_ORDER_EDITING_ITEM(orderItemList)),
-  	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
-  	SAVE_ORDER_STATUS: newStatus => dispatch(SAVE_ORDER_STATUS(newStatus)),
-  	SAVE_ORDER_EDITING:(orderId, account, orderItemList,totalGram) => dispatch(SAVE_ORDER_EDITING(orderId, account, orderItemList,totalGram)),
-  	SAVE_ORDER_DATE: newDate => dispatch (SAVE_ORDER_DATE(newDate)),
-  	SAVE_ORDER_CUSTOMER: newCustomer => dispatch (SAVE_ORDER_CUSTOMER(newCustomer)),
-  	SAVE_ORDER_ADDRESS: newAddress => dispatch(SAVE_ORDER_ADDRESS(newAddress)),
-  	SAVE_ORDER_PHONE: newPhone => dispatch(SAVE_ORDER_PHONE(newPhone)),
-  	SAVE_ORDER_EMAIL: newEmail => dispatch(SAVE_ORDER_EMAIL(newEmail)),
-  	SAVE_ORDER_NOTE: newNote => dispatch(SAVE_ORDER_NOTE(newNote)),
-  	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
-  	UPDATE_GRAM_SUM: defaultGramSum => dispatch(UPDATE_GRAM_SUM(defaultGramSum)),
-  	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
-  	UPDATE_DAY_PER_SESSION: newDayPerSession => dispatch(UPDATE_DAY_PER_SESSION(newDayPerSession)),
-	UPDATE_DISCOUNT_PRICE: newDiscountPrice => dispatch (UPDATE_DISCOUNT_PRICE(newDiscountPrice)),
-	UPDATE_DISCOUNT_PERCENTAGE: newDiscountPercentage => dispatch(UPDATE_DISCOUNT_PERCENTAGE(newDiscountPercentage)),
-  	UPDATE_BOTTLE_FEE: newBottleFee => dispatch(UPDATE_BOTTLE_FEE(newBottleFee)), 
-	UPDATE_TABLET_FEE: newTabletFee => dispatch(UPDATE_TABLET_FEE(newTabletFee)), 
-	UPDATE_DELIVERY_FEE: newDelievryFee => dispatch(UPDATE_DELIVERY_FEE(newDelievryFee)),
-	UPDATE_TAX: newTax => dispatch(UPDATE_TAX(newTax))
+  	LOAD_SAVED_ORDER: orderId => dispatch(orderEditingAction.LOAD_SAVED_ORDER(orderId)),
+  	LOAD_DEFAULT_SETTING: orderId => dispatch(orderEditingAction.LOAD_DEFAULT_SETTING(orderId)),
+  	FILTER_ITEM_WHILE_TYPING: value=> dispatch(orderEditingAction.FILTER_ITEM_WHILE_TYPING(value)),
+  	CLICKED_SUGGESTED_ITEM: item => dispatch(orderEditingAction.CLICKED_SUGGESTED_ITEM(item)),
+  	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(orderEditingAction.ADD_ORDER_EDITING_ITEM(orderItemList)),
+  	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(orderEditingAction.REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
+  	SAVE_ORDER_STATUS: newStatus => dispatch(orderEditingAction.SAVE_ORDER_STATUS(newStatus)),
+  	SAVE_ORDER_EDITING:(orderId, account, orderItemList,totalGram) => dispatch(orderEditingAction.SAVE_ORDER_EDITING(orderId, account, orderItemList,totalGram)),
+  	SAVE_ORDER_DATE: newDate => dispatch (orderEditingAction.SAVE_ORDER_DATE(newDate)),
+  	SAVE_ORDER_CUSTOMER: newCustomer => dispatch (orderEditingAction.SAVE_ORDER_CUSTOMER(newCustomer)),
+  	SAVE_ORDER_ADDRESS: newAddress => dispatch(orderEditingAction.SAVE_ORDER_ADDRESS(newAddress)),
+  	SAVE_ORDER_PHONE: newPhone => dispatch(orderEditingAction.SAVE_ORDER_PHONE(newPhone)),
+  	SAVE_ORDER_EMAIL: newEmail => dispatch(orderEditingAction.SAVE_ORDER_EMAIL(newEmail)),
+  	SAVE_ORDER_NOTE: newNote => dispatch(orderEditingAction.SAVE_ORDER_NOTE(newNote)),
+  	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(orderEditingAction.GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
+  	UPDATE_GRAM_SUM: defaultGramSum => dispatch(orderEditingAction.UPDATE_GRAM_SUM(defaultGramSum)),
+  	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(orderEditingAction.UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
+  	UPDATE_DAY_PER_SESSION: newDayPerSession => dispatch(orderEditingAction.UPDATE_DAY_PER_SESSION(newDayPerSession)),
+	UPDATE_DISCOUNT_PRICE: newDiscountPrice => dispatch (orderEditingAction.UPDATE_DISCOUNT_PRICE(newDiscountPrice)),
+	UPDATE_DISCOUNT_PERCENTAGE: newDiscountPercentage => dispatch(orderEditingAction.UPDATE_DISCOUNT_PERCENTAGE(newDiscountPercentage)),
+  	UPDATE_BOTTLE_FEE: newBottleFee => dispatch(orderEditingAction.UPDATE_BOTTLE_FEE(newBottleFee)), 
+	UPDATE_TABLET_FEE: newTabletFee => dispatch(orderEditingAction.UPDATE_TABLET_FEE(newTabletFee)), 
+	UPDATE_DELIVERY_FEE: newDelievryFee => dispatch(orderEditingAction.UPDATE_DELIVERY_FEE(newDelievryFee)),
+	UPDATE_TAX: newTax => dispatch(orderEditingAction.UPDATE_TAX(newTax)),
+	UPDATE_PRINTING_TOGGLE: (targetAttr, e) => dispatch(orderEditingAction.UPDATE_PRINTING_TOGGLE(targetAttr, e))
   }
 }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, TOGGLE_CLASS} from './helperFunctions';
+import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, ADD_CLASS, REMOVE_CLASS} from './helperFunctions';
 
 
 let newOrderInfo = {
@@ -27,7 +27,11 @@ let newOrderInfo = {
 	bottleFee:2.00, 
 	tabletFee: 0.00,
 	deliveryFee:0.00,
-	tax: 13	
+	tax: 13,
+	displayRawGram: true,
+	displayExtractGram: true,
+	displayTotalGram: true,
+	displayUnitPrice: true
 }
 
 
@@ -159,7 +163,11 @@ export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 		bottleFee:2.00, 
 		tabletFee: 0.00,
 		deliveryFee:0.00,
-		tax: 13	
+		tax: 13,
+		displayRawGram: true,
+		displayExtractGram: true,
+		displayTotalGram: true,
+		displayUnitPrice: true
 	}
 	return dispatch => {
 		dispatch({
@@ -492,6 +500,42 @@ export const UPDATE_TAX = newTax => {
 		dispatch ({
 			type: "updateOrderInfo", 
 			payload: {orderDetail: newOrderInfo}
+		})
+	}
+}
+
+
+export const UPDATE_PRINTING_TOGGLE = (targetAttribute, e) => {
+	newOrderInfo[targetAttribute] = e.target.checked;
+	
+	let marginLeftForPrinting = (newOrderInfo.displayRawGram? 0:1) + (newOrderInfo.displayExtractGram? 0:1) + (newOrderInfo.displayTotalGram? 0:1) + (newOrderInfo.displayUnitPrice? 0:1);
+	let target = document.querySelector(".orderEditing-wrapper .order-body");
+	
+	REMOVE_CLASS(target, "marginLeftForPrinting-2");
+	REMOVE_CLASS(target, "marginLeftForPrinting-4");
+	REMOVE_CLASS(target, "marginLeftForPrinting-6");
+	REMOVE_CLASS(target, "marginLeftForPrinting-8");
+
+	switch (marginLeftForPrinting) {
+		case 1:
+			ADD_CLASS(target, "marginLeftForPrinting-2");
+			break;
+		case 2:
+			ADD_CLASS(target, "marginLeftForPrinting-4");
+			break;
+		case 3:
+			ADD_CLASS(target, "marginLeftForPrinting-6");
+			break;
+		case 4:
+			ADD_CLASS(target, "marginLeftForPrinting-8");
+			break;
+	}	
+	console.log(marginLeftForPrinting);
+
+	return dispatch => {
+		dispatch({
+			type: "updateOrderInfo", 
+			payload: {orderDetail: newOrderInfo}	
 		})
 	}
 }

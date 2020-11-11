@@ -12,7 +12,6 @@ export function REMOVE_CLASS(target, className) {
 }
 
 export function TOGGLE_CLASS (target, className, rule) {
-	alert(rule);
 	target.classList.toggle(className, eval(rule));
 }
 
