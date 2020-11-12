@@ -5,9 +5,9 @@ import moment from 'moment';
 import './orderEditing.scss';
 
 import AddItemToOrder from './addItemToOrder/addItemToOrder';
+import PrinterArea from 'components/loggedInUser/orders/printerArea/printerArea';
 
 import * as orderEditingAction from 'redux/actions/orderEditingAction';
-import {PRINT_FUNCTION} from 'redux/actions/helperFunctions';
 
 class orderEditing extends Component {
 	
@@ -123,7 +123,7 @@ class orderEditing extends Component {
 	 								</div>
 	 								
 	 								{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)>=item.QTY?
-	 									<div className={`col-3 exceedQTY${this.props.displayTotalGram? "":"no-print"} `}>
+	 									<div className={`col-3 exceedQTY ${this.props.displayTotalGram? "":"no-print"} `}>
 	 										<p>{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)} / In Stock: {item.QTY}</p>
 	 									</div>
 	 									:
@@ -341,7 +341,7 @@ class orderEditing extends Component {
  	}
 
 
-	printArea() {
+	printArea() {/*
 		return (
 			<div className="print-container container-fluid no-print">
 				<div className="row">
@@ -387,16 +387,18 @@ class orderEditing extends Component {
 				</div>
 			</div>
 		);
+		*/
 	} 	
 
     render() {
+    	console.log(this.props.displayRawGram);
         return (
             <div className="orderEditing-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
     			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
     			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
-    			{this.printArea()}
+    			<PrinterArea printingType = {"orderEditing"}/>
 	    		<AddItemToOrder account={this.props.userInformation.account}/>    
     			
             </div>
@@ -406,7 +408,6 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
-	console.log(state);
 	return {
 		orderId: state.orderEditing.orderId,
 		formula: state.orderEditing.formula,
@@ -432,10 +433,10 @@ const mapStateToProps = state => {
 		tabletFee: parseFloat(state.orderEditing.tabletFee),
 		deliveryFee: parseFloat(state.orderEditing.deliveryFee),
 		tax: parseInt(state.orderEditing.tax),
-		displayRawGram: state.orderEditing.displayRawGram,
-		displayExtractGram: state.orderEditing.displayExtractGram,
-		displayTotalGram: state.orderEditing.displayTotalGram,
-		displayUnitPrice: state.orderEditing.displayUnitPrice
+		displayRawGram: state.orderPrinter.displayRawGram,
+		displayExtractGram: state.orderPrinter.displayExtractGram,
+		displayTotalGram: state.orderPrinter.displayTotalGram,
+		displayUnitPrice: state.orderPrinter.displayUnitPrice
 	}
 }
 
@@ -466,8 +467,7 @@ const mapDispatchToProps = dispatch => {
   	UPDATE_BOTTLE_FEE: newBottleFee => dispatch(orderEditingAction.UPDATE_BOTTLE_FEE(newBottleFee)), 
 	UPDATE_TABLET_FEE: newTabletFee => dispatch(orderEditingAction.UPDATE_TABLET_FEE(newTabletFee)), 
 	UPDATE_DELIVERY_FEE: newDelievryFee => dispatch(orderEditingAction.UPDATE_DELIVERY_FEE(newDelievryFee)),
-	UPDATE_TAX: newTax => dispatch(orderEditingAction.UPDATE_TAX(newTax)),
-	UPDATE_PRINTING_TOGGLE: (targetAttr, e) => dispatch(orderEditingAction.UPDATE_PRINTING_TOGGLE(targetAttr, e))
+	UPDATE_TAX: newTax => dispatch(orderEditingAction.UPDATE_TAX(newTax))
   }
 }
 
