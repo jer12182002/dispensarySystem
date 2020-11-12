@@ -48,7 +48,7 @@ class inventory extends React.Component{
                           
                                 
                                 {this.props.allItems.map((item, key)=>
-                                <div className={`item_row row ${this.props.suggestedItemClicked === item.ID? "suggestedItemClicked" : ""}`} key = {item.ID}>
+                                <div id={`item${item.ID}`} className={`item_row row ${this.props.suggestedItemClicked === item.ID? "suggestedItemClicked" : ""}`} key = {item.ID}>
                                     <div className="item_cell_align_center item_cell col-lg-1"><span>Index:</span>{key+1}</div>
 
                                     <div className="col-lg-5">

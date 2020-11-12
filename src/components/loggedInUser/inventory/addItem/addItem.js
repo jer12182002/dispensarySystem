@@ -19,7 +19,7 @@ class addItem extends React.Component{
             	<div className="suggestedItems-container row">
                 {this.props.itemSuggestions?
                     this.props.itemSuggestions.map((item,key)=> 
-                        <div key={key} className="suggestedItems" onClick = {e => {e.preventDefault(); this.props.SAVE_SUGGESTED_ITEM(item.ID);}}>{item.ENGLISH_NAME} {item.CHINESE_NAME}</div>
+                        <div key={key} id={`item${item.ID}`}className="suggestedItems" onClick = {e => {e.preventDefault(); this.props.SAVE_SUGGESTED_ITEM(item.ID);}}>{item.ENGLISH_NAME} {item.CHINESE_NAME}</div>
                     ):null
                 }
                 </div>

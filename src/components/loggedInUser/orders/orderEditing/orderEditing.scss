@@ -99,11 +99,16 @@
 				}
 
 				&>div>.row > div {
-					border: 2px solid black;					
+					border: 2px solid black;		
+					
+					&.exceedQTY {
+						background-color: red;
+					}
 				}
 
 				p {
 					font-size: 1vw;
+				
 				}
 			}
 		}

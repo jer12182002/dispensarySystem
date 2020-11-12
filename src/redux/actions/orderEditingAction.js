@@ -35,6 +35,7 @@ let newOrderInfo = {
 }
 
 
+let ExceedRemainingQtyItems = [];
 
 
 export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) => {
@@ -503,6 +504,10 @@ export const UPDATE_TAX = newTax => {
 		})
 	}
 }
+
+
+
+
 
 
 export const UPDATE_PRINTING_TOGGLE = (targetAttribute, e) => {

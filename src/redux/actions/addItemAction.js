@@ -138,7 +138,9 @@ export const ADD_ITEM_KEYUP = dispatch => {
 
 
 
-export const SAVE_SUGGESTED_ITEM = item_id => {
+export const SAVE_SUGGESTED_ITEM = (item_id) => {
+    document.querySelector(`.inventory-wrapper #item${item_id}`).scrollIntoView({behavior: "smooth"});
+
     return {
         type: "suggestedItemClicked",
         payload: item_id

@@ -56,7 +56,11 @@ class orderEditing extends Component {
  			<div className="order-form-container container-fluid">
  				<div className="order-header container-fluid">
 	 				<div className="row">
-	 					<img src="/assets/orderPictures/RenDe-logo.jpg"/>
+	 					{account === "RenDeInc"?
+		 					<img src="/assets/orderPictures/RenDe-logo.jpg"/>
+		 					:
+		 					<img src="/assets/orderPictures/CCTCM-logo.jpg"/>
+	 					}
 	 				</div>
 	 				<div className="row">
 	 					<div className="col-3">
@@ -95,8 +99,9 @@ class orderEditing extends Component {
  						<div className={`col-2 ${this.props.displayTotalGram? "":"no-print"} `}><p>Total Gram(s):</p></div>	
  						<div className={`col-2 ${this.props.displayUnitPrice? "":"no-print"} `}><p>Unit Price</p></div>
  					</div>
+
  					{this.props.orderItemList.map((item, key)=>
- 						<div key={key} className="items_row row">
+ 						<div key={key} id={`item${item.ID}`} className="items_row row">
  							<div className="col-4">
  							{orderStatus === "Quote"?
  								<p><span className="remvoe-btn no-print" onClick={e=> this.props.REMOVE_ORDER_EDITING_ITEM(this.props.orderItemList, item.ID)}>X</span>{item.ENGLISH_NAME} {item.CHINESE_NAME}</p>
@@ -112,20 +117,28 @@ class orderEditing extends Component {
 	 								<div className={`col-3 ${this.props.displayExtractGram? "":"no-print"} `}>
 	 									<p>{(item.extract_gram).toFixed(2)}</p>
 	 								</div>
-	 								<div className={`col-3 ${this.props.displayTotalGram? "":"no-print"} `}>
-	 									<p>{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
-	 								</div>
+	 								
+	 								{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)>=item.QTY?
+	 									<div className={`col-3 exceedQTY${this.props.displayTotalGram? "":"no-print"} `}>
+	 										<p>{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)} / In Stock: {item.QTY}</p>
+	 									</div>
+	 									:
+	 									<div className={`col-3 ${this.props.displayTotalGram? "":"no-print"} `}>
+	 										<p>{(item.extract_gram*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
+	 									</div>
+	 								}
+
 	 								<div className={`col-3 ${this.props.displayUnitPrice? "":"no-print"} `}>
 	 									<p>{(item.final_price*this.props.gramSum/this.props.defaultGramSum*this.props.dosagePerDay*this.props.dayPerSession).toFixed(2)}</p>
 	 								</div>
  								</div>
  							</div>
  						</div>
+ 						
  					)}
  					</>	
  				:
  				null
-
  				}
  				</div>
  			</div>
@@ -136,7 +149,7 @@ class orderEditing extends Component {
 
 
  	totalPriceDisplay (account) {
- 	
+ 		console.log(account);
  		return (
  			<div className="price-display-container container-fluid">
  				<div className="container-fluid">
@@ -224,14 +237,26 @@ class orderEditing extends Component {
 	 						<p>Sub Toal:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<p>{(this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
+	 						<p>${(this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100).toFixed(2)}</p>
 	 					</div>
 	 				</div>
-	 					
+	 				
+	 				{account === 'Professor'?
+		 				<div className="row">
+		 					<div className="col-6 col-lg-10 align-right">
+		 						<p>Dispensing Fee:$</p>
+		 					</div>
+		 					<div className="col-6 col-lg-2">
+		 						<p>${this.props.dayPerSession*4}</p>
+		 					</div>
+		 				</div>
+		 				:
+		 				null
+	 				}
 	 						
 	 				<div className="row">
 	 					<div className="col-6 col-lg-10 align-right">
-	 						<p>Bottle Fee:</p>
+	 						<p>Bottle Fee:$</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
 	 						<input type="number" value={this.props.bottleFee} min="0" step=".01" onChange={e=>this.props.UPDATE_BOTTLE_FEE(e.target.value)}/>
@@ -240,7 +265,7 @@ class orderEditing extends Component {
 	 						
 	 				<div className="row">
 	 					<div className="col-6 col-lg-10 align-right">
-	 						<p>Tablet Fee:</p>
+	 						<p>Tablet Fee:$</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
 							<input type="number" value={this.props.tabletFee} min="0" onChange={e=>this.props.UPDATE_TABLET_FEE(e.target.value)}/>
@@ -250,7 +275,7 @@ class orderEditing extends Component {
 
 	 				<div className="row">
 	 					<div className="col-6 col-lg-10 align-right">
-	 						<p>Delivery Fee:</p>
+	 						<p>Delivery Fee:$</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
 							<input type="number" value={this.props.deliveryFee} min="0" onChange={e=>this.props.UPDATE_DELIVERY_FEE(e.target.value)}/>
@@ -265,7 +290,11 @@ class orderEditing extends Component {
 	 						<p>%:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*this.props.tax/100).toFixed(2)}</p>
+	 						{account === 'Professor'?
+		 						<p>${((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee+this.props.dayPerSession*4)*this.props.tax/100).toFixed(2)}</p>
+		 						:
+		 						<p>${((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*this.props.tax/100).toFixed(2)}</p>
+	 						}
 	 					</div>
 	 				</div>
 	 						
@@ -274,7 +303,12 @@ class orderEditing extends Component {
 	 						<p>Total:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<p>{((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*(this.props.tax+100)/100).toFixed(2)}</p>
+	 					{account === 'Professor'?
+	 						
+	 						<p>${((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee+this.props.dayPerSession*4)*(this.props.tax+100)/100).toFixed(2)}</p>
+	 						:
+	 						<p>${((this.props.totalOrderPrice-this.props.discountPrice-this.props.totalOrderPrice*this.props.discountPercentage/100+this.props.bottleFee+this.props.tabletFee+this.props.deliveryFee)*(this.props.tax+100)/100).toFixed(2)}</p>
+	 					}
 	 					</div>
 	 				</div>
 	 			</div>

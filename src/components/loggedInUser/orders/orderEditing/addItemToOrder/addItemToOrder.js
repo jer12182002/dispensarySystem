@@ -15,7 +15,7 @@ class addItemToOrder extends Component {
 	 				{this.props.filteredItems.map((item,key)=>
 	 					<div key={key} className="row" onClick={(e)=>{e.preventDefault(); this.props.CLICKED_SUGGESTED_ITEM(item,this.props.orderItemList);}}>
 		 					<div className="col-12">
-		 						<p>{item.ENGLISH_NAME} {item.CHINESE_NAME} </p>
+		 						<p>{item.ENGLISH_NAME} {item.CHINESE_NAME} ---------- Stock QTY: {item.QTY}</p>
 		 					</div>
 	 						<div className="col-4">
 	 							<p>Type: {item.TYPE}</p>
