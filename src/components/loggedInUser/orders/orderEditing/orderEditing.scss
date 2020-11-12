@@ -50,6 +50,7 @@
 
 			input {
 				flex-grow: 1;
+				width:100%;
 				margin:5px;
 				font-size: 1vw;
 			}
@@ -57,6 +58,20 @@
 
 		.order-body {
 			margin-top: 1vh;
+
+			.formula_secton {
+				margin-top: 10px;
+				margin-bottom: 10px;
+
+				h1 {
+					font-size: 1.5vw;
+					margin: 5px;
+				}
+
+				input {
+					flex-grow: 1;
+				}
+			}
 
 			.items_header {
 				&>div {
@@ -210,32 +225,32 @@
 			left: -99999px;
 		}
 		.slider {
-		  position: absolute;
-		  cursor: pointer;
-		  top: 0;
-		  left: 0;
-		  right: 0;
-		  bottom: 0;
-		  background-color: #ccc;
-		  -webkit-transition: .4s;
-		  transition: .4s;
-		  border-radius: 34px;
+		    position: absolute;
+		    cursor: pointer;
+		  	top: 0;
+		  	left: 0;
+		 	right: 0;
+		  	bottom: 0;
+		  	background-color: #ccc;
+		  	-webkit-transition: .4s;
+		  	transition: .4s;
+		  	border-radius: 34px;
 		}
 		.slider:before {
-		  position: absolute;
-		  content: "";
-		  height: 26px;
-		  width: 26px;
-		  left: 4px;
-		  bottom: 4px;
-		  background-color: white;
-		  -webkit-transition: .4s;
-		  transition: .4s;
-			  border-radius: 50%;
+		  	position: absolute;
+		  	content: "";
+		  	height: 26px;
+		  	width: 26px;
+		  	left: 4px;
+		  	bottom: 4px;
+		  	background-color: white;
+		  	-webkit-transition: .4s;
+		  	transition: .4s;
+		  	border-radius: 50%;
 		}
 
 		input:checked + .slider {
-		 	 background-color: #2196F3;
+		 	background-color: #2196F3;
 		}
 
 		input:focus + .slider {
@@ -356,6 +371,12 @@
 			}
 
 			.order-body {
+				.formula_secton  {
+					h1{
+						font-size: 3vw;
+					}
+				}
+
 				.items_header {
 					p {
 						font-size: 2vw;

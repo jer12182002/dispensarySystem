@@ -168,7 +168,7 @@ app.post('/saveorder', (req,res) => {
 
 	if(orderInfo.orderId) {
 		//Order has been saved before, therefore. update order
-		sqlQueries += `UPDATE order_info SET DATE = '${orderInfo.date}', CUSTOMER = '${orderInfo.customer}', ADDRESS = '${orderInfo.address}', PHONE = '${orderInfo.phone}', EMAIL = '${orderInfo.email}', STATUS = '${orderInfo.status}',TOTAL_GRAM = '${orderInfo.totalGram}', DOSAGE_PER_DAY = '${orderInfo.dosagePerDay}', DAY_PER_SESSION = '${orderInfo.dayPerSession}', DISCOUNT_PRICE = '${orderInfo.discountPrice}', DISCOUNT_PERCENTAGE = '${orderInfo.discountPercentage}', BOTTLE_FEE = '${orderInfo.bottleFee}', TABLET_FEE = '${orderInfo.tabletFee}', DELIVERY_FEE = '${orderInfo.deliveryFee}', TAX = '${orderInfo.tax}', NOTE = '${orderInfo.orderNote}' WHERE ORDER_ID = '${orderInfo.orderId}';`;
+		sqlQueries += `UPDATE order_info SET FORMULA = '${orderInfo.formula}', DATE = '${orderInfo.date}' ,CUSTOMER = '${orderInfo.customer}', ADDRESS = '${orderInfo.address}', PHONE = '${orderInfo.phone}', EMAIL = '${orderInfo.email}', STATUS = '${orderInfo.status}',TOTAL_GRAM = '${orderInfo.totalGram}', DOSAGE_PER_DAY = '${orderInfo.dosagePerDay}', DAY_PER_SESSION = '${orderInfo.dayPerSession}', DISCOUNT_PRICE = '${orderInfo.discountPrice}', DISCOUNT_PERCENTAGE = '${orderInfo.discountPercentage}', BOTTLE_FEE = '${orderInfo.bottleFee}', TABLET_FEE = '${orderInfo.tabletFee}', DELIVERY_FEE = '${orderInfo.deliveryFee}', TAX = '${orderInfo.tax}', NOTE = '${orderInfo.orderNote}' WHERE ORDER_ID = '${orderInfo.orderId}';`;
 		sqlQueries += `DELETE FROM order_item_list WHERE ORDER_ID = '${orderInfo.orderId}';`;
 
 		if(orderInfo.orderItemList.length) {
@@ -208,7 +208,7 @@ app.post('/saveorder', (req,res) => {
 				throw err;
 			}
 			
-			sqlQueries += `INSERT INTO order_info (ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS,TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) VALUES ('${orderInfo.account}', '${orderInfo.date}', '${orderInfo.customer}', '${orderInfo.address}', '${orderInfo.phone}', '${orderInfo.email}', '${orderInfo.status}', '${orderInfo.totalGram}', '${orderInfo.dosagePerDay}', '${orderInfo.dayPerSession}', '${orderInfo.discountPrice}', '${orderInfo.discountPercentage}', '${orderInfo.bottleFee}', '${orderInfo.tabletFee}', '${orderInfo.deliveryFee}', '${orderInfo.tax}', '${orderInfo.orderNote}');`;
+			sqlQueries += `INSERT INTO order_info (FORMULA, ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS,TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) VALUES ('${orderInfo.formula}' ,${orderInfo.account}', '${orderInfo.date}', '${orderInfo.customer}', '${orderInfo.address}', '${orderInfo.phone}', '${orderInfo.email}', '${orderInfo.status}', '${orderInfo.totalGram}', '${orderInfo.dosagePerDay}', '${orderInfo.dayPerSession}', '${orderInfo.discountPrice}', '${orderInfo.discountPercentage}', '${orderInfo.bottleFee}', '${orderInfo.tabletFee}', '${orderInfo.deliveryFee}', '${orderInfo.tax}', '${orderInfo.orderNote}');`;
 			
 			connection.query(sqlQueries, (err,result1)=> {
 				if(err) {

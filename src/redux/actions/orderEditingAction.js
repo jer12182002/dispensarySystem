@@ -6,6 +6,7 @@ import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, ADD_CLASS, REMOVE_CLAS
 
 let newOrderInfo = {
 	orderId: undefined,
+	formula: '',
 	date: new Date(),
 	account: "",
 	customer: "",
@@ -126,6 +127,18 @@ export const SAVE_ORDER_STATUS = value => {
 	}
 }
 
+
+export const SAVE_ORDER_FORMULA = value => {
+	newOrderInfo.formula = value;
+	return dispatch => {
+		dispatch({
+			type: "updateOrderInfo", 
+			payload: {orderDetail: newOrderInfo}	
+		})
+	}
+}
+
+
 export const SAVE_ORDER_NOTE = value => {
 	newOrderInfo.orderNote = value;
 	return dispatch => {
@@ -143,6 +156,7 @@ export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 
 	newOrderInfo = {
 		orderId: undefined,
+		formula: '',
 		date: new Date(),
 		account: "",
 		customer: "",
@@ -188,6 +202,7 @@ export const LOAD_SAVED_ORDER = orderId => {
 				
 				newOrderInfo.orderStatus = 'Quote';
 				newOrderInfo.orderId = orderId;
+				newOrderInfo.formula = data.data[0].FORMULA === 'null'? '' : data.data[0].FORMULA;
 				newOrderInfo.filteredItems = [];
 				newOrderInfo.date = data.data[0].DATE;
 				newOrderInfo.account = data.data[0].ACCOUNT;

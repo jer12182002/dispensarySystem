@@ -90,6 +90,10 @@ class orderEditing extends Component {
 	 				</div>
  				</div>
  				<div className="order-body container-fluid">
+					<div className="row formula_secton">
+						<h1>Formula:  </h1>
+						<input type="text" value = {this.props.formula} onChange = {e => this.props.SAVE_ORDER_FORMULA(e.target.value)}/>
+					</div>
  				{this.props.orderItemList?
  					<>
  					<div className="items_header row">
@@ -405,6 +409,7 @@ const mapStateToProps = state => {
 	console.log(state);
 	return {
 		orderId: state.orderEditing.orderId,
+		formula: state.orderEditing.formula,
 		orderStatus: state.orderEditing.orderStatus,
 		date: state.orderEditing.date,
 		customer: state.orderEditing.customer,
@@ -450,6 +455,7 @@ const mapDispatchToProps = dispatch => {
   	SAVE_ORDER_ADDRESS: newAddress => dispatch(orderEditingAction.SAVE_ORDER_ADDRESS(newAddress)),
   	SAVE_ORDER_PHONE: newPhone => dispatch(orderEditingAction.SAVE_ORDER_PHONE(newPhone)),
   	SAVE_ORDER_EMAIL: newEmail => dispatch(orderEditingAction.SAVE_ORDER_EMAIL(newEmail)),
+  	SAVE_ORDER_FORMULA: newFormula => dispatch(orderEditingAction.SAVE_ORDER_FORMULA(newFormula)),
   	SAVE_ORDER_NOTE: newNote => dispatch(orderEditingAction.SAVE_ORDER_NOTE(newNote)),
   	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(orderEditingAction.GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
   	UPDATE_GRAM_SUM: defaultGramSum => dispatch(orderEditingAction.UPDATE_GRAM_SUM(defaultGramSum)),
