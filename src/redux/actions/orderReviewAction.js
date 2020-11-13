@@ -7,7 +7,8 @@ export const LOAD_REVIEW_ORDER = order_id => {
 			axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/loadsavedorder?order_id=${order_id}`)
 			.then(data => {
 				let orderDetail = {
-					ORDER_ID: order_id, 
+					ORDER_ID: order_id,
+					FORMULA: data.data[0].FORMULA,
 					DATE: data.data[0].DATE,
 					CUSTOMER: data.data[0].CUSTOMER, 
 					ADDRESS: data.data[0].ADDRESS, 

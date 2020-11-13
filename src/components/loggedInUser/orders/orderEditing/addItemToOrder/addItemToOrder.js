@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import './addItemToOrder.scss';
 
-import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_ORDER_EDITING_ITEM} from 'redux/actions/orderEditingAction';
+import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_ORDER_EDITING_ITEM} from 'redux/actions/orderDetailAction';
 
 
 class addItemToOrder extends Component {

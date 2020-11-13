@@ -7,7 +7,7 @@ import './orderEditing.scss';
 import AddItemToOrder from './addItemToOrder/addItemToOrder';
 import PrinterArea from 'components/loggedInUser/orders/printerArea/printerArea';
 
-import * as orderEditingAction from 'redux/actions/orderEditingAction';
+import * as orderDetailAction from 'redux/actions/orderDetailAction';
 
 class orderEditing extends Component {
 	
@@ -400,7 +400,6 @@ class orderEditing extends Component {
     			{this.noteArea()}
     			<PrinterArea printingType = {"orderEditing"}/>
 	    		<AddItemToOrder account={this.props.userInformation.account}/>    
-    			
             </div>
         );
     }
@@ -443,31 +442,31 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	LOAD_SAVED_ORDER: orderId => dispatch(orderEditingAction.LOAD_SAVED_ORDER(orderId)),
-  	LOAD_DEFAULT_SETTING: orderId => dispatch(orderEditingAction.LOAD_DEFAULT_SETTING(orderId)),
-  	FILTER_ITEM_WHILE_TYPING: value=> dispatch(orderEditingAction.FILTER_ITEM_WHILE_TYPING(value)),
-  	CLICKED_SUGGESTED_ITEM: item => dispatch(orderEditingAction.CLICKED_SUGGESTED_ITEM(item)),
-  	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(orderEditingAction.ADD_ORDER_EDITING_ITEM(orderItemList)),
-  	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(orderEditingAction.REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
-  	SAVE_ORDER_STATUS: newStatus => dispatch(orderEditingAction.SAVE_ORDER_STATUS(newStatus)),
-  	SAVE_ORDER_EDITING:(orderId, account, orderItemList,totalGram) => dispatch(orderEditingAction.SAVE_ORDER_EDITING(orderId, account, orderItemList,totalGram)),
-  	SAVE_ORDER_DATE: newDate => dispatch (orderEditingAction.SAVE_ORDER_DATE(newDate)),
-  	SAVE_ORDER_CUSTOMER: newCustomer => dispatch (orderEditingAction.SAVE_ORDER_CUSTOMER(newCustomer)),
-  	SAVE_ORDER_ADDRESS: newAddress => dispatch(orderEditingAction.SAVE_ORDER_ADDRESS(newAddress)),
-  	SAVE_ORDER_PHONE: newPhone => dispatch(orderEditingAction.SAVE_ORDER_PHONE(newPhone)),
-  	SAVE_ORDER_EMAIL: newEmail => dispatch(orderEditingAction.SAVE_ORDER_EMAIL(newEmail)),
-  	SAVE_ORDER_FORMULA: newFormula => dispatch(orderEditingAction.SAVE_ORDER_FORMULA(newFormula)),
-  	SAVE_ORDER_NOTE: newNote => dispatch(orderEditingAction.SAVE_ORDER_NOTE(newNote)),
-  	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(orderEditingAction.GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
-  	UPDATE_GRAM_SUM: defaultGramSum => dispatch(orderEditingAction.UPDATE_GRAM_SUM(defaultGramSum)),
-  	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(orderEditingAction.UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
-  	UPDATE_DAY_PER_SESSION: newDayPerSession => dispatch(orderEditingAction.UPDATE_DAY_PER_SESSION(newDayPerSession)),
-	UPDATE_DISCOUNT_PRICE: newDiscountPrice => dispatch (orderEditingAction.UPDATE_DISCOUNT_PRICE(newDiscountPrice)),
-	UPDATE_DISCOUNT_PERCENTAGE: newDiscountPercentage => dispatch(orderEditingAction.UPDATE_DISCOUNT_PERCENTAGE(newDiscountPercentage)),
-  	UPDATE_BOTTLE_FEE: newBottleFee => dispatch(orderEditingAction.UPDATE_BOTTLE_FEE(newBottleFee)), 
-	UPDATE_TABLET_FEE: newTabletFee => dispatch(orderEditingAction.UPDATE_TABLET_FEE(newTabletFee)), 
-	UPDATE_DELIVERY_FEE: newDelievryFee => dispatch(orderEditingAction.UPDATE_DELIVERY_FEE(newDelievryFee)),
-	UPDATE_TAX: newTax => dispatch(orderEditingAction.UPDATE_TAX(newTax))
+  	LOAD_SAVED_ORDER: orderId => dispatch(orderDetailAction.LOAD_SAVED_ORDER(orderId)),
+  	LOAD_DEFAULT_SETTING: orderId => dispatch(orderDetailAction.LOAD_DEFAULT_SETTING(orderId)),
+  	FILTER_ITEM_WHILE_TYPING: value=> dispatch(orderDetailAction.FILTER_ITEM_WHILE_TYPING(value)),
+  	CLICKED_SUGGESTED_ITEM: item => dispatch(orderDetailAction.CLICKED_SUGGESTED_ITEM(item)),
+  	ADD_ORDER_EDITING_ITEM: orderItemList => dispatch(orderDetailAction.ADD_ORDER_EDITING_ITEM(orderItemList)),
+  	REMOVE_ORDER_EDITING_ITEM: (orderItemList,itemId) => dispatch(orderDetailAction.REMOVE_ORDER_EDITING_ITEM(orderItemList, itemId)),
+  	SAVE_ORDER_STATUS: newStatus => dispatch(orderDetailAction.SAVE_ORDER_STATUS(newStatus)),
+  	SAVE_ORDER_EDITING:(orderId, account, orderItemList,totalGram) => dispatch(orderDetailAction.SAVE_ORDER_EDITING(orderId, account, orderItemList,totalGram)),
+  	SAVE_ORDER_DATE: newDate => dispatch (orderDetailAction.SAVE_ORDER_DATE(newDate)),
+  	SAVE_ORDER_CUSTOMER: newCustomer => dispatch (orderDetailAction.SAVE_ORDER_CUSTOMER(newCustomer)),
+  	SAVE_ORDER_ADDRESS: newAddress => dispatch(orderDetailAction.SAVE_ORDER_ADDRESS(newAddress)),
+  	SAVE_ORDER_PHONE: newPhone => dispatch(orderDetailAction.SAVE_ORDER_PHONE(newPhone)),
+  	SAVE_ORDER_EMAIL: newEmail => dispatch(orderDetailAction.SAVE_ORDER_EMAIL(newEmail)),
+  	SAVE_ORDER_FORMULA: newFormula => dispatch(orderDetailAction.SAVE_ORDER_FORMULA(newFormula)),
+  	SAVE_ORDER_NOTE: newNote => dispatch(orderDetailAction.SAVE_ORDER_NOTE(newNote)),
+  	GRAM_PER_DOSE_ON_CHANGE: newGramSum => dispatch(orderDetailAction.GRAM_PER_DOSE_ON_CHANGE(newGramSum)), 
+  	UPDATE_GRAM_SUM: defaultGramSum => dispatch(orderDetailAction.UPDATE_GRAM_SUM(defaultGramSum)),
+  	UPDATE_DOSAGE_PER_DAY: newDosagePerDay => dispatch(orderDetailAction.UPDATE_DOSAGE_PER_DAY(newDosagePerDay)),
+  	UPDATE_DAY_PER_SESSION: newDayPerSession => dispatch(orderDetailAction.UPDATE_DAY_PER_SESSION(newDayPerSession)),
+	UPDATE_DISCOUNT_PRICE: newDiscountPrice => dispatch (orderDetailAction.UPDATE_DISCOUNT_PRICE(newDiscountPrice)),
+	UPDATE_DISCOUNT_PERCENTAGE: newDiscountPercentage => dispatch(orderDetailAction.UPDATE_DISCOUNT_PERCENTAGE(newDiscountPercentage)),
+  	UPDATE_BOTTLE_FEE: newBottleFee => dispatch(orderDetailAction.UPDATE_BOTTLE_FEE(newBottleFee)), 
+	UPDATE_TABLET_FEE: newTabletFee => dispatch(orderDetailAction.UPDATE_TABLET_FEE(newTabletFee)), 
+	UPDATE_DELIVERY_FEE: newDelievryFee => dispatch(orderDetailAction.UPDATE_DELIVERY_FEE(newDelievryFee)),
+	UPDATE_TAX: newTax => dispatch(orderDetailAction.UPDATE_TAX(newTax))
   }
 }
 
