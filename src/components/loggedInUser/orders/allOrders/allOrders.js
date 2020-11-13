@@ -20,16 +20,18 @@ class allOrders extends Component {
 					</div>
 					<div className="orderHeader row">
 						<div className="col-2"><p>Order No.</p></div>
-						<div className="col-4"><p>Order Time</p></div>
-						<div className="col-4"><p>Customer</p></div>
+						<div className="col-2"><p>Formula</p></div>
+						<div className="col-3"><p>Order Time</p></div>
+						<div className="col-3"><p>Customer</p></div>
 						<div className="col-2"><p>Action</p></div>
 						
 					</div>
 					{orders.map((order,key)=>
 						<div className="row">
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
-							<div className="col-4"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
-							<div className="col-4"><p>{order.CUSTOMER}</p></div>
+							<div className="col-2"><p>{order.FORMULA}</p></div>
+							<div className="col-3"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
+							<div className="col-3"><p>{order.CUSTOMER}</p></div>
 							<div className="col-2"><Link to={{pathname:`${link}`, state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
 					)}
