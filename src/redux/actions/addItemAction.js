@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {CLEAR_CHILDREN_INPUT_VALUE} from './helperFunctions';
+import {CLEAR_CHILDREN_INPUT_VALUE,SET_ATTRIBUTE} from './helperFunctions';
 import {LOAD_ALL_INVENTROY_ITEMS} from './loadItemActions';
 
 
@@ -90,6 +90,8 @@ export const ADD_BTN_CLICKED = dispatch => {
             axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/inventory/additem`,inputValue)
             .then(data => {
                 if(data.data.result[1]) {
+                    alert(`Item ${inputValue.ENGLISH_NAME} ${inputValue.CHINESE_NAME} has been added successfully`);
+                    CLEAR_INPUT();
                     dispatch({
                         type: 'loadAllInventoryItems', 
                         payload: data.data.result[1]       
@@ -115,10 +117,23 @@ export const ADD_BTN_CLICKED = dispatch => {
 }
 
 
+export const CLEAR_BTN_CLICKED = dispatch => {
+    CLEAR_INPUT();
+    return dispatch => {
+        dispatch({
+            type: 'addItemNamesInput', 
+            payload: []  
+        })
+    }
+}
+
+
 
 export const ADD_ITEM_KEYUP = dispatch => {
+    
     return dispatch => {
-        axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/filteritemtyping`,{input : inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME})
+        if(inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME) {
+            axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/filteritemtyping`,{input : inputValue.ENGLISH_NAME+inputValue.CHINESE_NAME})
             .then(data => {
                 if(data.data.result) {
                     dispatch({
@@ -133,7 +148,17 @@ export const ADD_ITEM_KEYUP = dispatch => {
                     payload: err.message
                 })
             })    
-    }
+        }else {
+            DYNAMIC_ADD_MARGIN_BOTTOM();
+
+            dispatch({
+                type: 'addItemNamesInput', 
+                payload: []    
+            })
+        }
+
+        
+    }     
 } 
 
 
@@ -147,3 +172,18 @@ export const SAVE_SUGGESTED_ITEM = (item_id) => {
     }
 }
 
+
+//******************** Helper function ***************************
+export const CLEAR_INPUT = () => {
+  CLEAR_CHILDREN_INPUT_VALUE('.addItem-wrapper .input-container input');
+  CLEAR_CHILDREN_INPUT_VALUE('.addItem-wrapper .input-container select');
+  document.querySelector('.addItem-wrapper .input-container #ADDITEM_RATIO').value = 7;
+  DYNAMIC_ADD_MARGIN_BOTTOM();
+}
+
+
+export const DYNAMIC_ADD_MARGIN_BOTTOM = () => {
+  let addItemContainerHeight = document.querySelector('.inventory-wrapper .addItem-wrapper').offsetHeight;
+  console.log(addItemContainerHeight);
+  document.querySelector('.inventory-wrapper').style.marginBottom = `${addItemContainerHeight*2}px`;
+}
