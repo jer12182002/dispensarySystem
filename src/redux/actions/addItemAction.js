@@ -184,6 +184,5 @@ export const CLEAR_INPUT = () => {
 
 export const DYNAMIC_ADD_MARGIN_BOTTOM = () => {
   let addItemContainerHeight = document.querySelector('.inventory-wrapper .addItem-wrapper').offsetHeight;
-  console.log(addItemContainerHeight);
   document.querySelector('.inventory-wrapper').style.marginBottom = `${addItemContainerHeight*2}px`;
 }

@@ -63,13 +63,12 @@ const handleDisconnect = () => {
 
 
 app.get('/inventory/loadallinventoryitems',(rea,res)=> {
-	let sqlQuery = 'SELECT * FROM INVENTORY;';
+	let sqlQuery = 'SELECT * FROM INVENTORY ORDER BY TYPE, ENGLISH_NAME;';
 
 	connection.query(sqlQuery, (err,result) => {
 		if(err) {
 			console.log(err);
 		}else {
-			console.log("loadAllItems");
 			return res.json(result);
 		}
 	})
@@ -145,7 +144,7 @@ app.post('/inventory/additem',(req,res)=> {
 app.post('/filteritemtyping',(req,res) => {
 	let inputItemName = req.body.input;
 
-	let sqlQuery = `SELECT * FROM INVENTORY WHERE LOWER(CONCAT(ENGLISH_NAME,CHINESE_NAME)) LIKE LOWER('%${inputItemName}%');`;
+	let sqlQuery = `SELECT * FROM INVENTORY WHERE LOWER(CONCAT(ENGLISH_NAME,CHINESE_NAME)) LIKE LOWER('%${inputItemName}%') ORDER BY TYPE, ENGLISH_NAME;`;
 	connection.query(sqlQuery, (err,result) => {
 		if(err) {
 			return connection.rollback(()=>{
