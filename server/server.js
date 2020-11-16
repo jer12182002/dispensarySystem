@@ -176,6 +176,7 @@ app.post('/saveorder', (req,res) => {
 			})
 		}
 
+
 		connection.beginTransaction(err => {
 			if(err) {
 				throw err;
@@ -207,8 +208,8 @@ app.post('/saveorder', (req,res) => {
 				throw err;
 			}
 			
-			sqlQueries += `INSERT INTO order_info (FORMULA, ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS,TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) VALUES ('${orderInfo.formula}' ,${orderInfo.account}', '${orderInfo.date}', '${orderInfo.customer}', '${orderInfo.address}', '${orderInfo.phone}', '${orderInfo.email}', '${orderInfo.status}', '${orderInfo.totalGram}', '${orderInfo.dosagePerDay}', '${orderInfo.dayPerSession}', '${orderInfo.discountPrice}', '${orderInfo.discountPercentage}', '${orderInfo.bottleFee}', '${orderInfo.tabletFee}', '${orderInfo.deliveryFee}', '${orderInfo.tax}', '${orderInfo.orderNote}');`;
-			
+			sqlQueries += `INSERT INTO order_info (FORMULA, ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS,TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) VALUES ('${orderInfo.formula}' ,'${orderInfo.account}', '${orderInfo.date}', '${orderInfo.customer}', '${orderInfo.address}', '${orderInfo.phone}', '${orderInfo.email}', '${orderInfo.status}', '${orderInfo.totalGram}', '${orderInfo.dosagePerDay}', '${orderInfo.dayPerSession}', '${orderInfo.discountPrice}', '${orderInfo.discountPercentage}', '${orderInfo.bottleFee}', '${orderInfo.tabletFee}', '${orderInfo.deliveryFee}', '${orderInfo.tax}', '${orderInfo.orderNote}');`;
+			console.log(sqlQueries);
 			connection.query(sqlQueries, (err,result1)=> {
 				if(err) {
 					return connection.rollback(()=>{
