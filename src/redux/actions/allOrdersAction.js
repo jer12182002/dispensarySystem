@@ -5,6 +5,7 @@ export const LOAD_ALL_ORDERS = (account, permissionToggle=false) => {
 	return dispatch => {
 		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/loadallorders`)
 		.then(data=> {
+			
 			dispatch({
 				type: "loadAllOrders",
 				payload: {

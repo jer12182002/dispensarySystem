@@ -256,6 +256,68 @@ app.post('/saveorder', (req,res) => {
 
 
 
+
+app.post('/orders/orderreview/duplicateorder', (req,res) => {
+
+	let orderId = req.body.orderId;
+	let account = req.body.account;
+
+	connection.beginTransaction(err => {
+		if(err) {
+			throw err;
+		}
+
+		let sqlQueries = `INSERT INTO order_info (FORMULA, ACCOUNT, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS, TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) SELECT FORMULA, ACCOUNT, CUSTOMER, ADDRESS, PHONE, EMAIL, 'Quote', TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE FROM order_info WHERE ORDER_ID = '${orderId}';`;
+		
+
+		connection.query(sqlQueries, (err1, result1) => {
+			if(err1) {
+				throw err1;
+			}else {
+				let insertedId = result1.insertId;
+				let sqlQueries2 = '';
+			
+				switch(account) {
+					case "RenDeInc":
+						sqlQueries2 = `INSERT INTO order_item_list (ORDER_ID, ITEM_ID, ENGLISH_NAME, CHINESE_NAME, TYPE, RATIO, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE, raw_gram, extract_gram, final_price) SELECT '${insertedId}', i.ID, i.ENGLISH_NAME, i.CHINESE_NAME, i.TYPE, i.RATIO, i.QTY, i.RENDE_PRICE, i.STUDENT_PRICE, i.PROFESSOR_PRICE, o.raw_gram, o.extract_gram, i.RENDE_PRICE*o.extract_gram FROM order_item_list o RIGHT JOIN inventory i ON o.ITEM_ID = i.ID WHERE ORDER_ID = '${orderId}';`;
+					break;
+					
+					case "Student":
+						sqlQueries2 = `INSERT INTO order_item_list (ORDER_ID, ITEM_ID, ENGLISH_NAME, CHINESE_NAME, TYPE, RATIO, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE, raw_gram, extract_gram, final_price) SELECT '${insertedId}', i.ID, i.ENGLISH_NAME, i.CHINESE_NAME, i.TYPE, i.RATIO, i.QTY, i.RENDE_PRICE, i.STUDENT_PRICE, i.PROFESSOR_PRICE, o.raw_gram, o.extract_gram, i.STUDENT_PRICE*o.extract_gram FROM order_item_list o RIGHT JOIN inventory i ON o.ITEM_ID = i.ID WHERE ORDER_ID = '${orderId}';`;
+					break;
+					
+					case "Professor":
+						sqlQueries2 = `INSERT INTO order_item_list (ORDER_ID, ITEM_ID, ENGLISH_NAME, CHINESE_NAME, TYPE, RATIO, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE, raw_gram, extract_gram, final_price) SELECT '${insertedId}', i.ID, i.ENGLISH_NAME, i.CHINESE_NAME, i.TYPE, i.RATIO, i.QTY, i.RENDE_PRICE, i.STUDENT_PRICE, i.PROFESSOR_PRICE, o.raw_gram, o.extract_gram, i.PROFESSOR_PRICE*o.extract_gram FROM order_item_list o RIGHT JOIN inventory i ON o.ITEM_ID = i.ID WHERE ORDER_ID = '${orderId}';`;
+					break;
+				}
+
+				connection.query(sqlQueries2, (err2, result2) => {
+					if(err2) {
+						return connection.rollback(()=> {
+							throw err;
+						})
+					}
+					else {
+						connection.commit(err3 => {
+							if(err3) {
+								return connection.rollback(err3 => {
+									throw err;
+								})
+							}else {
+								return res.json({orderId : insertedId});
+							}
+						})
+					}
+				})	
+			
+			}	
+		})
+	})
+})
+
+
+
+
 app.get('/loadallorders', (req,res)=> {
 	let sqlQuery = 'SELECT * FROM `order_info` ORDER BY STATUS, ORDER_ID;';
 

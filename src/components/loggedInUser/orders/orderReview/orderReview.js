@@ -17,36 +17,21 @@ class orderReview extends Component {
 	}
 
 
-
-	saveOrderFunction(account, orderStatus) {
-		if(this.props.orderItemList && this.props.orderItemList.length > 0) {
-			if(orderStatus === "Quote") {
-				return (
-				<div className="saveFunction container-fluid no-print">
-					<div className="row">
-						<div className="col-4">
-							<h1>Order Number: {this.props.orderId}</h1>
-						</div>
-						<div className="col-4">
-							<h1>Save as: </h1>
-							<select onChange={e=>this.props.SAVE_ORDER_STATUS(e.target.value)}>
-								<option value="Quote">Quote</option>
-								<option value="Receipt">Receipt</option>
-							</select>
-						</div>
-						<div className="col-4">
-							<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList,this.props.gramSum)}}>Save</button>
-						</div>
-					</div>
-				</div>);
-			}else {
-				return (<Redirect to={{pathname:"/orders/orderreview", state:{order_id: this.props.orderId}}}/>);
-			}
-		}
+	duplicateOrderFunction(account,orderId) {
+		return (
+		<div className="container-fluid">
+			<div className="row">
+				<div className="col-12">
+					<button className="btn btn-success" onClick = {e => {e.preventDefault(); this.props.DUPLICATE_ORDER(orderId, account);}}>Duplicate</button>
+				</div>
+			</div>
+		</div>
+		);
 	}
 
 
- 	orderListDisplay(account, orderStatus){
+ 	orderListDisplay(account){
+ 		console.log(account);
  		let DisplayTag ;
  
  			DisplayTag = 
@@ -327,8 +312,8 @@ class orderReview extends Component {
     	console.log(this.props.displayRawGram);
         return (
             <div className="orderEditing-wrapper">
-            	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
-    			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
+            	{this.duplicateOrderFunction(this.props.orderAccount,this.props.orderId)}
+    			{this.orderListDisplay(this.props.orderAccount)}
     			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
     			<PrinterArea printingType = {"orderEditing"}/>
@@ -341,30 +326,31 @@ class orderReview extends Component {
 const mapStateToProps = state => {
 	console.log(state);
 	return {
-		orderId: state.orderEditing.orderId,
-		formula: state.orderEditing.formula,
-		orderStatus: state.orderEditing.orderStatus,
-		date: state.orderEditing.date,
-		customer: state.orderEditing.customer,
-		address: state.orderEditing.address,
-		phone: state.orderEditing.phone,
-		email: state.orderEditing.email,
-		orderNote: state.orderEditing.orderNote,
-		filteredItems: state.orderEditing.filteredItems,
-		suggestedItem: state.orderEditing.suggestedItem,
-		orderItemList: state.orderEditing.orderItemList, 
-		defaultGramSum: parseFloat(state.orderEditing.defaultGramSum).toFixed(2),
-		gramSum: state.orderEditing.gramSum,
-		dosagePerDay: state.orderEditing.dosagePerDay,
-		dayPerSession: state.orderEditing.dayPerSession, 
-		totalActualGram: state.orderEditing.orderItemList? parseFloat((state.orderEditing.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession)):0,
-		totalOrderPrice: state.orderEditing.orderItemList? parseFloat((state.orderEditing.orderItemList.reduce((total, item)=> total + item.final_price,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession)):0,
-		discountPrice: parseFloat(state.orderEditing.discountPrice), 
-		discountPercentage: parseFloat(state.orderEditing.discountPercentage), 
-		bottleFee: parseFloat(state.orderEditing.bottleFee),
-		tabletFee: parseFloat(state.orderEditing.tabletFee),
-		deliveryFee: parseFloat(state.orderEditing.deliveryFee),
-		tax: parseInt(state.orderEditing.tax),
+		orderId: state.orderDetail.orderId,
+		orderAccount: state.orderDetail.account,
+		formula: state.orderDetail.formula,
+		orderStatus: state.orderDetail.orderStatus,
+		date: state.orderDetail.date,
+		customer: state.orderDetail.customer,
+		address: state.orderDetail.address,
+		phone: state.orderDetail.phone,
+		email: state.orderDetail.email,
+		orderNote: state.orderDetail.orderNote,
+		filteredItems: state.orderDetail.filteredItems,
+		suggestedItem: state.orderDetail.suggestedItem,
+		orderItemList: state.orderDetail.orderItemList, 
+		defaultGramSum: parseFloat(state.orderDetail.defaultGramSum).toFixed(2),
+		gramSum: state.orderDetail.gramSum,
+		dosagePerDay: state.orderDetail.dosagePerDay,
+		dayPerSession: state.orderDetail.dayPerSession, 
+		totalActualGram: state.orderDetail.orderItemList? parseFloat((state.orderDetail.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderDetail.gramSum/state.orderDetail.defaultGramSum*state.orderDetail.dosagePerDay*state.orderDetail.dayPerSession)):0,
+		totalOrderPrice: state.orderDetail.orderItemList? parseFloat((state.orderDetail.orderItemList.reduce((total, item)=> total + item.final_price,0)*state.orderDetail.gramSum/state.orderDetail.defaultGramSum*state.orderDetail.dosagePerDay*state.orderDetail.dayPerSession)):0,
+		discountPrice: parseFloat(state.orderDetail.discountPrice), 
+		discountPercentage: parseFloat(state.orderDetail.discountPercentage), 
+		bottleFee: parseFloat(state.orderDetail.bottleFee),
+		tabletFee: parseFloat(state.orderDetail.tabletFee),
+		deliveryFee: parseFloat(state.orderDetail.deliveryFee),
+		tax: parseInt(state.orderDetail.tax),
 		displayRawGram: state.orderPrinter.displayRawGram,
 		displayExtractGram: state.orderPrinter.displayExtractGram,
 		displayTotalGram: state.orderPrinter.displayTotalGram,
@@ -375,7 +361,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	LOAD_SAVED_ORDER: orderId => dispatch(orderDetailAction.LOAD_SAVED_ORDER(orderId))
+  	LOAD_SAVED_ORDER: orderId => dispatch(orderDetailAction.LOAD_SAVED_ORDER(orderId)),
+  	DUPLICATE_ORDER: (orderId, account) => dispatch(orderDetailAction.DUPLICATE_ORDER(orderId, account))
   }
 }
 

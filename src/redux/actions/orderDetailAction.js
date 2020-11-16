@@ -6,6 +6,7 @@ import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, ADD_CLASS, REMOVE_CLAS
 
 let newOrderInfo = {
 	orderId: undefined,
+	orderAccount: undefined,
 	formula: '',
 	date: new Date(),
 	account: "",
@@ -35,6 +36,9 @@ let newOrderInfo = {
 let ExceedRemainingQtyItems = [];
 
 
+
+
+
 export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) => {
 	newOrderInfo.orderId = orderId;
 	newOrderInfo.account = account;
@@ -55,6 +59,22 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 					}
 				})
 			}
+		})
+	}
+}
+
+
+
+export const DUPLICATE_ORDER = (orderId, account) => {
+	return dispatch => {
+		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/orders/orderreview/duplicateorder`,{orderId : orderId, account : account})
+		.then(data => {
+			console.log(data);
+
+			dispatch({
+				type:"duplicateOrder", 
+				payload: ""
+			})
 		})
 	}
 }
@@ -152,6 +172,7 @@ export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 
 	newOrderInfo = {
 		orderId: undefined,
+		orderAccount: undefined,
 		formula: '',
 		date: new Date(),
 		account: "",
@@ -194,6 +215,7 @@ export const LOAD_SAVED_ORDER = orderId => {
 				
 				newOrderInfo.orderStatus = 'Quote';
 				newOrderInfo.orderId = orderId;
+				newOrderInfo.orderAccount = data.data[0].ACCOUNT;
 				newOrderInfo.formula = data.data[0].FORMULA === 'null'? '' : data.data[0].FORMULA;
 				newOrderInfo.filteredItems = [];
 				newOrderInfo.date = data.data[0].DATE;
@@ -511,7 +533,5 @@ export const UPDATE_TAX = newTax => {
 		})
 	}
 }
-
-
 
 
