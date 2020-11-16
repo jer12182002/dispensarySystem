@@ -241,7 +241,7 @@ export const LOAD_SAVED_ORDER = orderId => {
 				newOrderInfo.defaultGramSum = defaultGramSum;
 				
 				dispatch({
-					type:"loadSavedOrderEditing", 
+					type:"loadSavedorderDetail", 
 					payload: {orderDetail: newOrderInfo}
 				})
 			})

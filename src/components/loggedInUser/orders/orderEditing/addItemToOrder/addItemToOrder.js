@@ -85,9 +85,9 @@ class addItemToOrder extends Component {
 
 const mapStateToProps = state => {
 	return {
-		filteredItems: state.orderEditing.filteredItems,
-		suggestedItem: state.orderEditing.suggestedItem,
-		orderItemList: state.orderEditing.orderItemList
+		filteredItems: state.orderDetail.filteredItems,
+		suggestedItem: state.orderDetail.suggestedItem,
+		orderItemList: state.orderDetail.orderItemList
 	}
 }
 

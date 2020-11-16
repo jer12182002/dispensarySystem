@@ -153,7 +153,6 @@ class orderEditing extends Component {
 
 
  	totalPriceDisplay (account) {
- 		console.log(account);
  		return (
  			<div className="price-display-container container-fluid">
  				<div className="container-fluid">
@@ -341,57 +340,7 @@ class orderEditing extends Component {
  	}
 
 
-	printArea() {/*
-		return (
-			<div className="print-container container-fluid no-print">
-				<div className="row">
-					<h1>Printer Filter</h1>
-				</div>
-				<div className="row">
-					<div className="side-col-sm-12 col-6 col-lg-3">
-						<p>Raw Gram(s)</p>
-						<label className="switch">
-							<input type="checkbox" checked={this.props.displayRawGram} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayRawGram",e)} />
-							<div className="slider"></div>
-      					</label>
-      				</div>
-					<div className="side-col-sm-12 col-6 col-lg-3">
-						<p>Extract Gram(s)</p>
-						<label className="switch">
-							<input type="checkbox" checked={this.props.displayExtractGram} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayExtractGram",e)} />
-							<div className="slider"></div>
-      					</label>
-					</div>
-					<div className="side-col-sm-12 col-6 col-lg-3"><p>Total Gram(s)
-						</p>
-						<label className="switch">
-							<input type="checkbox" checked = {this.props.displayTotalGram} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayTotalGram",e)} />
-							<div className="slider"></div>
-      					</label>
-      				</div>
-					<div className="side-col-sm-12 col-6 col-lg-3">
-						<p>Unit Price</p>
-						<label className="switch">
-							<input type="checkbox" checked = {this.props.displayUnitPrice} onChange={e => this.props.UPDATE_PRINTING_TOGGLE("displayUnitPrice",e)} />
-							<div className="slider"></div>
-      					</label>
-      				</div>
-				</div>
-				<div className="row">
-					<div className="col-6">
-						<button onClick={e => PRINT_FUNCTION()}>Print Order</button>
-					</div>
-					<div className="col-6">
-						<button>Print Label</button>
-					</div>
-				</div>
-			</div>
-		);
-		*/
-	} 	
-
     render() {
-    	console.log(this.props.displayRawGram);
         return (
             <div className="orderEditing-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
@@ -407,31 +356,32 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
+	console.log(state);
 	return {
-		orderId: state.orderEditing.orderId,
-		formula: state.orderEditing.formula,
-		orderStatus: state.orderEditing.orderStatus,
-		date: state.orderEditing.date,
-		customer: state.orderEditing.customer,
-		address: state.orderEditing.address,
-		phone: state.orderEditing.phone,
-		email: state.orderEditing.email,
-		orderNote: state.orderEditing.orderNote,
-		filteredItems: state.orderEditing.filteredItems,
-		suggestedItem: state.orderEditing.suggestedItem,
-		orderItemList: state.orderEditing.orderItemList, 
-		defaultGramSum: parseFloat(state.orderEditing.defaultGramSum).toFixed(2),
-		gramSum: state.orderEditing.gramSum,
-		dosagePerDay: state.orderEditing.dosagePerDay,
-		dayPerSession: state.orderEditing.dayPerSession, 
-		totalActualGram: state.orderEditing.orderItemList? parseFloat((state.orderEditing.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession)):0,
-		totalOrderPrice: state.orderEditing.orderItemList? parseFloat((state.orderEditing.orderItemList.reduce((total, item)=> total + item.final_price,0)*state.orderEditing.gramSum/state.orderEditing.defaultGramSum*state.orderEditing.dosagePerDay*state.orderEditing.dayPerSession)):0,
-		discountPrice: parseFloat(state.orderEditing.discountPrice), 
-		discountPercentage: parseFloat(state.orderEditing.discountPercentage), 
-		bottleFee: parseFloat(state.orderEditing.bottleFee),
-		tabletFee: parseFloat(state.orderEditing.tabletFee),
-		deliveryFee: parseFloat(state.orderEditing.deliveryFee),
-		tax: parseInt(state.orderEditing.tax),
+		orderId: state.orderDetail.orderId,
+		formula: state.orderDetail.formula,
+		orderStatus: state.orderDetail.orderStatus,
+		date: state.orderDetail.date,
+		customer: state.orderDetail.customer,
+		address: state.orderDetail.address,
+		phone: state.orderDetail.phone,
+		email: state.orderDetail.email,
+		orderNote: state.orderDetail.orderNote,
+		filteredItems: state.orderDetail.filteredItems,
+		suggestedItem: state.orderDetail.suggestedItem,
+		orderItemList: state.orderDetail.orderItemList, 
+		defaultGramSum: parseFloat(state.orderDetail.defaultGramSum).toFixed(2),
+		gramSum: state.orderDetail.gramSum,
+		dosagePerDay: state.orderDetail.dosagePerDay,
+		dayPerSession: state.orderDetail.dayPerSession, 
+		totalActualGram: state.orderDetail.orderItemList? parseFloat((state.orderDetail.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderDetail.gramSum/state.orderDetail.defaultGramSum*state.orderDetail.dosagePerDay*state.orderDetail.dayPerSession)):0,
+		totalOrderPrice: state.orderDetail.orderItemList? parseFloat((state.orderDetail.orderItemList.reduce((total, item)=> total + item.final_price,0)*state.orderDetail.gramSum/state.orderDetail.defaultGramSum*state.orderDetail.dosagePerDay*state.orderDetail.dayPerSession)):0,
+		discountPrice: parseFloat(state.orderDetail.discountPrice), 
+		discountPercentage: parseFloat(state.orderDetail.discountPercentage), 
+		bottleFee: parseFloat(state.orderDetail.bottleFee),
+		tabletFee: parseFloat(state.orderDetail.tabletFee),
+		deliveryFee: parseFloat(state.orderDetail.deliveryFee),
+		tax: parseInt(state.orderDetail.tax),
 		displayRawGram: state.orderPrinter.displayRawGram,
 		displayExtractGram: state.orderPrinter.displayExtractGram,
 		displayTotalGram: state.orderPrinter.displayTotalGram,

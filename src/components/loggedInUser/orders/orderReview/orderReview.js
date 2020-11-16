@@ -339,6 +339,7 @@ class orderReview extends Component {
 
 
 const mapStateToProps = state => {
+	console.log(state);
 	return {
 		orderId: state.orderEditing.orderId,
 		formula: state.orderEditing.formula,
