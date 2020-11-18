@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom'
 import {connect} from 'react-redux';
 import moment from 'moment';
+import '../orderDetail.scss';
 import './orderReview.scss';
 
 import PrinterArea from 'components/loggedInUser/orders/printerArea/printerArea';
@@ -26,11 +27,11 @@ class orderReview extends Component {
 			return (
 				<div className="duplicateFunction container-fluid">
 					<div className="row">
-						<div className="col-6"><h1>Order Number: {orderId}</h1></div>
-						<div className="col-3">
+						<div className="col-4"><h1>Order Number: {orderId}</h1></div>
+						<div className="col-4">
 							<button className="btn btn-success" onClick = {e => {e.preventDefault(); this.props.DUPLICATE_ORDER(orderId, account);}}>Duplicate</button>
 						</div>
-						<div className="col-3 align-right">
+						<div className="col-4">
 							<Link to={{pathname: "/orderediting", state:{order_id: this.props.dupicatedOrderId}}} className="btn btn-primary">Go To Duplicated Order: {this.props.dupicatedOrderId}</Link>
 						</div>
 					</div>
@@ -41,7 +42,7 @@ class orderReview extends Component {
 				<div className="duplicateFunction container-fluid">
 					<div className="row">
 						<div className="col-6"><h1>Order Number: {orderId}</h1></div>
-						<div className="col-6 align-right">
+						<div className="col-6">
 							<button className="btn btn-success" onClick = {e => {e.preventDefault(); this.props.DUPLICATE_ORDER(orderId, account);}}>Duplicate Order</button>
 						</div>
 					</div>

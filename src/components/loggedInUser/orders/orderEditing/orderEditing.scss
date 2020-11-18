@@ -1,292 +1,73 @@
 @import '~sass-mq';
 
-.orderDetail-wrapper {
-	width: 80%;
-	margin: 0 auto;
-	margin-bottom: 5vh;
-	border: 3px solid black;
-	background-color: white;
-	
+.orderEditing-wrapper {
 	.saveFunction {
-		margin-bottom: 1vh;
-		&>div>div {
-				text-align: right;
-			&>*{
-				display: inline-block;
-				font-size: 1.5vw;
-				height: 90%;
-			}
-		}
-	}
+			margin-bottom: 1vh;
+			div > div {
+				text-align: center;
 
-
-	.order-form-container {
-		text-align: center;
-
-		.order-header {
-			border-bottom: 1px solid black;
-			padding: 15px 0;
-
-			.row:first-child {
-				border-bottom: 2px solid black;
-				margin-bottom: 2vh;
-				padding-bottom: 1vh;
-			}
-
-			.row > div {
-				text-align: left;
-				display: flex;
-			}
-		
-			img {
-				margin: 0 auto;
-				width: 30%;
-			}
-
-			h1 {
-				margin:10px;
-				font-size: 1vw;
-			}
-
-			input {
-				flex-grow: 1;
-				width:100%;
-				margin:5px;
-				font-size: 1vw;
-			}
-		}
-
-		.order-body {
-			margin-top: 1vh;
-
-			.formula_secton {
-				margin-top: 10px;
-				margin-bottom: 10px;
-
-				h1 {
-					font-size: 1.5vw;
-					margin: 5px;
-				}
-
-				input {
-					flex-grow: 1;
-				}
-			}
-
-			.items_header {
-				&>div {
-					border: 2px solid black;
-				}
-
-				&>div:first-child{
+				&:first-child {
 					text-align: left;
+				}
+
+				*{
 					display: inline-block;
-				}
-
-
-				p {
-					font-weight: 900;
-					font-size: 1vw;
-				}
-			}
-
-			.items_row {
-				&>div:first-child {
-					border: 2px solid black;
-					text-align: left;
-
-					.remvoe-btn {
-						background-color: red;
-						border-radius: 50px; 
-						color: white;
-						padding: 0 5px;
-						margin-right: 10px;
-						cursor: pointer;
-
-						&:hover {
-							box-shadow: 3px 3px lightgray;
-						}
-					}
-				}
-
-				&>div>.row {
+					font-size: 1.5vw;
 					height: 100%;
 				}
 
-				&>div>.row > div {
-					border: 2px solid black;		
-					
-					&.exceedQTY {
-						background-color: red;
-					}
+				h1 {
+					font-size: 1.5vw;
 				}
 
-				p {
+				button{
 					font-size: 1vw;
-				
+				} 
+
+				select {
+					height: 90%;
 				}
+			}
+		
+	}
+
+
+	@include mq($from: tablet, $until: desktop) {
+		.saveFunction {
+			h1 {
+				font-size: 2vw;
+			}
+
+			button {
+				font-size: 1.5vw;
 			}
 		}
 	}
 
 
-	.price-display-container {
-		background-color: white;
-		display:block;
-
-		.row > div {
-			&>* {
-				display:inline-block;
-			}
-
-			& > input {
-				text-align: right;
-				width: 3.5em;
-				margin-left:1em;
-			}
-		}
-
-		.row > div > *{
-			margin: 1vh 0;
-		}
-		.row >div:first-child {
-
-			p {	
-				font-weight: 900;
-			}
-
-		}
-
-		.row > div:not(:first-child) {
-			text-align: center;
-
-			button,input {
-				margin: 1vh auto;
-				text-align: center;
-				width: 100%;
-			}
-		}
-
-		.row:last-child{
-			font-weight: 900;
-		}
-
-	}
-
-
-	.note-container {
-		display:block;
-		background-color: white;
-		margin-top: 5vh;
-
-		h1 {
-			text-align: center;
-		}
-
-		textarea {
-			width: 100%;
-			height:	20vh;
-			font-size: 2vw;
-		}
-	}
-}
-
-
-
-@include mq($until: desktop) {
-	.orderDetail-wrapper {
-		.order-form-container {
-			text-align: center;
-
-			.order-header {
-
-				h1 {
-					font-size: 1.5vw;
-				}
-
-				input {
-					width: 75%;
-					font-size: 1.5vw;
-				}
-			}
-
-			.order-body {
-				.items_header {
-
-					p {
-						font-size: 1.7vw;
-					}
-				}
-
-				.items_row {
-
-					p {
-						font-size: 1.8vw;
-					}
-				}
-			}
-		}
-	}
-}
-
-
-@include mq($until: tablet) {
-	.orderDetail-wrapper {
-		width: 100%;
-
-		.order-form-container {
-			text-align: center;
-
-			.order-header {
-
-				.row > div {
-					text-align: left;
-					display: inline-block;
+	@include mq($from: mobile, $until: tablet) {
+		.saveFunction {
+	
+			div > div {
+				*{
+					display: inline;
 				}
 
 				h1 {
-					margin: 5px;	
-					font-size: 3vw;
+					font-size: 14px;
 				}
 
-				input {
-					margin: 2.5px;
-					font-size: 3vw;
-				}
-			}
-
-			.order-body {
-				.formula_secton  {
-					h1{
-						font-size: 3vw;
-					}
+				button {
+					font-size: 14px;
+					height: auto;
 				}
 
-				.items_header {
-					p {
-						font-size: 2vw;
-					}
+				select {
+					height: auto;
 				}
 
-				.items_row {
-				
-					p {
-						font-size: 2vw;
-					}
-				}
-			}
-		}
-	
-		.price-display-container {
-	
-			.row >div:first-child {
-				font-size: 3vw;
-			}
-
-			.row > div:not(:first-child) {
-				
-				button,input,p {
-					font-size: 3vw;
+				option {
+					font-size: 14px;
 				}
 			}
 		}

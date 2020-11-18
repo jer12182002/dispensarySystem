@@ -27,7 +27,7 @@ class orderEditing extends Component {
 				return (
 				<div className="saveFunction container-fluid no-print">
 					<div className="row">
-						<div className="col-4 align-left">
+						<div className="col-4">
 							<h1>Order Number: {this.props.orderId}</h1>
 						</div>
 						<div className="col-4">
