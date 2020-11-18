@@ -1,6 +1,6 @@
 @import '~sass-mq';
 
-.orderEditing-wrapper {
+.orderDetail-wrapper {
 	width: 80%;
 	margin: 0 auto;
 	margin-bottom: 5vh;
@@ -194,7 +194,7 @@
 
 
 @include mq($until: desktop) {
-	.orderEditing-wrapper {
+	.orderDetail-wrapper {
 		.order-form-container {
 			text-align: center;
 
@@ -231,7 +231,7 @@
 
 
 @include mq($until: tablet) {
-	.orderEditing-wrapper {
+	.orderDetail-wrapper {
 		width: 100%;
 
 		.order-form-container {

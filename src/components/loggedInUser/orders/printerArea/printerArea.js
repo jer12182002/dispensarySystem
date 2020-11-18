@@ -6,10 +6,7 @@ import {PRINT_FUNCTION} from 'redux/actions/helperFunctions';
 import {UPDATE_PRINTING_TOGGLE} from 'redux/actions/orderPrinterAreaAction';
 
 class PrinterArea extends Component {
-	componentDidMount() {
-
-	console.log(this.props.printingType);
-	}
+	
     render() {
         return (
             <div className="print-container container-fluid no-print">

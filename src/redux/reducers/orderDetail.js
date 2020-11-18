@@ -1,5 +1,6 @@
 const LOAD_SAVED_ORDER_EDITING = "loadSavedorderDetail";
 const SAVE_ORDER_STATUS = "saveOrderStatus";
+const DUPLICATE_ORDER = "duplicateOrder";
 const UPDATE_ORDER_INFO = "updateOrderInfo";
 
 let orderDetail = {}
@@ -8,7 +9,7 @@ export default (state = {}, action)=> {
 	switch(action.type) {
 		case LOAD_SAVED_ORDER_EDITING:
 			orderDetail = action.payload.orderDetail;
-			
+
 			return JSON.parse(JSON.stringify(orderDetail));
 			break;
 
@@ -20,12 +21,17 @@ export default (state = {}, action)=> {
 			return JSON.parse(JSON.stringify(orderDetail));
 			break;
 
+		case DUPLICATE_ORDER:
+			orderDetail = action.payload;
+			return JSON.parse(JSON.stringify(orderDetail));
+			break;
 
 
 		case UPDATE_ORDER_INFO:
 			orderDetail = action.payload.orderDetail;
 			return JSON.parse(JSON.stringify(orderDetail));
 			break;
+
 
 		default:
 			return state;

@@ -32,9 +32,7 @@ let newOrderInfo = {
 	tax: 13
 }
 
-
 let ExceedRemainingQtyItems = [];
-
 
 
 
@@ -64,17 +62,27 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 }
 
 
-
 export const DUPLICATE_ORDER = (orderId, account) => {
 	return dispatch => {
 		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/orders/orderreview/duplicateorder`,{orderId : orderId, account : account})
 		.then(data => {
-			console.log(data);
+			if(data.data && data.data.orderId) {
+				alert(`Order has been duplicated. New Order Id: ${data.data.orderId}`);
 
-			dispatch({
-				type:"duplicateOrder", 
-				payload: ""
-			})
+				let duplicatedOrder = JSON.parse(JSON.stringify(newOrderInfo));
+				duplicatedOrder.dupicatedOrderId = data.data.orderId;
+
+				dispatch({
+					type:"duplicateOrder", 
+					payload: duplicatedOrder
+				})
+			}else {
+				dispatch({ //error msg
+					type:"",
+					payload:""
+				})
+			}
+ 
 		})
 	}
 }
@@ -132,9 +140,9 @@ export const SAVE_ORDER_EMAIL = value => {
 	}
 }
 
+
 export const SAVE_ORDER_STATUS = value => {
 	newOrderInfo.status = value;
-	console.log(`@@@@${value}`);
 	return dispatch => {
 		dispatch ({
 			type: "updateOrderInfo", 
@@ -533,5 +541,4 @@ export const UPDATE_TAX = newTax => {
 		})
 	}
 }
-
 

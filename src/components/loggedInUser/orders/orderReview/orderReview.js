@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {connect} from 'react-redux';
 import moment from 'moment';
 import './orderReview.scss';
@@ -10,28 +10,48 @@ import * as orderDetailAction from 'redux/actions/orderDetailAction';
 
 class orderReview extends Component {
 	
-	componentDidMount() {
+	componentWillMount() {
 		if(this.props.order_id) {
 			this.props.LOAD_SAVED_ORDER(this.props.order_id)
+		}else {
+			this.props.LOAD_DEFAULT_SETTING();
 		}
 	}
 
 
-	duplicateOrderFunction(account,orderId) {
-		return (
-		<div className="container-fluid">
-			<div className="row">
-				<div className="col-12">
-					<button className="btn btn-success" onClick = {e => {e.preventDefault(); this.props.DUPLICATE_ORDER(orderId, account);}}>Duplicate</button>
+
+
+	duplicateOrderFunction(account,orderId,orderStatus) {
+		if(this.props.dupicatedOrderId) {
+			return (
+				<div className="duplicateFunction container-fluid">
+					<div className="row">
+						<div className="col-6"><h1>Order Number: {orderId}</h1></div>
+						<div className="col-3">
+							<button className="btn btn-success" onClick = {e => {e.preventDefault(); this.props.DUPLICATE_ORDER(orderId, account);}}>Duplicate</button>
+						</div>
+						<div className="col-3 align-right">
+							<Link to={{pathname: "/orderediting", state:{order_id: this.props.dupicatedOrderId}}} className="btn btn-primary">Go To Duplicated Order: {this.props.dupicatedOrderId}</Link>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		);
+			);
+		}else {
+			return (
+				<div className="duplicateFunction container-fluid">
+					<div className="row">
+						<div className="col-6"><h1>Order Number: {orderId}</h1></div>
+						<div className="col-6 align-right">
+							<button className="btn btn-success" onClick = {e => {e.preventDefault(); this.props.DUPLICATE_ORDER(orderId, account);}}>Duplicate Order</button>
+						</div>
+					</div>
+				</div>
+			);	
+		}
 	}
 
 
  	orderListDisplay(account){
- 		console.log(account);
  		let DisplayTag ;
  
  			DisplayTag = 
@@ -125,7 +145,6 @@ class orderReview extends Component {
 
 
  	totalPriceDisplay (account) {
- 		console.log(account);
  		return (
  			<div className="price-display-container container-fluid">
  				<div className="container-fluid">
@@ -309,10 +328,9 @@ class orderReview extends Component {
 	
 
     render() {
-    	console.log(this.props.displayRawGram);
         return (
-            <div className="orderEditing-wrapper">
-            	{this.duplicateOrderFunction(this.props.orderAccount,this.props.orderId)}
+            <div className="orderDetail-wrapper orderReview-wrapper">
+            	{this.duplicateOrderFunction(this.props.orderAccount,this.props.orderId,this.props.orderStatus)}
     			{this.orderListDisplay(this.props.orderAccount)}
     			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
@@ -324,12 +342,11 @@ class orderReview extends Component {
 
 
 const mapStateToProps = state => {
-	console.log(state);
 	return {
 		orderId: state.orderDetail.orderId,
 		orderAccount: state.orderDetail.account,
 		formula: state.orderDetail.formula,
-		orderStatus: state.orderDetail.orderStatus,
+		orderStatus : state.orderDetail.orderStatus,
 		date: state.orderDetail.date,
 		customer: state.orderDetail.customer,
 		address: state.orderDetail.address,
@@ -354,7 +371,8 @@ const mapStateToProps = state => {
 		displayRawGram: state.orderPrinter.displayRawGram,
 		displayExtractGram: state.orderPrinter.displayExtractGram,
 		displayTotalGram: state.orderPrinter.displayTotalGram,
-		displayUnitPrice: state.orderPrinter.displayUnitPrice
+		displayUnitPrice: state.orderPrinter.displayUnitPrice,
+		dupicatedOrderId: state.orderDetail.dupicatedOrderId
 	}
 }
 

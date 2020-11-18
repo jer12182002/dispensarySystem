@@ -11,7 +11,7 @@ import * as orderDetailAction from 'redux/actions/orderDetailAction';
 
 class orderEditing extends Component {
 	
-	componentDidMount() {
+	componentWillMount() {
 		if(this.props.order_id) {
 			this.props.LOAD_SAVED_ORDER(this.props.order_id)
 		}else {
@@ -27,7 +27,7 @@ class orderEditing extends Component {
 				return (
 				<div className="saveFunction container-fluid no-print">
 					<div className="row">
-						<div className="col-4">
+						<div className="col-4 align-left">
 							<h1>Order Number: {this.props.orderId}</h1>
 						</div>
 						<div className="col-4">
@@ -47,6 +47,7 @@ class orderEditing extends Component {
 			}
 		}
 	}
+
 
 
  	orderListDisplay(account, orderStatus){
@@ -342,13 +343,13 @@ class orderEditing extends Component {
 
     render() {
         return (
-            <div className="orderEditing-wrapper">
+            <div className="orderDetail-wrapper orderEditing-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
     			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
     			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
-    			<PrinterArea printingType = {"orderEditing"}/>
 	    		<AddItemToOrder account={this.props.userInformation.account}/>    
+    			<PrinterArea printingType = {"orderEditing"}/>
             </div>
         );
     }
@@ -356,7 +357,6 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
-	console.log(state);
 	return {
 		orderId: state.orderDetail.orderId,
 		formula: state.orderDetail.formula,
