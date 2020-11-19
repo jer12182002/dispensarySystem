@@ -3,10 +3,15 @@ import {connect} from 'react-redux';
 import './printerArea.scss';
 
 import {PRINT_FUNCTION} from 'redux/actions/helperFunctions';
-import {UPDATE_PRINTING_TOGGLE} from 'redux/actions/orderPrinterAreaAction';
+import * as PrintingFunction from 'redux/actions/orderPrinterAreaAction';
+
 
 class PrinterArea extends Component {
-	
+
+	componentDidMount() {
+		this.props.RESET_PRINTING_TOGGLE_DEFAULT();
+	}
+
     render() {
         return (
             <div className="print-container container-fluid no-print">
@@ -69,7 +74,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		UPDATE_PRINTING_TOGGLE : (printingType, targetAttr, e) => dispatch(UPDATE_PRINTING_TOGGLE(printingType,targetAttr, e))
+		UPDATE_PRINTING_TOGGLE : (printingType, targetAttr, e) => dispatch(PrintingFunction.UPDATE_PRINTING_TOGGLE(printingType,targetAttr, e)),
+		RESET_PRINTING_TOGGLE_DEFAULT: () => dispatch(PrintingFunction.RESET_PRINTING_TOGGLE_DEFAULT())
 	}
 }
 

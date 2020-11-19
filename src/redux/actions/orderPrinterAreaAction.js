@@ -9,6 +9,14 @@ let orderPrinter = {
 }
 
 
+export const RESET_PRINTING_TOGGLE_DEFAULT = () => {
+	return dispatch => {
+		dispatch({
+			type: "resetPrintingToggleDefault"
+		})
+	}
+}
+
 
 export const UPDATE_PRINTING_TOGGLE = (printingType,targetAttribute, e) => {
 	 orderPrinter[targetAttribute] = e.target.checked;

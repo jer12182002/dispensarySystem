@@ -25,7 +25,7 @@ class orderReview extends Component {
 	duplicateOrderFunction(account,orderId,orderStatus) {
 		if(this.props.dupicatedOrderId) {
 			return (
-				<div className="duplicateFunction container-fluid">
+				<div className="duplicateFunction container-fluid no-print">
 					<div className="row">
 						<div className="col-4"><h1>Order Number: {orderId}</h1></div>
 						<div className="col-4">
@@ -39,7 +39,7 @@ class orderReview extends Component {
 			);
 		}else {
 			return (
-				<div className="duplicateFunction container-fluid">
+				<div className="duplicateFunction container-fluid no-print">
 					<div className="row">
 						<div className="col-6"><h1>Order Number: {orderId}</h1></div>
 						<div className="col-6">
@@ -335,7 +335,7 @@ class orderReview extends Component {
     			{this.orderListDisplay(this.props.orderAccount)}
     			{this.totalPriceDisplay(this.props.userInformation.account)}
     			{this.noteArea()}
-    			<PrinterArea printingType = {"orderEditing"}/>
+    			<PrinterArea printingType = {"orderReview"}/>
             </div>
         );
     }
