@@ -165,6 +165,7 @@ app.post('/saveorder', (req,res) => {
 	//If not, then "INSERT" a new one, and get ORDER_ID by orderId.
 
 	//IF order status is 'RECEIPT' then decrease the item QTY.
+	console.log(orderInfo);
 
 	if(orderInfo.orderId) {
 		//Order has been saved before, therefore. update order
@@ -172,9 +173,16 @@ app.post('/saveorder', (req,res) => {
 		sqlQueries += `DELETE FROM order_item_list WHERE ORDER_ID = '${orderInfo.orderId}';`;
 
 		if(orderInfo.orderItemList.length) {
-			orderInfo.orderItemList.forEach(item => {
-				sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
-			})
+			if(orderInfo.orderStatus === "Receipt") {
+				orderInfo.orderItemList.forEach(item => {
+					sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+					sqlQueries += `UPDATE inventory SET QTY = QTY - '${item.extract_gram}' WHERE ID = '${item.ID}';`;
+				})
+			}else {
+				orderInfo.orderItemList.forEach(item => {
+					sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+				})
+			}
 		}
 
 
@@ -222,9 +230,16 @@ app.post('/saveorder', (req,res) => {
 					let sqlQueries2 = '';
 
 					if(orderInfo.orderItemList.length) {
-						orderInfo.orderItemList.forEach(item => {
-							sqlQueries2 += `INSERT INTO order_item_list VALUES ('${insertedOrderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
-						})
+						if(orderInfo.orderStatus === "Receipt") {
+							orderInfo.orderItemList.forEach(item => {
+								sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+								sqlQueries += `UPDATE inventory SET QTY = QTY - '${item.extract_gram}' WHERE ID = '${item.ID}';`;
+							})
+						}else {
+							orderInfo.orderItemList.forEach(item => {
+								sqlQueries += `INSERT INTO order_item_list VALUES ('${orderInfo.orderId}', '${item.ID}', '${item.ENGLISH_NAME}', '${item.CHINESE_NAME}', '${item.TYPE}', '${item.RATIO}', '${item.QTY}', '${item.RENDE_PRICE}', '${item.STUDENT_PRICE}','${item.PROFESSOR_PRICE}','${item.raw_gram}', '${item.extract_gram}', '${item.final_price}');`;
+							})
+						}
 
 
 						connection.query(sqlQueries2,(err,result2) => {
