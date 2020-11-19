@@ -8,6 +8,8 @@ import AddItemToOrder from './addItemToOrder/addItemToOrder';
 import PrinterArea from 'components/loggedInUser/orders/printerArea/printerArea';
 
 import * as orderDetailAction from 'redux/actions/orderDetailAction';
+import * as headerAction from 'redux/actions/headerAction.js';
+
 
 class orderEditing extends Component {
 	
@@ -17,6 +19,14 @@ class orderEditing extends Component {
 		}else {
 			this.props.LOAD_DEFAULT_SETTING();
 		}
+	}
+
+	componentDidMount() {
+		this.props.ASSIGN_HEADER_PATH("Orders", "/orders");
+	}
+
+	componentWillUnmount() {
+		this.props.RESET_HEADER_PATH_DEFAULT();
 	}
 
 
@@ -416,7 +426,9 @@ const mapDispatchToProps = dispatch => {
   	UPDATE_BOTTLE_FEE: newBottleFee => dispatch(orderDetailAction.UPDATE_BOTTLE_FEE(newBottleFee)), 
 	UPDATE_TABLET_FEE: newTabletFee => dispatch(orderDetailAction.UPDATE_TABLET_FEE(newTabletFee)), 
 	UPDATE_DELIVERY_FEE: newDelievryFee => dispatch(orderDetailAction.UPDATE_DELIVERY_FEE(newDelievryFee)),
-	UPDATE_TAX: newTax => dispatch(orderDetailAction.UPDATE_TAX(newTax))
+	UPDATE_TAX: newTax => dispatch(orderDetailAction.UPDATE_TAX(newTax)),
+	ASSIGN_HEADER_PATH: (pathName, pathUrl) => dispatch (headerAction.ASSIGN_HEADER_PATH(pathName, pathUrl)), 
+  	RESET_HEADER_PATH_DEFAULT: () => dispatch(headerAction.RESET_HEADER_PATH_DEFAULT())
   }
 }
 

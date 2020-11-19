@@ -8,6 +8,7 @@ import './orderReview.scss';
 import PrinterArea from 'components/loggedInUser/orders/printerArea/printerArea';
 
 import * as orderDetailAction from 'redux/actions/orderDetailAction';
+import * as headerAction from 'redux/actions/headerAction.js';
 
 class orderReview extends Component {
 	
@@ -17,9 +18,16 @@ class orderReview extends Component {
 		}else {
 			this.props.LOAD_DEFAULT_SETTING();
 		}
+
 	}
 
+	componentDidMount() {
+		this.props.ASSIGN_HEADER_PATH("Orders", "/orders");
+	}
 
+	componentWillUnmount() {
+		this.props.RESET_HEADER_PATH_DEFAULT();
+	}
 
 
 	duplicateOrderFunction(account,orderId,orderStatus) {
@@ -381,7 +389,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
   	LOAD_SAVED_ORDER: orderId => dispatch(orderDetailAction.LOAD_SAVED_ORDER(orderId)),
-  	DUPLICATE_ORDER: (orderId, account) => dispatch(orderDetailAction.DUPLICATE_ORDER(orderId, account))
+  	DUPLICATE_ORDER: (orderId, account) => dispatch(orderDetailAction.DUPLICATE_ORDER(orderId, account)),
+  	ASSIGN_HEADER_PATH: (pathName, pathUrl) => dispatch (headerAction.ASSIGN_HEADER_PATH(pathName, pathUrl)), 
+  	RESET_HEADER_PATH_DEFAULT: () => dispatch(headerAction.RESET_HEADER_PATH_DEFAULT())
   }
 }
 
