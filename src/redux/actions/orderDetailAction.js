@@ -222,6 +222,7 @@ export const LOAD_SAVED_ORDER = orderId => {
 			.then(data => {
 				
 				newOrderInfo.orderStatus = 'Quote';
+				newOrderInfo.status = 'Quote';
 				newOrderInfo.orderId = orderId;
 				newOrderInfo.orderAccount = data.data[0].ACCOUNT;
 				newOrderInfo.formula = data.data[0].FORMULA === 'null'? '' : data.data[0].FORMULA;

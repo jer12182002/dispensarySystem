@@ -15,7 +15,7 @@ class orderEditing extends Component {
 	
 	componentWillMount() {
 		if(this.props.order_id) {
-			this.props.LOAD_SAVED_ORDER(this.props.order_id)
+			this.props.LOAD_SAVED_ORDER(this.props.order_id);
 		}else {
 			this.props.LOAD_DEFAULT_SETTING();
 		}

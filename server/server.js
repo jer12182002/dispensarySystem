@@ -165,7 +165,6 @@ app.post('/saveorder', (req,res) => {
 	//If not, then "INSERT" a new one, and get ORDER_ID by orderId.
 
 	//IF order status is 'RECEIPT' then decrease the item QTY.
-	console.log(orderInfo);
 
 	if(orderInfo.orderId) {
 		//Order has been saved before, therefore. update order
@@ -218,7 +217,6 @@ app.post('/saveorder', (req,res) => {
 			}
 			
 			sqlQueries += `INSERT INTO order_info (FORMULA, ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS,TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) VALUES ('${orderInfo.formula}' ,'${orderInfo.account}', '${orderInfo.date}', '${orderInfo.customer}', '${orderInfo.address}', '${orderInfo.phone}', '${orderInfo.email}', '${orderInfo.orderStatus}', '${orderInfo.totalGram}', '${orderInfo.dosagePerDay}', '${orderInfo.dayPerSession}', '${orderInfo.discountPrice}', '${orderInfo.discountPercentage}', '${orderInfo.bottleFee}', '${orderInfo.tabletFee}', '${orderInfo.deliveryFee}', '${orderInfo.tax}', '${orderInfo.orderNote}');`;
-			console.log(sqlQueries);
 			connection.query(sqlQueries, (err,result1)=> {
 				if(err) {
 					return connection.rollback(()=>{
