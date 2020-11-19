@@ -358,7 +358,7 @@ const mapStateToProps = state => {
 		suggestedItem: state.orderDetail.suggestedItem,
 		orderItemList: state.orderDetail.orderItemList, 
 		defaultGramSum: parseFloat(state.orderDetail.defaultGramSum).toFixed(2),
-		gramSum: state.orderDetail.gramSum,
+		gramSum: parseFloat(state.orderDetail.gramSum).toFixed(2),
 		dosagePerDay: state.orderDetail.dosagePerDay,
 		dayPerSession: state.orderDetail.dayPerSession, 
 		totalActualGram: state.orderDetail.orderItemList? parseFloat((state.orderDetail.orderItemList.reduce((total, item)=> total + item.extract_gram,0)*state.orderDetail.gramSum/state.orderDetail.defaultGramSum*state.orderDetail.dosagePerDay*state.orderDetail.dayPerSession)):0,
