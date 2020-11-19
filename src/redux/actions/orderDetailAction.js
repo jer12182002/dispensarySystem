@@ -56,8 +56,19 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 						orderId : data.data.orderId
 					}
 				})
+			}else {
+				dispatch({
+					type: "orderError",
+					payload:"Error happens in 'Save Order Editing'. (Order Id not found!!!)"
+				})
 			}
 		})
+		.catch(err => {
+	        dispatch ({
+	            type: "orderError", 
+	            payload: `Server Error in Order: ${err.message}`
+	        })
+	    }) 
 	}
 }
 
@@ -77,13 +88,19 @@ export const DUPLICATE_ORDER = (orderId, account) => {
 					payload: duplicatedOrder
 				})
 			}else {
-				dispatch({ //error msg
-					type:"",
-					payload:""
+				dispatch({
+					type: "orderError",
+					payload:"Error happens in 'Duplicate Order'. (Order Id not found!!!)"
 				})
 			}
  
 		})
+		.catch(err => {
+	        dispatch ({
+	            type: "orderError", 
+	            payload: `Server Error in Order: ${err.message}`
+	        })
+	    }) 
 	}
 }
 
@@ -276,6 +293,12 @@ export const LOAD_SAVED_ORDER = orderId => {
 					payload: {orderDetail: newOrderInfo}
 				})
 			})
+			.catch(err => {
+	            dispatch ({
+	                type: "orderError", 
+	                payload: `Server Error in Order: ${err.message}`
+	            })
+	        }) 
 		}
 	}
 }
@@ -299,7 +322,7 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	            })
 	            .catch(err => {
 	                dispatch ({
-	                    type: 'newOrderErrorMsg', 
+	                    type: "orderError", 
 	                    payload: err.message
 	                })
 	                SET_INPUT_VALUE("#newOrder_Item input", "");
@@ -308,7 +331,8 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	    else {
 	    	SET_INPUT_VALUE("#newOrder_Item input", "");
 	    	newOrderInfo.filteredItems = [];
-	    	 dispatch({
+	    	
+	    	dispatch({
 	            type: 'updateOrderInfo', 
 	            payload:{orderDetail: newOrderInfo}
 	        })

@@ -1,5 +1,6 @@
+const ACCOUNT_ERROR = "accountError";
 const ITEM_ERROR_MSG = "errMsg";
-const NEW_ORDER_ERROR_MSG = "newOrderErrorMsg";
+const ORDER_ERROR = "orderError"; 
 
 export default (state = {}, action) =>{
 	
@@ -8,9 +9,10 @@ export default (state = {}, action) =>{
 			return {errorMsg: action.payload};
 			break;
 
-		case NEW_ORDER_ERROR_MSG:
+		case ORDER_ERROR:
 			return {errorMsg: action.payload};
 			break;
+
 		default:
 			return {...state};
 			

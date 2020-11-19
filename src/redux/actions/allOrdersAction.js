@@ -16,6 +16,12 @@ export const LOAD_ALL_ORDERS = (account, permissionToggle=false) => {
 				}
 			})
 		})
+		.catch(err => {
+			dispatch ({
+	            type: "accountError", 
+	            payload: `Server Error in Account: ${err.message}`
+	        })
+		})
 	}
 }
 
