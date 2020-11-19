@@ -4,6 +4,7 @@
 	position: fixed;
 	bottom: 0;
 	left: 0;
+	z-index: 999;
 
 	p {
 		display: inline-block;
@@ -88,8 +89,8 @@
 					
 				}
 				button {
-					position: absolute;
-					bottom:0;
+					width: 60px;
+					margin: 5px 0;
 				}
 			}
 		}

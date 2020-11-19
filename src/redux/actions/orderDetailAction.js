@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, ADD_CLASS, REMOVE_CLASS} from './helperFunctions';
+import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, ADD_CLASS, REMOVE_CLASS, CLEAR_CHILDREN_INPUT_VALUE } from './helperFunctions';
 
 
 let newOrderInfo = {
@@ -334,6 +334,21 @@ export const CLICKED_SUGGESTED_ITEM = (item,orderItemList) => {
 	}
 }
 
+
+export const CLEAR_CLICKED_SUGGESTED_ITEM = () => {
+
+	newOrderInfo.filteredItems = [];
+	newOrderInfo.suggestedItem = undefined;
+
+	document.querySelector("#newOrder_Item input").value = "";
+
+	return dispatch => {
+		dispatch ({
+			type: 'updateOrderInfo', 
+			payload:{orderDetail: newOrderInfo}
+		}) 
+	}
+}
 
 
 

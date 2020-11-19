@@ -180,7 +180,7 @@ class orderEditing extends Component {
 	 						<p>Gram(s) Per Dosage:</p>
 	 					</div>
 	 					<div className="col-6 col-lg-2">
-	 						<input type="number" value={this.props.gramSum} min="0" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/>
+	 						<input type="number" value={this.props.gramSum} min="0" step="1" onChange={e=>this.props.GRAM_PER_DOSE_ON_CHANGE(e.target.value)}/>
 	 					</div>
 	 				</div>
 	 						

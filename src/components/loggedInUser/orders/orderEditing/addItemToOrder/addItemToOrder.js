@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import './addItemToOrder.scss';
 
 import {FILTER_ITEM_WHILE_TYPING,CLICKED_SUGGESTED_ITEM,ADJUST_GRAM_INPUT, ADD_ORDER_EDITING_ITEM} from 'redux/actions/orderDetailAction';
+import * as orderDetailAction from 'redux/actions/orderDetailAction';
 
 
 class addItemToOrder extends Component {
@@ -41,7 +42,7 @@ class addItemToOrder extends Component {
  			:<></>}
  			{this.props.suggestedItem?
  			<div className="addItem_input_bar row">
- 				<div id="newOrder_Item"className="col-4">
+ 				<div id="newOrder_Item" className="col-4">
  					<p>Item:</p>
  					<input type="text" onChange={e=>this.props.FILTER_ITEM_WHILE_TYPING(e.target.value)}/>
  				</div>
@@ -68,6 +69,7 @@ class addItemToOrder extends Component {
  				</div>
  				<div id="newOrderItem_Btn" className="col-1">
  					<button className="btn btn-success" onClick={e=>{e.preventDefault();this.props.ADD_ORDER_EDITING_ITEM(this.props.suggestedItem,this.props.orderItemList);}}>Add</button>
+ 					<button className="btn btn-warning" onClick={e=>{e.preventDefault(); this.props.CLEAR_CLICKED_SUGGESTED_ITEM()}}>Clear</button>
  				</div>
  			</div>
  			:
@@ -94,9 +96,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(FILTER_ITEM_WHILE_TYPING(value)),
-  	CLICKED_SUGGESTED_ITEM: (item,orderItemList) => dispatch(CLICKED_SUGGESTED_ITEM(item,orderItemList)),
-  	ADD_ORDER_EDITING_ITEM: (suggestedItem,orderItemList) => dispatch(ADD_ORDER_EDITING_ITEM(suggestedItem,orderItemList))
+  	FILTER_ITEM_WHILE_TYPING: (value)=> dispatch(orderDetailAction.FILTER_ITEM_WHILE_TYPING(value)),
+  	CLICKED_SUGGESTED_ITEM: (item,orderItemList) => dispatch(orderDetailAction.CLICKED_SUGGESTED_ITEM(item,orderItemList)),
+  	CLEAR_CLICKED_SUGGESTED_ITEM: () => dispatch(orderDetailAction.CLEAR_CLICKED_SUGGESTED_ITEM()),
+  	ADD_ORDER_EDITING_ITEM: (suggestedItem,orderItemList) => dispatch(orderDetailAction.ADD_ORDER_EDITING_ITEM(suggestedItem,orderItemList))
   }
 }
 
