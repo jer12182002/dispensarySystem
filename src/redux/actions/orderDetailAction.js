@@ -325,7 +325,7 @@ export const FILTER_ITEM_WHILE_TYPING = (value) => {
 	                    type: "orderError", 
 	                    payload: err.message
 	                })
-	                SET_INPUT_VALUE("#newOrder_Item input", "");
+	                //SET_INPUT_VALUE("#newOrder_Item input", "");
 	            })    
 	    }
 	    else {

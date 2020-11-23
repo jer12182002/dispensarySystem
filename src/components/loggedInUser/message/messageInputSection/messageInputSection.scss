@@ -1,0 +1,51 @@
+.messageInputSection-wrapper {
+	background-color: bisque;
+	border-top: 1px solid black;
+	position: fixed;
+	width: 100vw;
+	height: 20vh;
+	left:0;
+	bottom: 0;
+
+	& > div {
+		height: 19vh;
+		padding-top: 1vh;
+	}
+
+
+	div > div  {	
+		& {
+			display: grid;
+		}
+
+		&.row {
+			padding: 5px;
+		}
+
+		&.row:first-child {	
+			border-bottom: 1px dotted black;
+		}
+
+		h1 {
+			font-size: 22px;
+			width: 90%;
+			text-align: center;
+			margin: auto 5px;
+		}
+
+		input,select,textarea {
+			flex-grow: 1;
+			width: 90%;
+			margin: 0 auto;
+			resize: none;
+			font-size: 22px;
+		}
+
+		button {
+			height: 50%;
+			margin: auto 0;
+		}
+		
+		
+	}
+}

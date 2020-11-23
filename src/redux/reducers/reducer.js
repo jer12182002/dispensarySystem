@@ -5,6 +5,7 @@ import itemsControl from './itemsControl';
 import allOrders from './allOrders';
 import orderDetail from './orderDetail';
 import orderPrinter from './orderPrinter';
+import message from './message';
 import errMsg from './errMsg';
 
 
@@ -16,6 +17,7 @@ const allReducers = combineReducers(
 		allOrders: allOrders,
 		orderDetail: orderDetail,
 		orderPrinter: orderPrinter,
+		message: message,
 		errMsg: errMsg
 	}
 )

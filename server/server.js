@@ -361,8 +361,9 @@ app.get('/loadsavedorder', (req, res)=> {
 
 
 
-handleDisconnect();
+
 app.listen(4000,()=> {
 	console.log("########## Dispensary System now listening on Port 4000");
+	handleDisconnect();
 })
 

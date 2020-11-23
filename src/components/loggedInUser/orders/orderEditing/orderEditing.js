@@ -367,6 +367,7 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
+	
 	return {
 		orderId: state.orderDetail.orderId,
 		formula: state.orderDetail.formula,
