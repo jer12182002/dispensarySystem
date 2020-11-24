@@ -368,7 +368,7 @@ app.post('/message/send', (req,res) => {
 	let messageInputInfo = req.body.newMessageInput;
 
 	let sqlQueries = `INSERT INTO message (AUTHOR, AUTHOR_ID, RECIPIENT_ID, MESSAGE) VALUES ('${messageInputInfo.author}', '${messageInputInfo.authorId}', '${messageInputInfo.recipientId}', '${messageInputInfo.message}');`;
-	let sqlQueries2 = `SELECT * FROM message WHERE AUTHOR_ID = '${messageInputInfo.authorId}' ORDER BY TIME;`;
+	let sqlQueries2 = `SELECT * FROM message WHERE AUTHOR_ID = '${messageInputInfo.authorId}' OR RECIPIENT_ID = '${messageInputInfo.authorId}' ORDER BY TIME;`;
 	
 	connection.beginTransaction(err => {
 		if(err) {
@@ -377,7 +377,7 @@ app.post('/message/send', (req,res) => {
 
 		connection.query(sqlQueries, (err1,result1) => {
 			if(err1) {
-				connect.rollback(() => {
+				return connection.rollback(() => {
 					throw err1;
 				})
 			}else {
@@ -406,8 +406,31 @@ app.post('/message/send', (req,res) => {
 
 
 app.get('/message/getallmessages', (req, res) => {
-	let account = req.body.account;
-	console.log(account);
+	let accountId = req.query.account_id;
+	
+	let sqlQuery = `SELECT * FROM message WHERE AUTHOR_ID = '${accountId}' OR RECIPIENT_ID = '${accountId}' ORDER BY TIME;`;
+
+	connection.beginTransaction(err => {
+		if(err) {
+			throw err;
+		}else {
+			connection.query(sqlQuery,(err1, result1) => {
+				if(err1) {
+					throw err1;
+				}else {
+					connection.commit(err2 => {
+						if(err2) {
+							throw err2;
+						}else {
+							return res.json(result1);
+						}
+					})
+				}
+			})
+		}
+
+		
+	})
 })
 
 

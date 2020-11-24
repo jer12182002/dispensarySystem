@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {SCROLL_TO_BOTTOM} from './helperFunctions';
+
 
 let messageInfo = {
 	messages: [],
@@ -13,9 +15,16 @@ let messageInfo = {
 
 export const LOAD_ALL_MESSAGES = (account) => {
 	return dispatch => {
-		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getallmessages`, {account : account})
+		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getallmessages?account_id=${account.id}`)
 		.then(data => {
-			console.log(data);
+			if(data && data.status == 200) {
+				dispatch ({
+					type: "loadAllMessages", 
+					payload: data.data
+				})
+			}
+
+			SCROLL_TO_BOTTOM(".messages-container");
 		})
 	}
 }
@@ -107,11 +116,8 @@ export const SEND_MESSAGE_BTN_CLICKED = (authorId) => {
 				}) 
 		
 			}
+			SCROLL_TO_BOTTOM(".messages-container");
 		})
 	}
-
-
-
-	
 	
 }

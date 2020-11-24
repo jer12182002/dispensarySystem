@@ -35,5 +35,8 @@ export function PRINT_FUNCTION () {
 	window.print();
 }
 
-
+export function SCROLL_TO_BOTTOM (target) {
+	let element = document.querySelector(target);
+	element.scrollTop = element.scrollHeight;
+}
 
