@@ -11,6 +11,25 @@ let messageInfo = {
 	}
 }
 
+let allRecipients = [
+	{id: 1 , account: "Student"}, 
+	{id: 2 , account: "Professor"},
+	{id: 3 , account: "RenDeInc"}
+]
+
+
+export const PARSE_ID_TO_ACCOUNT = id => {
+	
+	let account = ""
+	allRecipients.forEach((recipient) => {
+		if(recipient.id === id) {
+			account = recipient.account;
+		}
+	})
+	return account;
+}
+
+
 
 
 export const LOAD_ALL_MESSAGES = (account) => {
@@ -34,11 +53,11 @@ export const LOAD_ALL_MESSAGES = (account) => {
 
 //******************************* Message - New message *****************************************
 export const SET_RECIPIENTS = (account) => {
-	let allRecipients = [
-		{id: 1 , account: "Student"}, 
-		{id: 2 , account: "Professor"},
-		{id: 3 , account: "RenDeInc"}
-	]
+	// let allRecipients = [
+	// 	{id: 1 , account: "Student"}, 
+	// 	{id: 2 , account: "Professor"},
+	// 	{id: 3 , account: "RenDeInc"}
+	// ]
 
 	let filteredRecipients = allRecipients.filter(recipient => recipient.id !== account.id);
 	messageInfo.messageInput.recipients = filteredRecipients;

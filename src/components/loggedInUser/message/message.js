@@ -25,7 +25,7 @@ class message extends Component {
                                     <p>Author: {msg.AUTHOR}</p>
                                 </div>
                                 <div className="col-6">
-                                    <p>To: {msg.RECIPIENT_ID}</p>
+                                    <p>To: {MESSAGE.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
                                 </div>
                                 <div className="col-12">
                                     <p>Time: {moment(msg.TIME).format('YYYY-MM-DD HH:mm:ss')}</p>
@@ -42,7 +42,7 @@ class message extends Component {
                                     <p>Author: {msg.AUTHOR}</p>
                                 </div>
                                 <div className="col-6">
-                                    <p>To: {msg.RECIPIENT_ID}</p>
+                                    <p>To: {MESSAGE.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
                                 </div>
                                 <div className="col-12">
                                     <p>Time: {moment(msg.TIME).format('YYYY-MM-DD HH:mm:ss')}</p>
