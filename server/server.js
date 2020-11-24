@@ -362,6 +362,56 @@ app.get('/loadsavedorder', (req, res)=> {
 
 
 
+
+//*********************** Message *******************************
+app.post('/message/send', (req,res) => {
+	let messageInputInfo = req.body.newMessageInput;
+
+	let sqlQueries = `INSERT INTO message (AUTHOR, AUTHOR_ID, RECIPIENT_ID, MESSAGE) VALUES ('${messageInputInfo.author}', '${messageInputInfo.authorId}', '${messageInputInfo.recipientId}', '${messageInputInfo.message}');`;
+	let sqlQueries2 = `SELECT * FROM message WHERE AUTHOR_ID = '${messageInputInfo.authorId}' ORDER BY TIME;`;
+	
+	connection.beginTransaction(err => {
+		if(err) {
+			throw err;
+		}
+
+		connection.query(sqlQueries, (err1,result1) => {
+			if(err1) {
+				connect.rollback(() => {
+					throw err1;
+				})
+			}else {
+				connection.query(sqlQueries2, (err2, result2) => {
+					if(err2) {
+						throw err2;
+					}else {
+						connection.commit (err3 => {
+							if(err3) {
+								return connection.rollback(err3 => {
+									throw err3;
+								})
+							}else {
+								return res.json(result2);
+							}
+						})
+					}
+				})
+			}
+		})
+	})
+
+})
+
+
+
+
+app.get('/message/getallmessages', (req, res) => {
+	let account = req.body.account;
+	console.log(account);
+})
+
+
+
 app.listen(4000,()=> {
 	console.log("########## Dispensary System now listening on Port 4000");
 	handleDisconnect();

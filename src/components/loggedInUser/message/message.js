@@ -5,11 +5,14 @@ import MessageInputSection from './messageInputSection/messageInputSection';
 import './message.scss';
 
 class message extends Component {
+    componentDidMount() {
+        
+    }
 
     render() {
         return (
             <div className="message-wrapper">message
-            	<MessageInputSection/>
+            	<MessageInputSection userInformation = {this.props.userInformation}/>
             </div>
         );
     }
@@ -17,7 +20,10 @@ class message extends Component {
 
 
 const mapStateToProps = state => {
-	return {};
+	
+	return {
+		
+	};
 }
 
 

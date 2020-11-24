@@ -1,47 +1,117 @@
+import axios from 'axios';
 
-
-let messageInput = {
-	author: "",
-	recipient: "",
-	message: ""
+let messageInfo = {
+	messages: [],
+	messageInput : {	
+		author: "",
+		recipient: "",
+		message: ""
+	}
 }
 
 
-export const SET_RECIPIENT = (account) => {
 
+export const LOAD_ALL_MESSAGES = (account) => {
+	return dispatch => {
+		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getallmessages`, {account : account})
+		.then(data => {
+			console.log(data);
+		})
+	}
 }
 
+
+
+
+//******************************* Message - New message *****************************************
+export const SET_RECIPIENTS = (account) => {
+	let allRecipients = [
+		{id: 1 , account: "Student"}, 
+		{id: 2 , account: "Professor"},
+		{id: 3 , account: "RenDeInc"}
+	]
+
+	let filteredRecipients = allRecipients.filter(recipient => recipient.id !== account.id);
+	messageInfo.messageInput.recipients = filteredRecipients;
+	messageInfo.messageInput.recipientId = filteredRecipients[0].id;
+	
+	if(messageInfo.messageInput.recipients.length) {
+
+		return dispatch => {
+			dispatch ({
+				type: "updateMessageInfo", 
+				payload: messageInfo.messageInput
+			})
+		}
+	}else {
+		return dispatch => {
+			dispatch ({
+				type: "messageError", 
+				payload: ""
+			})
+		}
+	}
+}
 
 
 export const AUTHOR_INPUT = (value) => {
-	messageInput.author = value.trim();
+	messageInfo.messageInput.author = value;
 
 	return dispatch => {
 		dispatch ({
 			type: "updateMessageInfo", 
-			payload: messageInput
+			payload: messageInfo.messageInput
 		})
 	}
 }
 
 export const RECIPIENT_INPUT = (value) => {
-	messageInput.recipient = value.trim();
+	messageInfo.messageInput.recipientId = value;
 
 	return dispatch => {
 		dispatch ({
 			type: "updateMessage", 
-			payload: messageInput
+			payload: messageInfo.messageInput
 		})
 	}
 }
 
 export const MESSAGE_INPUT = (value) => {
-	messageInput.message = value.trim();
+	messageInfo.messageInput.message = value;
 
 	return dispatch => {
 		dispatch ({
 			type: "updateMessage", 
-			payload: messageInput
+			payload: messageInfo.messageInput
 		})
 	}
+}
+
+
+
+export const SEND_MESSAGE_BTN_CLICKED = (authorId) => {
+
+	let newMessageInput = JSON.parse(JSON.stringify(messageInfo.messageInput));
+	newMessageInput.authorId = authorId;
+
+	return dispatch => {
+
+	axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/send`,{newMessageInput:newMessageInput})
+		.then(data => {
+
+			if(data && data.status == 200) {
+				
+				dispatch ({
+					type: "sentMessage",
+					payload: data.data
+				}) 
+		
+			}
+		})
+	}
+
+
+
+	
+	
 }

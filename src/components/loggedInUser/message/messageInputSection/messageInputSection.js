@@ -5,6 +5,9 @@ import './messageInputSection.scss';
 import * as MESSAGE from 'redux/actions/messageAction';
 
 class messageInputSection extends Component {
+	componentDidMount() {
+		this.props.SET_RECIPIENTS(this.props.userInformation);
+	}
 
     render() {
         return (
@@ -13,18 +16,25 @@ class messageInputSection extends Component {
             		<div className="col-3">
             			<div className="row">
 	            			<h1>Author:</h1>
-	            			<input type="text" onChange = {e => {e.preventDefault(); this.props.AUTHOR_INPUT(e.target.value);}}/>
+	            			<input type="text" value = {this.props.author} onChange = {e => {e.preventDefault(); this.props.AUTHOR_INPUT(e.target.value);}}/>
             			</div>
             			<div className="row">
 	            			<h1>Recipient</h1>
-	            			<select></select>
+	            			<select onChange = {e => {this.props.RECIPIENT_INPUT(e.target.value);}}>
+	            				{this.props.recipients && this.props.recipients.length?
+	            					this.props.recipients.map((recipient,index) => 
+	            						<option key = {index} value = {recipient.id}>{recipient.account}</option>
+	            					)
+	            					:null
+	            				}
+	            			</select>
             			</div>
             		</div>
             		<div className="col-8">
-            			<textarea/>
+            			<textarea value={this.props.message} onChange = {e => {e.preventDefault();this.props.MESSAGE_INPUT(e.target.value);}}/>
             		</div>
             		<div className="col-1">
-            			<button className="btn btn-success">Send</button>
+            			<button className="btn btn-success" disabled={!this.props.author || !this.props.message} onClick = {e => {e.preventDefault(); this.props.SEND_MESSAGE_BTN_CLICKED(this.props.userInformation.id);}}>Send</button>
             		</div>
             	</div>
             </div>
@@ -34,13 +44,25 @@ class messageInputSection extends Component {
 
 
 const mapStateToProps = state => {
-
+	if(state.message.messageInput) {
+		return {
+			recipients: state.message.messageInput.recipients,
+			author: state.message.messageInput.author,
+			recipientId: state.message.messageInput.recipientId,
+			message: state.message.messageInput.message
+		}
+	}
+	return {}
 }
 
 
 const mapDispatchToProps = dispatch => {
 	return {
-		AUTHOR_INPUT: (value) => dispatch(MESSAGE.AUTHOR_INPUT(value))
+		SET_RECIPIENTS: (account) => dispatch(MESSAGE.SET_RECIPIENTS(account)),
+		AUTHOR_INPUT: (value) => dispatch(MESSAGE.AUTHOR_INPUT(value)),
+		RECIPIENT_INPUT: (value) => dispatch(MESSAGE.RECIPIENT_INPUT(value)),
+		MESSAGE_INPUT: (value) => dispatch(MESSAGE.MESSAGE_INPUT(value)),
+		SEND_MESSAGE_BTN_CLICKED: (authorId) => dispatch(MESSAGE.SEND_MESSAGE_BTN_CLICKED(authorId))
 	}
 }
 
