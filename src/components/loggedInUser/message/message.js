@@ -13,10 +13,13 @@ class message extends Component {
         this.INTERVAL_NAME = setInterval(()=>{
             this.props.LOAD_ALL_MESSAGES(this.props.userInformation, this.props.messages.length)
         },1000);
+     
     }
 
     componentWillUnmount() {
         clearInterval(this.INTERVAL_NAME);
+        MESSAGE.CHANGE_ALLOW_SCROLL();
+  
     }
 
     render() {

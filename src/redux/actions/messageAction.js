@@ -4,6 +4,7 @@ import {SCROLL_TO_BOTTOM} from './helperFunctions';
 
 
 let messageInfo = {
+	allowScroll: true,
 	messages: [],
 	messageInput : {	
 		author: "",
@@ -143,8 +144,14 @@ export const SEND_MESSAGE_BTN_CLICKED = (authorId) => {
 
 
 //*********************** Message - helper function **********************************
+export const CHANGE_ALLOW_SCROLL = () => {
+	messageInfo.allowScroll = true;
+}
+
+
 const SCROLL_TO_BOTTOM_BY_CONDITION = (prevMsgSize, currMsgSize) => {
-	if(currMsgSize > prevMsgSize) {
+	if(currMsgSize > prevMsgSize || messageInfo.allowScroll) {
 		SCROLL_TO_BOTTOM(".messages-container");
+		messageInfo.allowScroll = false;
 	}
 }
