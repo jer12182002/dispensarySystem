@@ -9,9 +9,20 @@ import OrderEditing from './orders/orderEditing/orderEditing';
 import Orders from './orders/orders';
 import OrderReview from './orders/orderReview/orderReview';
 import Message from './message/message';
-
+import * as MESSAGE_ACTION from 'redux/actions/messageAction';
 
 class loggedInUser extends React.Component {
+	INTERVAL_NAME = "loadUnreadMsgNumber";
+
+	componentDidMount () {
+		this.INTERVAL_NAME = setInterval( () => {
+			this.props.LOAD_UNREAD_MSG_NUMBER(this.props.loginAccount);
+		},1000)
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.INTERVAL_NAME);
+	}
 
   render() {
   	if(this.props.errorMsg) {
@@ -43,7 +54,9 @@ class loggedInUser extends React.Component {
 
 				  			<div className="col-lg-4">
 				  				<Link to="/message">
-				  					<p className="msgNumber-container">5</p>
+				  					{this.props.unreadMsgNumber > 0?
+				  						<p className="msgNumber-container">{this.props.unreadMsgNumber}</p> : null
+				  					}
 				  					<img src="/assets/mainPageContainer/message.jpg"/>
 				  				</Link>
 				  			</div>
@@ -65,9 +78,22 @@ class loggedInUser extends React.Component {
 
 const mapStateToPros = state => {
 	console.log(state);
+	if(state.accounts) {	
+		return {
+			loginAccount: state.accounts.loginAccount,
+			userLoggedIn: state.accounts.userLoggedIn,
+			unreadMsgNumber: state.message.unreadMsgNumber,
+			errorMsg: state.errMsg.errorMsg
+		}
+	}
+	return {}
+}
+
+const mapDispatchToProps = dispatch => {
 	return {
-		userLoggedIn: state.accounts.userLoggedIn,
-		errorMsg: state.errMsg.errorMsg
+		LOAD_UNREAD_MSG_NUMBER: account => dispatch(MESSAGE_ACTION.LOAD_UNREAD_MSG_NUMBER(account))
 	}
 }
-export default connect(mapStateToPros)(loggedInUser);
+
+
+export default connect(mapStateToPros,mapDispatchToProps)(loggedInUser);

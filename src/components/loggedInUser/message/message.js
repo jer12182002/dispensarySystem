@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import './message.scss';
 import moment from 'moment';
 
-import * as MESSAGE from 'redux/actions/messageAction';
+import * as MESSAGE_ACTION from 'redux/actions/messageAction';
 import MessageInputSection from './messageInputSection/messageInputSection';
 
 class message extends Component {
@@ -18,14 +18,14 @@ class message extends Component {
 
     componentWillUnmount() {
         clearInterval(this.INTERVAL_NAME);
-        MESSAGE.CHANGE_ALLOW_SCROLL();
+        MESSAGE_ACTION.CHANGE_ALLOW_SCROLL();
   
     }
 
     render() {
         return (
             <div className="message-wrapper">
-                <div id="aaa"className = "messages-container container-fluid">
+                <div className = "messages-container container-fluid">
 
                     {this.props.messages && this.props.messages.length?
                        this.props.messages.map((msg, index) => 
@@ -36,7 +36,7 @@ class message extends Component {
                                     <p>Author: {msg.AUTHOR}</p>
                                 </div>
                                 <div className="msgTitle col-lg-4 col-md-3">
-                                    <p>To: {MESSAGE.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
+                                    <p>To: {MESSAGE_ACTION.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
                                 </div>
                                 <div className="msgTitle col-lg-4 col-md-6">
                                     <p>Time: {moment(msg.TIME).format('YYYY-MM-DD HH:mm:ss')}</p>
@@ -53,7 +53,7 @@ class message extends Component {
                                     <p>Author: {msg.AUTHOR}</p>
                                 </div>
                                 <div className="msgTitle col-lg-4 col-md-3">
-                                    <p>From: {MESSAGE.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
+                                    <p>From: {MESSAGE_ACTION.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
                                 </div>
                                 <div className="msgTitle col-lg-4 col-md-6">
                                     <p>Time: {moment(msg.TIME).format('YYYY-MM-DD HH:mm:ss')}</p>
@@ -88,7 +88,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-        LOAD_ALL_MESSAGES: (account, prevMsgSize) => dispatch(MESSAGE.LOAD_ALL_MESSAGES(account, prevMsgSize))
+        LOAD_ALL_MESSAGES: (account, prevMsgSize) => dispatch(MESSAGE_ACTION.LOAD_ALL_MESSAGES(account, prevMsgSize))
     }
 }
 

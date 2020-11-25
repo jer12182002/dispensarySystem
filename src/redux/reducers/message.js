@@ -1,3 +1,4 @@
+let LOAD_UNREAD_MESSAGE_NUMBER = "loadUnreadMessageNumber";
 let LOAD_ALL_MESSAGES = "loadAllMessages";
 let UPDATE_MESSAGE_INFO = "updateMessageInfo";
 let SENT_MESSAGE = "sentMessage";
@@ -15,8 +16,14 @@ let messageInfo = {
 
 export default (state={}, action) => {
 	switch(action.type) {
+		case LOAD_UNREAD_MESSAGE_NUMBER:
+			messageInfo.unreadMsgNumber = action.payload;
+			return messageInfo;
+			break;
+
 		case LOAD_ALL_MESSAGES:
 			messageInfo.messages = action.payload;
+			console.log(messageInfo.mesages);
 			return messageInfo;
 			break;
 

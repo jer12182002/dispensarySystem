@@ -20,6 +20,24 @@ let allRecipients = [
 ]
 
 
+
+
+//********************** LoggedInUser - load unread message number ****************
+
+export const LOAD_UNREAD_MSG_NUMBER = (account) => {
+	return dispatch => {
+		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getunreadmessagenumber?account_id=${account.id}`)
+		.then(data => {
+			if(data && data.data && data.data[0]) {
+				dispatch({
+					type : "loadUnreadMessageNumber",
+					payload: data.data[0].UNREADNUMBER
+				})
+			}
+		})
+	}
+}
+
 //*********************** Message - all message **********************************
 
 export const PARSE_ID_TO_ACCOUNT = id => {
@@ -39,7 +57,6 @@ export const LOAD_ALL_MESSAGES = (account, prevMsgSize) => {
 	return dispatch => {
 		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getallmessages?account_id=${account.id}`)
 		.then(data => {
-			console.log(data);
 			if(data && data.status == 200) {
 				dispatch ({
 					type: "loadAllMessages", 

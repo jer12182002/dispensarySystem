@@ -360,8 +360,27 @@ app.get("/loadsavedorder", (req, res)=> {
 })	
 
 
+//*********************** Message LoggedingUser (load unread Message number) *********************
+app.get("/message/getunreadmessagenumber", (req,res) => {
+	let accountId = req.query.account_id;
+	
+	let sqlQuery = `SELECT SUM(UNREAD) AS "UNREADNUMBER" FROM message WHERE RECIPIENT_ID = "${accountId}";`;
 
-
+	connection.beginTransaction(err => {
+		if(err) {
+			throw err;
+		}
+		connection.query(sqlQuery, (err1, result1) => {
+			if(err1) {
+				return connection.rollback(()=> {
+					throw err1;
+				})
+			}else {
+				return res.json(result1);
+			}
+		})
+	})
+})
 
 //*********************** Message *******************************
 app.post("/message/send", (req,res) => {
@@ -409,21 +428,28 @@ app.get("/message/getallmessages", (req, res) => {
 
 	let accountId = req.query.account_id;
 	
-	let sqlQuery = `SELECT * FROM message WHERE AUTHOR_ID = "${accountId}" OR RECIPIENT_ID = "${accountId}" ORDER BY TIME;`;
+	let	sqlQueries1 = `UPDATE message SET UNREAD = "false" WHERE RECIPIENT_ID = "${accountId}";`;
+	let sqlQueries2 = `SELECT * FROM message WHERE AUTHOR_ID = "${accountId}" OR RECIPIENT_ID = "${accountId}" ORDER BY TIME;`;
 
 	connection.beginTransaction(err => {
 		if(err) {
 			throw err;
 		}else {
-			connection.query(sqlQuery,(err1, result1) => {
+			connection.query(sqlQueries1,(err1, result1) => {
 				if(err1) {
 					throw err1;
 				}else {
-					connection.commit(err2 => {
+					connection.query(sqlQueries2,(err2, result2) => {
 						if(err2) {
 							throw err2;
 						}else {
-							return res.json(result1);
+							connection.commit(err3 => {
+								if(err3) {
+									throw err3;
+								}else{
+									return res.json(result2);
+								}
+							})
 						}
 					})
 				}
