@@ -30,18 +30,18 @@ class loggedInUser extends React.Component {
 		  		<Router>
 			  		<Route exact path = "/">
 				  		<div className="row">
-				  			<div className="col-4">
+				  			<div className="col-lg-4">
 				  				<Link to="/inventory">
 				  					<img src="/assets/mainPageContainer/inventory.jpg"/>
 				  				</Link>
 				  			</div>
-				  			<div className="col-4">
+				  			<div className="col-lg-4">
 				  				<Link to="/orders">
 				  					<img src="/assets/mainPageContainer/orders.jpg"/>
 				  				</Link>
 				  			</div>
 
-				  			<div className="col-4">
+				  			<div className="col-lg-4">
 				  				<Link to="/message">
 				  					<img src="/assets/mainPageContainer/message.jpg"/>
 				  				</Link>

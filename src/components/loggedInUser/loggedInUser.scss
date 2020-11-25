@@ -1,11 +1,12 @@
-.homePage-wrapper {
+@import '~sass-mq';
 
+.homePage-wrapper {
 	margin-top: 10vh;
 
 	&>.row {
 		margin-top: 20vh;
 		
-		.col-4 {
+		.col-lg-4 {
 			text-align: center;
 
 			img {
@@ -16,6 +17,20 @@
 				&:hover {
 					box-shadow: 10px 10px lightgray;
 					transform:scale(1.1);
+				}
+			}
+		}
+	}
+}
+
+@include mq($until: desktop) {
+	.homePage-wrapper {
+		&>.row {
+			margin: 0;
+			.col-lg-4 {
+				margin: 5vh;
+				img {
+					height: 30vw;
 				}
 			}
 		}
