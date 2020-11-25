@@ -43,6 +43,7 @@ class loggedInUser extends React.Component {
 
 				  			<div className="col-lg-4">
 				  				<Link to="/message">
+				  					<p className="msgNumber-container">5</p>
 				  					<img src="/assets/mainPageContainer/message.jpg"/>
 				  				</Link>
 				  			</div>
