@@ -406,6 +406,7 @@ app.post('/message/send', (req,res) => {
 
 
 app.get('/message/getallmessages', (req, res) => {
+	console.log("@@");
 	let accountId = req.query.account_id;
 	
 	let sqlQuery = `SELECT * FROM message WHERE AUTHOR_ID = '${accountId}' OR RECIPIENT_ID = '${accountId}' ORDER BY TIME;`;

@@ -1,12 +1,15 @@
-.message-wrapper {
+@import '~sass-mq';
 
+.message-wrapper {
 	.messages-container {
 		position: absolute;
+		right: 0;
 		bottom: 20vh;
 		height: 73vh;
 		overflow: scroll;
 		overflow-x: hidden;
 		scroll-behavior: smooth;
+		width: 98%;
 
 		.row {
 			position: relative;
@@ -47,6 +50,91 @@
 					border-top-color: lightblue;
 				}	
 			}
+
+
+			.msgTitle {
+				margin: 2% 0;
+				font-weight: 900;
+				font-size: .8vw;
+
+				p {
+					margin-bottom: 0;
+				}
+			}
+
+			.msgBody {
+
+				&:after {
+					content: ' ';
+					position:absolute;
+					top: 0;
+					left: 2%;
+					width: 96%;
+					border-top: 1px solid black;
+				}
+
+				pre {
+					white-space: pre-wrap;
+					word-wrap: break-word;
+					font-size: 1.2vw;
+				}
+			}
 		}
 	}
+}
+
+@include mq($until: desktop) {
+	.message-wrapper {
+		.messages-container {
+
+			.row {
+				&:after {
+					right: 3%;
+				}
+				
+				&.sender {
+					&:after {
+						left: 3%;
+					}
+				}
+
+				.msgBody {
+					pre {
+						font-size: 1.6vw;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@include mq ($until: tablet) {
+	.message-wrapper {
+		.messages-container {
+	
+			.row {
+
+				&:after {
+					right: 5%;
+				}
+
+				&.sender {
+					&:after {
+						left: 5%;
+					}
+				}
+
+				.msgTitle {
+					font-size: 1.2vw;
+				}
+
+				.msgBody {
+					pre {
+						font-size: 2.2vw;
+					}
+				}
+			}
+		}
+	}	
 }

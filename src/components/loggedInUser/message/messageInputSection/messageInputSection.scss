@@ -1,3 +1,5 @@
+@import '~sass-mq';
+
 .messageInputSection-wrapper {
 	background-color: bisque;
 	border-top: 1px solid black;
@@ -45,7 +47,44 @@
 			height: 50%;
 			margin: auto 0;
 		}
+	}
+}
+
+
+@include mq ($until: desktop) {
+	.messageInputSection-wrapper {
 		
+		.authorContainer {
+			display: flex;
+			text-align: center;
+			border-bottom: 1px dotted black;
+			margin-bottom: 1vh;
+			.row {
+				width: 50%;
+				display: block;
+				margin: 0 auto;
+				&.row:first-child {
+					border: 0;
+				}
+			}
+		}
+
+		div > div {
 		
+			h1,input,select,textarea {
+				font-size: 16px;
+			}
+			textarea {
+				margin: auto;
+				width: 95%;
+			}
+
+			button {
+				padding: 0;
+				margin: 0 auto;
+				height: auto;
+				width: 95%;
+			}
+		}
 	}
 }

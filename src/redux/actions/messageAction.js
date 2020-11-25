@@ -2,6 +2,7 @@ import axios from 'axios';
 import {SCROLL_TO_BOTTOM} from './helperFunctions';
 
 
+
 let messageInfo = {
 	messages: [],
 	messageInput : {	
@@ -18,8 +19,10 @@ let allRecipients = [
 ]
 
 
+//*********************** Message - all message **********************************
+
 export const PARSE_ID_TO_ACCOUNT = id => {
-	
+
 	let account = ""
 	allRecipients.forEach((recipient) => {
 		if(recipient.id === id) {
@@ -31,11 +34,11 @@ export const PARSE_ID_TO_ACCOUNT = id => {
 
 
 
-
-export const LOAD_ALL_MESSAGES = (account) => {
+export const LOAD_ALL_MESSAGES = (account, prevMsgSize) => {
 	return dispatch => {
 		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getallmessages?account_id=${account.id}`)
 		.then(data => {
+			console.log(data);
 			if(data && data.status == 200) {
 				dispatch ({
 					type: "loadAllMessages", 
@@ -43,21 +46,16 @@ export const LOAD_ALL_MESSAGES = (account) => {
 				})
 			}
 
-			SCROLL_TO_BOTTOM(".messages-container");
+			SCROLL_TO_BOTTOM_BY_CONDITION(prevMsgSize, data.data.length);
 		})
+		
 	}
 }
 
 
 
-
 //******************************* Message - New message *****************************************
 export const SET_RECIPIENTS = (account) => {
-	// let allRecipients = [
-	// 	{id: 1 , account: "Student"}, 
-	// 	{id: 2 , account: "Professor"},
-	// 	{id: 3 , account: "RenDeInc"}
-	// ]
 
 	let filteredRecipients = allRecipients.filter(recipient => recipient.id !== account.id);
 	messageInfo.messageInput.recipients = filteredRecipients;
@@ -139,4 +137,14 @@ export const SEND_MESSAGE_BTN_CLICKED = (authorId) => {
 		})
 	}
 	
+}
+
+
+
+
+//*********************** Message - helper function **********************************
+const SCROLL_TO_BOTTOM_BY_CONDITION = (prevMsgSize, currMsgSize) => {
+	if(currMsgSize > prevMsgSize) {
+		SCROLL_TO_BOTTOM(".messages-container");
+	}
 }

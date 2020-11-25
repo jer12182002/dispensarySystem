@@ -13,7 +13,7 @@ class messageInputSection extends Component {
         return (
             <div className="messageInputSection-wrapper container-fluid">
             	<div className="row">
-            		<div className="col-3">
+            		<div className="authorContainer col-lg-3">
             			<div className="row">
 	            			<h1>Author:</h1>
 	            			<input type="text" value = {this.props.author} onChange = {e => {e.preventDefault(); this.props.AUTHOR_INPUT(e.target.value);}}/>
@@ -30,10 +30,10 @@ class messageInputSection extends Component {
 	            			</select>
             			</div>
             		</div>
-            		<div className="col-8">
+            		<div className="col-lg-8">
             			<textarea value={this.props.message} onChange = {e => {e.preventDefault();this.props.MESSAGE_INPUT(e.target.value);}}/>
             		</div>
-            		<div className="col-1">
+            		<div className="col-lg-1 col-sm-12">
             			<button className="btn btn-success" disabled={!this.props.author || !this.props.message} onClick = {e => {e.preventDefault(); this.props.SEND_MESSAGE_BTN_CLICKED(this.props.userInformation.id);}}>Send</button>
             		</div>
             	</div>

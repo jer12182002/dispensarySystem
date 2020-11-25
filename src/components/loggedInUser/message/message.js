@@ -7,8 +7,16 @@ import * as MESSAGE from 'redux/actions/messageAction';
 import MessageInputSection from './messageInputSection/messageInputSection';
 
 class message extends Component {
+    INTERVAL_NAME = "loadMessages";
+
     componentDidMount() {
-        this.props.LOAD_ALL_MESSAGES(this.props.userInformation);
+        this.INTERVAL_NAME = setInterval(()=>{
+            this.props.LOAD_ALL_MESSAGES(this.props.userInformation, this.props.messages.length)
+        },1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.INTERVAL_NAME);
     }
 
     render() {
@@ -21,34 +29,34 @@ class message extends Component {
                         msg.AUTHOR_ID === this.props.userInformation.id?
 
                             <div className="row receiver">
-                              <div className="col-6">
+                              <div className="msgTitle col-lg-4 col-md-3">
                                     <p>Author: {msg.AUTHOR}</p>
                                 </div>
-                                <div className="col-6">
+                                <div className="msgTitle col-lg-4 col-md-3">
                                     <p>To: {MESSAGE.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
                                 </div>
-                                <div className="col-12">
+                                <div className="msgTitle col-lg-4 col-md-6">
                                     <p>Time: {moment(msg.TIME).format('YYYY-MM-DD HH:mm:ss')}</p>
                                 </div>
-                                <div className="col-12">
-                                    <p>{msg.MESSAGE}</p>
+                                <div className="msgBody col-lg-12 col-md-12">
+                                    <pre>{msg.MESSAGE}</pre>
                                 </div>
                             </div>
 
                             :
 
                             <div className="row sender">
-                               <div className="col-6">
+                               <div className="msgTitle col-lg-4 col-md-3">
                                     <p>Author: {msg.AUTHOR}</p>
                                 </div>
-                                <div className="col-6">
-                                    <p>To: {MESSAGE.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
+                                <div className="msgTitle col-lg-4 col-md-3">
+                                    <p>From: {MESSAGE.PARSE_ID_TO_ACCOUNT(msg.RECIPIENT_ID)}</p>
                                 </div>
-                                <div className="col-12">
+                                <div className="msgTitle col-lg-4 col-md-6">
                                     <p>Time: {moment(msg.TIME).format('YYYY-MM-DD HH:mm:ss')}</p>
                                 </div>
-                                <div className="col-12">
-                                    <p>{msg.MESSAGE}</p>
+                                <div className="msgBody col-lg-12 col-md-12">
+                                    <pre>{msg.MESSAGE}</pre>
                                 </div>
                             </div>
                        )
@@ -77,7 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-        LOAD_ALL_MESSAGES: (account) => dispatch(MESSAGE.LOAD_ALL_MESSAGES(account))
+        LOAD_ALL_MESSAGES: (account, prevMsgSize) => dispatch(MESSAGE.LOAD_ALL_MESSAGES(account, prevMsgSize))
     }
 }
 
