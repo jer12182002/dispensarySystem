@@ -10,7 +10,6 @@ export default (state = {}, action)=> {
 	switch(action.type) {
 		case LOAD_SAVED_ORDER_EDITING:
 			orderDetail = action.payload.orderDetail;
-
 			return JSON.parse(JSON.stringify(orderDetail));
 			break;
 
@@ -23,9 +22,7 @@ export default (state = {}, action)=> {
 			break;
 
 		case ORDER_DELETED: 
-			let newOrderDetail = JSON.parse(JSON.stringify(orderDetail));
-			newOrderDetail.orderDeleted = true;
-			return newOrderDetail;
+			return {orderDeleted:true};
 
 		case DUPLICATE_ORDER:
 			orderDetail = action.payload;
@@ -35,6 +32,7 @@ export default (state = {}, action)=> {
 
 		case UPDATE_ORDER_INFO:
 			orderDetail = action.payload.orderDetail;
+
 			return JSON.parse(JSON.stringify(orderDetail));
 			break;
 

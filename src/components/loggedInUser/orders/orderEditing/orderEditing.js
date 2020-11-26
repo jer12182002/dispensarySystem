@@ -14,14 +14,14 @@ import * as headerAction from 'redux/actions/headerAction.js';
 class orderEditing extends Component {
 
 	componentWillMount() {
+	}
+
+	componentDidMount() {
 		if(this.props.order_id) {
 			this.props.LOAD_SAVED_ORDER(this.props.order_id);
 		}else {
 			this.props.LOAD_DEFAULT_SETTING();
 		}
-	}
-
-	componentDidMount() {
 		this.props.ASSIGN_HEADER_PATH("Orders", "/orders");
 	}
 
@@ -32,11 +32,9 @@ class orderEditing extends Component {
 
 
 	saveOrderFunction(account, orderStatus) {
+			
 		if(this.props.orderItemList && this.props.orderItemList.length > 0) {
 			if(orderStatus === "Quote") {
-				if(this.props.orderDeleted) {
-					return (<Redirect to={{pathname:"/orders"}}/>);
-				}	
 
 				return (
 				<div className="saveFunction container-fluid no-print">
@@ -53,7 +51,11 @@ class orderEditing extends Component {
 						</div>
 						<div className="col-4">
 							<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList,this.props.gramSum)}}>Save</button>
-							<button className="btn btn-danger" onClick = {e => {e.preventDefault(); this.props.DELETE_ORDER_EDITING({orderId:this.props.orderId,account:account});}}>Delete</button>
+							{this.props.orderId?
+								<button className="btn btn-danger" onClick = {e => {e.preventDefault(); this.props.DELETE_ORDER_EDITING({orderId:this.props.orderId,account:account});}}>Delete</button>
+								:
+								null
+							}
 						</div>
 					</div>
 				</div>);
@@ -357,6 +359,10 @@ class orderEditing extends Component {
 
 
     render() {
+    	if(this.props.orderDeleted) {
+			return (<Redirect to={{pathname:"/orders"}}/>);
+		}else{
+
         return (
             <div className="orderDetail-wrapper orderEditing-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
@@ -367,12 +373,12 @@ class orderEditing extends Component {
     			<PrinterArea printingType = {"orderEditing"}/>
             </div>
         );
+		}	
     }
 }
 
 
 const mapStateToProps = state => {
-	
 	return {
 		orderDeleted: state.orderDetail.orderDeleted, 
 		orderId: state.orderDetail.orderId,

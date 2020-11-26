@@ -5,6 +5,7 @@ import {SET_ATTRIBUTE ,REMOVE_ATTRIBUTE, SET_INPUT_VALUE, ADD_CLASS, REMOVE_CLAS
 
 
 let newOrderInfo = {
+	orderDeleted: false,
 	orderId: undefined,
 	orderAccount: undefined,
 	formula: '',
@@ -74,13 +75,15 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 
 
 export const DELETE_ORDER_EDITING = (deleteInfo) => {
+
 	return dispatch => {
-		console.log(deleteInfo);
 		axios.delete(`${process.env.REACT_APP_DISPENSARY_SERVER}/deleteorder?orderId=${deleteInfo.orderId}&&account=${deleteInfo.account}`,)
 		.then(data => {
 			if(data.status && data.status === 200) {
+				alert("Order has been deleted");
 				dispatch ({
 					type:"orderDeleted"
+
 				})
 			}
 		})
@@ -211,6 +214,7 @@ export const SAVE_ORDER_NOTE = value => {
 export const LOAD_DEFAULT_SETTING = (orderId = undefined) => {
 
 	newOrderInfo = {
+		orderDeleted: false,
 		orderId: undefined,
 		orderAccount: undefined,
 		formula: '',
@@ -252,7 +256,7 @@ export const LOAD_SAVED_ORDER = orderId => {
 		if(orderId){
 			axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/loadsavedorder?order_id=${orderId}`)
 			.then(data => {
-				
+				newOrderInfo.orderDeleted = false;
 				newOrderInfo.orderStatus = 'Quote';
 				newOrderInfo.status = 'Quote';
 				newOrderInfo.orderId = orderId;
