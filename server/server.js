@@ -269,6 +269,46 @@ app.post("/saveorder", (req,res) => {
 })
 
 
+app.delete("/deleteorder", (req, res) => {
+
+	let orderId = req.query.orderId;
+	let account = req.query.account;
+
+	let sqlQueries1 = `DELETE FROM order_info WHERE ORDER_ID = "${orderId}" AND ACCOUNT = "${account}";`;
+	let sqlQueries2 = `DELETE FROM order_item_list WHERE ORDER_ID = "${orderId}";`;
+
+	connection.beginTransaction(err => {
+		if(err) {
+			throw err;
+		}
+
+		connection.query(sqlQueries1, (err1, result1) => {
+			
+			if(result1.affectedRows) {
+				connection.query(sqlQueries2, (err2, result2) => {
+					if(err2) {
+						return connection.rollback();
+					}else {
+						connection.commit(err3 => {
+							if(err3) {
+								return connection.rollback();
+							}
+							return res.json({result2})
+						})
+					}
+				})
+			}else {
+				if(err1) {
+					throw err1;
+				}
+				else {
+					throw "dataError Nothing has been deleted";
+				}
+			}
+		})
+	})
+	
+})
 
 
 app.post("/orders/orderreview/duplicateorder", (req,res) => {

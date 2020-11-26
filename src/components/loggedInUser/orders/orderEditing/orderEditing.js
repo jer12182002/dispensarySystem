@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom';
+import { browserHistory } from 'react-router';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import './orderEditing.scss';
@@ -10,9 +11,8 @@ import PrinterArea from 'components/loggedInUser/orders/printerArea/printerArea'
 import * as orderDetailAction from 'redux/actions/orderDetailAction';
 import * as headerAction from 'redux/actions/headerAction.js';
 
-
 class orderEditing extends Component {
-	
+
 	componentWillMount() {
 		if(this.props.order_id) {
 			this.props.LOAD_SAVED_ORDER(this.props.order_id);
@@ -34,6 +34,10 @@ class orderEditing extends Component {
 	saveOrderFunction(account, orderStatus) {
 		if(this.props.orderItemList && this.props.orderItemList.length > 0) {
 			if(orderStatus === "Quote") {
+				if(this.props.orderDeleted) {
+					return (<Redirect to={{pathname:"/orders"}}/>);
+				}	
+
 				return (
 				<div className="saveFunction container-fluid no-print">
 					<div className="row">
@@ -49,6 +53,7 @@ class orderEditing extends Component {
 						</div>
 						<div className="col-4">
 							<button className="btn btn-success" onClick={e=> {e.preventDefault(); this.props.SAVE_ORDER_EDITING(this.props.orderId,account,this.props.orderItemList,this.props.gramSum)}}>Save</button>
+							<button className="btn btn-danger" onClick = {e => {e.preventDefault(); this.props.DELETE_ORDER_EDITING({orderId:this.props.orderId,account:account});}}>Delete</button>
 						</div>
 					</div>
 				</div>);
@@ -369,6 +374,7 @@ class orderEditing extends Component {
 const mapStateToProps = state => {
 	
 	return {
+		orderDeleted: state.orderDetail.orderDeleted, 
 		orderId: state.orderDetail.orderId,
 		formula: state.orderDetail.formula,
 		orderStatus: state.orderDetail.orderStatus,
@@ -404,6 +410,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
   	LOAD_SAVED_ORDER: orderId => dispatch(orderDetailAction.LOAD_SAVED_ORDER(orderId)),
+  	DELETE_ORDER_EDITING: deleteInfo => dispatch(orderDetailAction.DELETE_ORDER_EDITING(deleteInfo)),
   	LOAD_DEFAULT_SETTING: orderId => dispatch(orderDetailAction.LOAD_DEFAULT_SETTING(orderId)),
   	FILTER_ITEM_WHILE_TYPING: value=> dispatch(orderDetailAction.FILTER_ITEM_WHILE_TYPING(value)),
   	CLICKED_SUGGESTED_ITEM: item => dispatch(orderDetailAction.CLICKED_SUGGESTED_ITEM(item)),

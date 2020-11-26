@@ -1,5 +1,6 @@
 const LOAD_SAVED_ORDER_EDITING = "loadSavedorderDetail";
 const SAVE_ORDER_STATUS = "saveOrderStatus";
+const ORDER_DELETED = "orderDeleted";
 const DUPLICATE_ORDER = "duplicateOrder";
 const UPDATE_ORDER_INFO = "updateOrderInfo";
 
@@ -20,6 +21,11 @@ export default (state = {}, action)=> {
 
 			return JSON.parse(JSON.stringify(orderDetail));
 			break;
+
+		case ORDER_DELETED: 
+			let newOrderDetail = JSON.parse(JSON.stringify(orderDetail));
+			newOrderDetail.orderDeleted = true;
+			return newOrderDetail;
 
 		case DUPLICATE_ORDER:
 			orderDetail = action.payload;

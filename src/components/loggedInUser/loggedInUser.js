@@ -20,9 +20,6 @@ class loggedInUser extends React.Component {
 		},1000)
 	}
 
-	componentWillUnmount() {
-		clearInterval(this.INTERVAL_NAME);
-	}
 
   render() {
   	if(this.props.errorMsg) {
@@ -77,7 +74,7 @@ class loggedInUser extends React.Component {
 }
 
 const mapStateToPros = state => {
-	console.log(state);
+	//console.log(state);
 	if(state.accounts) {	
 		return {
 			loginAccount: state.accounts.loginAccount,

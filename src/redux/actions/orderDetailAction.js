@@ -73,6 +73,21 @@ export const SAVE_ORDER_EDITING = (orderId, account,orderItemList, totalGram) =>
 }
 
 
+export const DELETE_ORDER_EDITING = (deleteInfo) => {
+	return dispatch => {
+		console.log(deleteInfo);
+		axios.delete(`${process.env.REACT_APP_DISPENSARY_SERVER}/deleteorder?orderId=${deleteInfo.orderId}&&account=${deleteInfo.account}`,)
+		.then(data => {
+			if(data.status && data.status === 200) {
+				dispatch ({
+					type:"orderDeleted"
+				})
+			}
+		})
+	}
+}
+
+
 export const DUPLICATE_ORDER = (orderId, account) => {
 	return dispatch => {
 		axios.post(`${process.env.REACT_APP_DISPENSARY_SERVER}/orders/orderreview/duplicateorder`,{orderId : orderId, account : account})

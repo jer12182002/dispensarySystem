@@ -57,6 +57,7 @@ export const LOAD_ALL_MESSAGES = (account, prevMsgSize) => {
 	return dispatch => {
 		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getallmessages?account_id=${account.id}`)
 		.then(data => {
+			console.log(data.data);
 			if(data && data.status == 200) {
 				dispatch ({
 					type: "loadAllMessages", 
