@@ -366,8 +366,8 @@ class orderEditing extends Component {
         return (
             <div className="orderDetail-wrapper orderEditing-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
-    			{this.orderListDisplay(this.props.userInformation.account, this.props.orderStatus)}
-    			{this.totalPriceDisplay(this.props.userInformation.account)}
+    			{this.orderListDisplay(this.props.orderAccount, this.props.orderStatus)}
+    			{this.totalPriceDisplay(this.props.orderAccount)}
     			{this.noteArea()}
 	    		<AddItemToOrder account={this.props.userInformation.account}/>    
     			<PrinterArea printingType = {"orderEditing"}/>
@@ -379,9 +379,11 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
+	console.log(state);
 	return {
 		orderDeleted: state.orderDetail.orderDeleted, 
 		orderId: state.orderDetail.orderId,
+		orderAccount: state.orderDetail.orderAccount,
 		formula: state.orderDetail.formula,
 		orderStatus: state.orderDetail.orderStatus,
 		date: state.orderDetail.date,

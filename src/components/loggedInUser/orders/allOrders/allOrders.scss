@@ -64,6 +64,10 @@
 			overflow: scroll;
 			overflow-x: hidden;
 			height: 30vh;
+			
+			div {
+				padding: 0;
+			}
 		}
 	}
 }
