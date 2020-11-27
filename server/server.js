@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql");
-
+const fs = require('fs-extra');
 const app = express();
 
 app.use(bodyParser.urlencoded({extended : true}));
@@ -40,11 +40,12 @@ const database_config = {
 
 //re-connect to the database while connection is dead
 const handleDisconnect = () => {    
-	console.log("Disconnected because of Idle status, begin to re-connect...");
+	console.log("########## Dispensary System now listening on Port 4000");
 	connection = mysql.createConnection(database_config);
 
 	connection.connect((err)=> {
 		if(err) {
+			ERROR_FILE_WRITER("SERVER SQL SERVICE", "connection.connect", "", err, "This might be run time error for sql service on server");
 			console.log("Error when connectibng to database: ", err);
 			setTimeout(handleDisconnect(),2000);
 		}
@@ -55,7 +56,7 @@ const handleDisconnect = () => {
 		if(err.code === "PROTOCOL_CONNECTION_LOST") {
 			handleDisconnect();
 		} else {
-			throw err;
+			ERROR_FILE_WRITER("SERVER SQL SERVICE", "connection.on", "", err, "This might be run time error for sql service on server");
 		}
 	}) 
 }
@@ -67,7 +68,7 @@ app.get("/inventory/loadallinventoryitems",(rea,res)=> {
 
 	connection.query(sqlQuery, (err,result) => {
 		if(err) {
-			console.log(err);
+			ERROR_FILE_WRITER("/inventory/loadallinventoryitems", "connection.query", sqlQuery, err, "This might happen to erratic status in sql server");
 		}else {
 			return res.json(result);
 		}
@@ -81,7 +82,7 @@ app.get("/inventory/additem/loadtypelist", (req,res) => {
 
 	connection.query(sqlQuery, (err, result) =>{
 		if(err) {
-			console.log(err);
+			ERROR_FILE_WRITER("/inventory/additem/loadtypelist", "connection.query", sqlQuery, err, "This might happen to erratic status in sql server");
 		}else {
 			return res.json({result});
 		}
@@ -90,20 +91,26 @@ app.get("/inventory/additem/loadtypelist", (req,res) => {
 
 
 app.post ("/inventory/updateitem",(req,res)=> {
-	console.log(req.body.updateItem);
 	let updateItem = req.body.updateItem;
 
 	let sqlQueries = `UPDATE INVENTORY SET ENGLISH_NAME="${charCheck(updateItem.ENGLISH_NAME)}",CHINESE_NAME="${charCheck(updateItem.CHINESE_NAME)}",TYPE="${charCheck(updateItem.TYPE)}", RATIO="${updateItem.RATIO}", QTY="${updateItem.QTY}",RENDE_PRICE="${updateItem.RENDE_PRICE}",STUDENT_PRICE="${updateItem.STUDENT_PRICE}",PROFESSOR_PRICE="${updateItem.PROFESSOR_PRICE}" WHERE ID = "${updateItem.ID}";`;
 		sqlQueries += "SELECT * FROM INVENTORY;"
 
-	connection.query(sqlQueries, (err,result) => {
+	connection.beginTransaction(err => {
 		if(err) {
-			return connect.rollback(()=> {
-				throw err;
-			})
-		}else {
-			return res.json({result});
+			ERROR_FILE_WRITER("/inventory/updateitem", "beginTransaction", "", err, "This might be something wrong happening to the SQl Server.");
+			return connection.rollback();
 		}
+		connection.query(sqlQueries, (err2,result) => {
+			if(err2) {
+				ERROR_FILE_WRITER("/inventory/updateitem", "connection.query", sqlQueries, err2, "This might happen in wrong sqlQueries, which may have speical character input by users or missing or wrong updateItem.ID");
+				return connect.rollback();
+			}else {
+				return res.json({result});
+			}
+		})
+
+
 	})
 
 })
@@ -114,14 +121,20 @@ app.delete("/inventory/deleteitem",(req,res)=>{
 	let sqlQueries = `DELETE FROM INVENTORY WHERE ID = "${deleteItemId}";`;
 		sqlQueries += "SELECT * FROM INVENTORY;"
 	
-	connection.query(sqlQueries, (err,result)=> {
-		if(err){
-			return connection.rollback(() => {
-				throw err;
-			})
-		}else {
-			return res.json({result});
+	connection.beginTransaction(err => {
+		if(err) {
+			ERROR_FILE_WRITER("/inventory/deleteitem", "beginTransaction", "", err, "This might be something wrong happening to the SQl Server.");
+			return connection.rollback();
 		}
+
+		connection.query(sqlQueries, (err2,result)=> {
+			if(err2){
+				ERROR_FILE_WRITER("/inventory/deleteitem", "connection.query", sqlQueries, err2, "This might happen in wrong sqlQueries, which may have missing or wrong deleteItemId");
+				return connection.rollback();
+			}else {
+				return res.json({result});
+			}
+		})
 	})
 })
 
@@ -130,14 +143,19 @@ app.post("/inventory/additem",(req,res)=> {
 	let sqlQueries = `INSERT INTO INVENTORY (ENGLISH_NAME, CHINESE_NAME, TYPE, RATIO, QTY, RENDE_PRICE, STUDENT_PRICE, PROFESSOR_PRICE) VALUES("${charCheck(itemInfo.ENGLISH_NAME)}","${charCheck(itemInfo.CHINESE_NAME)}", "${charCheck(itemInfo.TYPE)}", "${itemInfo.RATIO}","${itemInfo.QTY}", "${itemInfo.RENDE_PRICE}","${itemInfo.STUDENT_PRICE}","${itemInfo.PROFESSOR_PRICE}");`;
 		sqlQueries += "SELECT * FROM INVENTORY;"
 
-	connection.query(sqlQueries, (err,result) => {
+	connection.beginTransaction(err => {
 		if(err) {
-			return connection.rollback(()=>{
-				throw err;
-			})
-		}else {
-			return res.json({result});
+			ERROR_FILE_WRITER("/inventory/additem", "beginTransaction", "", err, "This might be something wrong happening to the SQl Server.");
+			return connection.rollback();
 		}
+		connection.query(sqlQueries, (err2,result) => {
+			if(err2) {
+				ERROR_FILE_WRITER("/inventory/additem", "connection.query", sqlQueries, err2, "This might happen in wrong sqlQueries, which may have speical characters in user input");
+				return connection.rollback();
+			}else {
+				return res.json({result});
+			}
+		})
 	})
 })	
 
@@ -147,9 +165,9 @@ app.post("/filteritemtyping",(req,res) => {
 	let sqlQuery = `SELECT * FROM INVENTORY WHERE LOWER(CONCAT(ENGLISH_NAME,CHINESE_NAME)) LIKE LOWER("%${charCheck(inputItemName)}%") ORDER BY TYPE, ENGLISH_NAME;`;
 	connection.query(sqlQuery, (err,result) => {
 		if(err) {
-			return connection.rollback(()=>{
-				throw err;
-			})
+			ERROR_FILE_WRITER("/filteritemtyping", "connection.query", sqlQuery, err, "This might happen in wrong sqlQuery, which may have speical characters in user input");
+
+			return connection.rollback();
 		}else {
 			return res.json({result});
 		}
@@ -187,20 +205,19 @@ app.post("/saveorder", (req,res) => {
 
 		connection.beginTransaction(err => {
 			if(err) {
-				throw err;
+				ERROR_FILE_WRITER("/saveorder", "beginTransaction with Order ID", "", err, "This might be something wrong happening to the SQl Server.");
+				return connection.rollback();
 			}
 
-			connection.query(sqlQueries,(err,result) => {
-				if(err) {
-					return connection.rollback(() => {
-						throw err;
-					})
+			connection.query(sqlQueries,(err2,result) => {
+				if(err2) {
+					ERROR_FILE_WRITER("/saveorder", "connection.query with Order ID", sqlQueries, err2, "This might happen in wrong sqlQueries, which may have speical characters in user input or missing or wrong orderId");
+					return connection.rollback();
 				}else {
-					connection.commit(err => {
-						if(err) {
-							return connection.rollback(err => {
-								throw err;
-							})
+					connection.commit(err3 => {
+						if(err3) {
+							ERROR_FILE_WRITER("/saveorder", "connection.commit with Order ID", sqlQueries, err3, "This might be something wrong happening to the SQl Server.");
+							return connection.rollback();
 						}else {
 							return res.json({orderId : orderInfo.orderId});
 						}
@@ -213,16 +230,16 @@ app.post("/saveorder", (req,res) => {
 		//order has never been saved before. therefore, insert new order information
 		connection.beginTransaction(err => {
 			if(err) {
-				throw err;
+				ERROR_FILE_WRITER("/saveorder", "beginTransaction", "", err, "This might be something wrong happening to the SQl Server.");
+				return connection.rollback();
 			}
 			
 			sqlQueries += `INSERT INTO order_info (FORMULA, ACCOUNT, DATE, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS,TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) VALUES ("${charCheck(orderInfo.formula)}" ,"${charCheck(orderInfo.account)}", "${charCheck(orderInfo.date)}", "${charCheck(orderInfo.customer)}", "${charCheck(orderInfo.address)}", "${charCheck(orderInfo.phone)}", "${charCheck(orderInfo.email)}", "${charCheck(orderInfo.orderStatus)}", "${orderInfo.totalGram}", "${orderInfo.dosagePerDay}", "${orderInfo.dayPerSession}", "${orderInfo.discountPrice}", "${orderInfo.discountPercentage}", "${orderInfo.bottleFee}", "${orderInfo.tabletFee}", "${orderInfo.deliveryFee}", "${orderInfo.tax}", "${charCheck(orderInfo.orderNote)}");`;
 
-			connection.query(sqlQueries, (err,result1)=> {
-				if(err) {
-					return connection.rollback(()=>{
-						throw err;
-					})
+			connection.query(sqlQueries, (err1,result1)=> {
+				if(err1) {
+					ERROR_FILE_WRITER("/saveorder", "connection.query", sqlQueries, err1, "This might happen in wrong sqlQueries, which may have speical characters in user input");
+					return connection.rollback();
 
 				}else {
 					let insertedOrderId = result1.insertId;
@@ -240,17 +257,15 @@ app.post("/saveorder", (req,res) => {
 							})
 						}
 
-						connection.query(sqlQueries2,(err,result2) => {
-							if(err) {
-								return connection.rollback(()=> {
-									throw err;
-								})
+						connection.query(sqlQueries2,(err2,result2) => {
+							if(err2) {
+								ERROR_FILE_WRITER("/saveorder", "second connection.query", sqlQueries2, err2, "This might happen in wrong sqlQueries2, which may have speical characters in user input or missing or wrong insertedOrderId or item.ID");
+								return connection.rollback();
 							}else {
-								connection.commit(err => {
-									if(err) {
-										return connection.rollback(()=> {
-											throw err;
-										})
+								connection.commit(err3 => {
+									if(err3) {
+										ERROR_FILE_WRITER("/saveorder", "connection.commit", sqlQueries, err3, "This might be something wrong happening to the SQl Server.");
+										return connection.rollback();
 									}else {
 										return res.json({orderId : insertedOrderId});
 									}
@@ -279,7 +294,7 @@ app.delete("/deleteorder", (req, res) => {
 
 	connection.beginTransaction(err => {
 		if(err) {
-			throw err;
+			ERROR_FILE_WRITER("/deleteorder", "beginTransaction", "", err, "This might be something wrong happening to the SQl Server.");
 		}
 
 		connection.query(sqlQueries1, (err1, result1) => {
@@ -287,6 +302,8 @@ app.delete("/deleteorder", (req, res) => {
 			if(result1.affectedRows) {
 				connection.query(sqlQueries2, (err2, result2) => {
 					if(err2) {
+						ERROR_FILE_WRITER("/deleteorder", "second connection.query", sqlQueries2, err1, "This might happen sqlQueries2 which may have missing or wrong OrderId.");
+
 						return connection.rollback();
 					}else {
 						connection.commit(err3 => {
@@ -299,10 +316,10 @@ app.delete("/deleteorder", (req, res) => {
 				})
 			}else {
 				if(err1) {
-					throw err1;
+					ERROR_FILE_WRITER("/deleteorder", "connection.query", sqlQueries1, err1, "This might happen sqlQueries1 which may have missing or wrong OrderId.");
 				}
 				else {
-					throw "dataError Nothing has been deleted";
+					ERROR_FILE_WRITER("/deleteorder", "connection.query", sqlQueries1, "", "This might happen sqlQueries1 which may have missing or wrong OrderId, or sql Server because nothing was deleted after proceeding sqlQueries1.");
 				}
 			}
 		})
@@ -318,7 +335,7 @@ app.post("/orders/orderreview/duplicateorder", (req,res) => {
 
 	connection.beginTransaction(err => {
 		if(err) {
-			throw err;
+			ERROR_FILE_WRITER("/orders/orderreview/duplicateorder", "beginTransaction", "", err, "This might be something wrong happening to the SQl Server.");
 		}
 
 		let sqlQueries = `INSERT INTO order_info (FORMULA, ACCOUNT, CUSTOMER, ADDRESS, PHONE, EMAIL, STATUS, TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE) SELECT FORMULA, ACCOUNT, CUSTOMER, ADDRESS, PHONE, EMAIL, "Quote", TOTAL_GRAM, DOSAGE_PER_DAY, DAY_PER_SESSION, DISCOUNT_PRICE, DISCOUNT_PERCENTAGE, BOTTLE_FEE, TABLET_FEE, DELIVERY_FEE, TAX, NOTE FROM order_info WHERE ORDER_ID = "${orderId}";`;
@@ -326,7 +343,8 @@ app.post("/orders/orderreview/duplicateorder", (req,res) => {
 
 		connection.query(sqlQueries, (err1, result1) => {
 			if(err1) {
-				throw err1;
+				ERROR_FILE_WRITER("/orders/orderreview/duplicateorder", "connection.query", sqlQueries, err1, "This might happen sqlQueries which may have missing or wrong OrderId.");
+				
 			}else {
 				let insertedId = result1.insertId;
 				let sqlQueries2 = "";
@@ -348,14 +366,14 @@ app.post("/orders/orderreview/duplicateorder", (req,res) => {
 				connection.query(sqlQueries2, (err2, result2) => {
 					if(err2) {
 						return connection.rollback(()=> {
-							throw err;
+							ERROR_FILE_WRITER("/orders/orderreview/duplicateorder", "second connection.query", sqlQueries2, err2, "This might happen in sqlQueries2 which may have missing or wrong with the latest InsertedId or orderId.");
 						})
 					}
 					else {
 						connection.commit(err3 => {
 							if(err3) {
 								return connection.rollback(err3 => {
-									throw err;
+									ERROR_FILE_WRITER("/orders/orderreview/duplicateorder", "connection.commit", sqlQueries2, err3, "This might happen when Sql Server is down.");
 								})
 							}else {
 								return res.json({orderId : insertedId});
@@ -377,7 +395,7 @@ app.get("/loadallorders", (req,res)=> {
 
 	connection.query(sqlQuery, (err, result)=> {
 		if(err) {
-			console.log(err);
+			ERROR_FILE_WRITER("/loadsavedorder", "connection.query", sqlQuery, err, "This might happen to erratic status in sql server");
 		}else {
 			return res.json({result});
 		}
@@ -392,7 +410,7 @@ app.get("/loadsavedorder", (req, res)=> {
 
 	connection.query(sqlQuery, (err,result)=> {
 		if(err) {
-			console.log(err);
+			ERROR_FILE_WRITER("/loadsavedorder", "connection.query", sqlQuery, err, "This might happen to the sqlQuery with wrong or missing ORDER ID, or sql server.");
 		}else {
 			return res.json(result);
 		}
@@ -408,12 +426,12 @@ app.get("/message/getunreadmessagenumber", (req,res) => {
 
 	connection.beginTransaction(err => {
 		if(err) {
-			throw err;
+			ERROR_FILE_WRITER("/message/getunreadmessagenumber", "beginTransaction", sqlQuery, err, "This might happen to wrong sqlQuery or server error.");
 		}
 		connection.query(sqlQuery, (err1, result1) => {
 			if(err1) {
 				return connection.rollback(()=> {
-					throw err1;
+					ERROR_FILE_WRITER("/message/getunreadmessagenumber", "connection.query", sqlQuery, err1, "This might happen to the sqlQuery with wrong or missing RECIPIENT ID.");
 				})
 			}else {
 				return res.json(result1);
@@ -424,6 +442,7 @@ app.get("/message/getunreadmessagenumber", (req,res) => {
 
 //*********************** Message *******************************
 app.post("/message/send", (req,res) => {
+	
 	let messageInputInfo = req.body.newMessageInput;
 
 	let sqlQueries = `INSERT INTO message (AUTHOR, AUTHOR_ID, RECIPIENT_ID, MESSAGE) VALUES ("${charCheck(messageInputInfo.author)}", "${messageInputInfo.authorId}", "${messageInputInfo.recipientId}", "${charCheck(messageInputInfo.message)}");`;
@@ -431,23 +450,27 @@ app.post("/message/send", (req,res) => {
 	
 	connection.beginTransaction(err => {
 		if(err) {
-			throw err;
+			ERROR_FILE_WRITER("/message/send", "beginTransaction", sqlQueries+sqlQueries2, err, "This might happen to wrong sqlQueries or server error.");
+			return connection.rollback();
+
 		}
 
 		connection.query(sqlQueries, (err1,result1) => {
 			if(err1) {
 				return connection.rollback(() => {
-					throw err1;
+					ERROR_FILE_WRITER("/message/send", "connection.query", sqlQueries, err1, "This might happen to the sqlQueries while user type in special characters.");
 				})
 			}else {
 				connection.query(sqlQueries2, (err2, result2) => {
 					if(err2) {
-						throw err2;
+					ERROR_FILE_WRITER("/message/send", "second connection.query", sqlQueries, err2, "This might happen to the sqlQueries while AUTHOR ID OR RECIPIENT ID missing.");
+
 					}else {
 						connection.commit (err3 => {
 							if(err3) {
 								return connection.rollback(err3 => {
-									throw err3;
+									ERROR_FILE_WRITER("/message/send", "connection.commit", sqlQueries, err3, "This might happen when Sql Server is down.");
+
 								})
 							}else {
 								return res.json(result2);
@@ -458,7 +481,7 @@ app.post("/message/send", (req,res) => {
 			}
 		})
 	})
-
+	
 })
 
 
@@ -473,19 +496,23 @@ app.get("/message/getallmessages", (req, res) => {
 
 	connection.beginTransaction(err => {
 		if(err) {
-			throw err;
+			ERROR_FILE_WRITER("/message/getallmessages", "beginTransaction", "", err, "This might happen to wrong sqlQueries or server error.");
+			return connection.rollback();
 		}else {
 			connection.query(sqlQueries1,(err1, result1) => {
 				if(err1) {
-					throw err1;
+					ERROR_FILE_WRITER("/message/getallmessages", "connection.query", sqlQueries1, err1, "This might happen to the sqlQueries1 with wrong accountId.");
+					return connection.rollback();
 				}else {
 					connection.query(sqlQueries2,(err2, result2) => {
 						if(err2) {
-							throw err2;
+							ERROR_FILE_WRITER("/message/getallmessages", "connection.query", sqlQueries2, err2, "This might happen to the sqlQueries1 with wrong accountId.");
+							return connection.rollback();
 						}else {
 							connection.commit(err3 => {
 								if(err3) {
-									throw err3;
+									ERROR_FILE_WRITER("/message/getallmessages", "connection.commit", sqlQueries2, err3, "This might happen when Sql Server is down.");
+									return connection.rollback();
 								}else{
 									return res.json(result2);
 								}
@@ -503,7 +530,7 @@ app.get("/message/getallmessages", (req, res) => {
 
 
 app.listen(4000,()=> {
-	console.log("########## Dispensary System now listening on Port 4000");
+	
 	handleDisconnect();
 })
 
@@ -513,3 +540,23 @@ const charCheck = (txt) => {
 	return txt.replace(/"/g, `'`);
 }
 
+
+
+const ERROR_FILE_WRITER = (errAction, errLayer, sql, sysErr, customErr = "") => {
+	let time = (new Date(Date.now())).toISOString();
+	let fileName = `errorLog-${time.slice(0,10)}`;
+	
+	let errorMsg = `******** This error happens in ${errAction} ***********\n`;
+		errorMsg+= `Error Time: ${time}\n`;
+		errorMsg+= `Error layer: ${errLayer}\n`;
+		errorMsg+= `Error SqlQueries: ${sql}\n`;
+		errorMsg+= `Mysql Error: ${sysErr}\n`;
+		errorMsg+= `Customized Message: ${customErr}\n`;
+		errorMsg+= `*******************************************************\n\n\n\n\n`;
+
+
+
+	fs.appendFile(fileName, errorMsg, err => {
+	  //console.log(err);
+	})
+}

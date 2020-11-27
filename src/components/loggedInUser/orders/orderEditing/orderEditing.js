@@ -67,18 +67,30 @@ class orderEditing extends Component {
 
 
 
- 	orderListDisplay(account, orderStatus){
+ 	orderListDisplay(account, orderStatus, loggedInAccount){
  		let DisplayTag ;
  
  			DisplayTag = 
  			<div className="order-form-container container-fluid">
  				<div className="order-header container-fluid">
 	 				<div className="row">
-	 					{account === "RenDeInc"?
-		 					<img src="/assets/orderPictures/RenDe-logo.jpg"/>
+	 					{account?
+	 						(
+	 						account === "RenDeInc"?
+								<img src="/assets/orderPictures/RenDe-logo.jpg"/>
+								:
+								<img src="/assets/orderPictures/CCTCM-logo.jpg"/>
+		 					)
 		 					:
-		 					<img src="/assets/orderPictures/CCTCM-logo.jpg"/>
+		 					(
+		 					loggedInAccount === "RenDeInc"?
+								<img src="/assets/orderPictures/RenDe-logo.jpg"/>
+								:
+								<img src="/assets/orderPictures/CCTCM-logo.jpg"/>
+							)
 	 					}
+	 					
+	 				
 	 				</div>
 	 				<div className="row">
 	 					<div className="col-3">
@@ -366,7 +378,7 @@ class orderEditing extends Component {
         return (
             <div className="orderDetail-wrapper orderEditing-wrapper">
             	{this.saveOrderFunction(this.props.userInformation.account, this.props.orderStatus)}
-    			{this.orderListDisplay(this.props.orderAccount, this.props.orderStatus)}
+    			{this.orderListDisplay(this.props.orderAccount, this.props.orderStatus, this.props.userInformation.account)}
     			{this.totalPriceDisplay(this.props.orderAccount)}
     			{this.noteArea()}
 	    		<AddItemToOrder account={this.props.userInformation.account}/>    
