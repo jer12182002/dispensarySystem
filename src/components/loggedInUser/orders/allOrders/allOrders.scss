@@ -13,6 +13,25 @@
 		}
 	}
 
+	.search-container {
+		margin-top: 5vh;
+		background-color: darksalmon;
+		border-radius: 50px;
+		padding: 1%;
+
+		h1 {
+			margin: 1%;
+		}
+
+		input {
+			flex-grow:1;
+			padding: 1%;
+			border-radius: 50px;
+			height:99.5%;
+			margin: auto;
+		}
+	}
+
 	.orders-container {
 		border: 2px solid black;
 		margin-top: 5vh;
@@ -40,6 +59,12 @@
 				text-align: center;
 			}
 		}
+
+		.orderBody {
+			overflow: scroll;
+			overflow-x: hidden;
+			height: 30vh;
+		}
 	}
 }
 
@@ -52,6 +77,14 @@
 			
 			button {
 				font-size: 4vw;			
+			}
+		}
+
+		.search-container {
+			margin-top: 2vh;
+
+			h1 {
+				font-size: 4vw;
 			}
 		}
 
@@ -84,16 +117,12 @@
 					}
 				}
 			}
-		}
 
-		.orders-container-rendeinc-display {
-
-			.row  {
-				p {
-					font-size: 3vw;
-				}
-				
+			.orderBody {
+				font-size: 3vw;
 			}
+			
 		}
 	}
 }
+

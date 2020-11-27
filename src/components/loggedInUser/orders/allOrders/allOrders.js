@@ -3,7 +3,7 @@ import {BrowserRouter as Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import './allOrders.scss';
-import {LOAD_ALL_ORDERS} from 'redux/actions/allOrdersAction';
+import * as allOrdersAction from 'redux/actions/allOrdersAction';
 
 class allOrders extends Component {
 	componentDidMount () {
@@ -26,7 +26,9 @@ class allOrders extends Component {
 						<div className="col-2"><p>Action</p></div>
 						
 					</div>
-					{orders.map((order,key)=>
+					<div className="container-fluid orderBody">
+					{this.props.orderFilter?
+						allOrdersAction.FILTER_ORDERS(orders, this.props.orderFilter).map((order, key) =>
 						<div className="row">
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
 							<div className="col-2"><p>{order.FORMULA}</p></div>
@@ -34,7 +36,19 @@ class allOrders extends Component {
 							<div className="col-3"><p>{order.CUSTOMER}</p></div>
 							<div className="col-2"><Link to={{pathname:`${link}`, state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
-					)}
+						)
+						:
+						orders.map((order,key)=>
+							<div className="row">
+								<div className="col-2"><p>{order.ORDER_ID}</p></div>
+								<div className="col-2"><p>{order.FORMULA}</p></div>
+								<div className="col-3"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
+								<div className="col-3"><p>{order.CUSTOMER}</p></div>
+								<div className="col-2"><Link to={{pathname:`${link}`, state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
+							</div>
+						)
+					}
+					</div>
 				</div>
 			)
 		}else {
@@ -57,15 +71,29 @@ class allOrders extends Component {
 						<div className="col-1"><p>Action</p></div>
 						
 					</div>
-					{orders.map((order,key)=>
-						<div className="row">
+					<div className="container-fluid orderBody">
+					{this.props.orderFilter?
+						allOrdersAction.FILTER_ORDERS(orders, this.props.orderFilter).map((order, key) =>
+							<div className="row">
 							<div className="col-2"><p>{order.ACCOUNT}</p></div>
 							<div className="col-2"><p>{order.ORDER_ID}</p></div>
 							<div className="col-2"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
 							<div className="col-4"><p>{order.CUSTOMER}</p></div>
 							<div className="col-1"><Link to={{pathname:`${link}`, state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
 						</div>
-					)}
+						)
+						:
+						orders.map((order,key)=>
+							<div className="row">
+								<div className="col-2"><p>{order.ACCOUNT}</p></div>
+								<div className="col-2"><p>{order.ORDER_ID}</p></div>
+								<div className="col-2"><p>{moment(order.DATE).format('YYYY-MM-DD')}</p></div>
+								<div className="col-4"><p>{order.CUSTOMER}</p></div>
+								<div className="col-1"><Link to={{pathname:`${link}`, state:{order_id: order.ORDER_ID}}} className="btn btn-success">View</Link></div>
+							</div>
+						)
+					}
+					</div>
 				</div>
 			)
 		}else {
@@ -89,20 +117,33 @@ class allOrders extends Component {
             				}
             			</button>
             		</div>
+ 				
             		{this.props.allAccountPermission?
 	            		<>
+	            		<div className="search-container row">
+	 						<h1>Filter</h1>
+	 						<input type="text" value={this.props.orderFilter} onChange = {e=> this.props.UPADTE_ORDER_FILTER(e.target.value)}/>
+ 						</div>
 	            		{this.displayOrdersForRenDeInc("Draft Orders", this.props.draftOrders,"/orderediting")}
 	        			{this.displayOrdersForRenDeInc("Receipt Orders", this.props.receiptOrders,"/orders/orderreview")}
 	        			</>
 	        			:
 	        			<>
+	        			<div className="search-container row">
+	 						<h1>Filter</h1>
+	 						<input type="text" value={this.props.orderFilter} onChange = {e=> this.props.UPADTE_ORDER_FILTER(e.target.value)}/>
+	 					</div>
 	        			{this.displayOrders("Draft Orders", this.props.draftOrders,"/orderediting")}
         				{this.displayOrders("Receipt Orders", this.props.receiptOrders,"/orders/orderreview")}
         				</>
             		}
         			</>
             		:
-            		<>
+            		<>	
+            			<div className="search-container row">
+	 						<h1>Filter</h1>
+	 						<input type="text" value={this.props.orderFilter} onChange = {e=> this.props.UPADTE_ORDER_FILTER(e.target.value)}/>
+	 					</div>
             			{this.displayOrders("Draft Orders", this.props.draftOrders,"/orderediting")}
         				{this.displayOrders("Receipt Orders", this.props.receiptOrders,"/orders/orderreview")}
             		</>
@@ -114,18 +155,20 @@ class allOrders extends Component {
 }
 
 const mapStateToPros = state => {
-	
+	console.log(state);
 	return {
 		allAccountPermission: state.allOrders.allAccountPermission,
 		allOrders: state.allOrders.orders, 
 		draftOrders: state.allOrders.draftOrders, 
-		receiptOrders: state.allOrders.receiptOrders
+		receiptOrders: state.allOrders.receiptOrders,
+		orderFilter: state.allOrders.orderFilter
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		LOAD_ALL_ORDERS:(account, permissionToggle=false)=>dispatch(LOAD_ALL_ORDERS(account,permissionToggle))
+		LOAD_ALL_ORDERS:(account, permissionToggle=false)=>dispatch(allOrdersAction.LOAD_ALL_ORDERS(account,permissionToggle)),
+		UPADTE_ORDER_FILTER: orderFilter => dispatch(allOrdersAction.UPADTE_ORDER_FILTER(orderFilter))
 	}
 }
 

@@ -373,7 +373,7 @@ app.post("/orders/orderreview/duplicateorder", (req,res) => {
 
 
 app.get("/loadallorders", (req,res)=> {
-	let sqlQuery = "SELECT * FROM `order_info` ORDER BY STATUS, ORDER_ID;";
+	let sqlQuery = "SELECT * FROM `order_info` ORDER BY STATUS, ORDER_ID DESC;";
 
 	connection.query(sqlQuery, (err, result)=> {
 		if(err) {
