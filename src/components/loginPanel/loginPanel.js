@@ -30,7 +30,7 @@ class loginPanel extends React.Component {
 				<div className="password-container row">
 					<div className="col-12">
 						<label>Password: </label>
-						<input id="loginPassword" type="password" onKeyUp={ e => {e.preventDefault();TYPEING_PASSWORD(e.target.value)}}></input>
+						<input id="loginPassword" type="password" onKeyUp={ e => {e.preventDefault();this.props.PASSWORD_ENTER_SUBMIT(e)}}></input>
 					</div>
 					<div className="col-12">
 						<button type="button" className="btn btn-success" onClick={USER_LOGIN}>Login</button>  
@@ -53,7 +53,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-    USER_LOGIN: () => dispatch(USER_LOGIN())
+    USER_LOGIN: () => dispatch(USER_LOGIN()), 
+    PASSWORD_ENTER_SUBMIT: e => dispatch(TYPEING_PASSWORD(e))
   }
 }
 

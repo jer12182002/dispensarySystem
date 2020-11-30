@@ -27,8 +27,17 @@ export const CHOOSE_ACCOUNT = (account, e) => {
 	ADD_CLASS(e.target, "clicked");
 }
 
-export const TYPEING_PASSWORD = (password) => {
-	chosenAccount.typedPassword = password;
+export const TYPEING_PASSWORD = (e) => {
+	return dispatch => {
+		if(e.key === "Enter") {
+			dispatch({	
+				type: "userLogin", 
+				payload: chosenAccount
+			});
+			
+		}
+		chosenAccount.typedPassword = e.target.value;
+	}
 }
 
 
