@@ -1,6 +1,7 @@
 import React from 'react';
 import AddItem from './addItem/addItem';
 import './inventory.scss';
+import ScrollWidget from 'components/scrollWidget/scrollWidget';
 import {connect} from 'react-redux';
 
 import {LOAD_ALL_INVENTROY_ITEMS,ITEM_ACTION_TOGGLE,SAVE_ITEM_CHANGE,ITEM_DELETE} from 'redux/actions/loadItemActions';
@@ -12,7 +13,6 @@ class inventory extends React.Component{
         const {LOAD_ALL_INVENTROY_ITEMS} = this.props;
         LOAD_ALL_INVENTROY_ITEMS();
     }
-
 
     displayInventoryItemList () {
         const {LOAD_ALL_INVENTROY_ITEMS} = this.props;
@@ -204,6 +204,7 @@ class inventory extends React.Component{
         return (
             <div className="inventory-wrapper container-fluid">
                 {this.displayInventoryItemList()}
+                <ScrollWidget scrollTarget = ".inventory-wrapper .item_list"/>
             </div>
         );
    }

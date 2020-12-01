@@ -1,0 +1,50 @@
+@import '~sass-mq';
+
+.scrollWidget-container {
+	width: 80px;
+	height: 160px;
+	position: fixed;
+	bottom: 50vh;
+	left: 0;
+	z-index:999;
+
+	div {
+		width: inherit;
+		height: 50%;
+		border-radius: 50px;
+		position: relative;
+		padding-top: 25%;
+		border: 2px solid black;
+		background-color: beige;
+		cursor: pointer;
+		
+		&.arrow-up:hover,&.arrow-down:hover {
+			border: 3px solid black;
+
+			p {
+				font-weight: 900;
+			}
+		}
+
+		p {
+			font-size: 150%;
+			color: red;
+			width: 100%;
+			text-align: center;
+			color: black;
+		}
+	}
+}
+
+@include mq($until: desktop) {
+	.scrollWidget-container {
+		width: 60px;
+		height: 120px;
+
+		div {
+			p {
+				font-size: 100%;
+			}
+		}
+	}
+}

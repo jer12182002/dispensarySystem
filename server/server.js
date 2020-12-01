@@ -529,9 +529,10 @@ app.get("/message/getallmessages", (req, res) => {
 
 
 
+handleDisconnect();
+
 app.listen(4000,()=> {
 	
-	handleDisconnect();
 })
 
 

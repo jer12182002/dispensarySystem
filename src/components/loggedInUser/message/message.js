@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import './message.scss';
+import ScrollWidget from 'components/scrollWidget/scrollWidget';
 import moment from 'moment';
 
 import * as MESSAGE_ACTION from 'redux/actions/messageAction';
@@ -25,6 +26,7 @@ class message extends Component {
     render() {
         return (
             <div className="message-wrapper">
+                <ScrollWidget scrollTarget = ".messages-container"/>
                 <div className = "messages-container container-fluid">
 
                     {this.props.messages && this.props.messages.length?

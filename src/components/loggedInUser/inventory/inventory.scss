@@ -11,6 +11,9 @@ $mq-breakpoints: (
 	margin-bottom: 10vh;
 
 	.item_list {
+		overflow: auto;
+		height: 80vh;
+
 		input {
 			width: 100%;
 		}
@@ -29,6 +32,7 @@ $mq-breakpoints: (
 		}
 
 		.item_row {
+			height: auto;
 			background-color: white;
 		}
 
