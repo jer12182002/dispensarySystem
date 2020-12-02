@@ -11,6 +11,10 @@ class messageInputSection extends Component {
 
     render() {
         return (
+        	<>
+        	<div className="newMessage-container">
+        		<h1>You have new message, please scroll down to view</h1>
+        	</div>
             <div className="messageInputSection-wrapper container-fluid">
             	<div className="row">
             		<div className="authorContainer col-lg-3">
@@ -38,6 +42,7 @@ class messageInputSection extends Component {
             		</div>
             	</div>
             </div>
+            </>
         );
     }
 }

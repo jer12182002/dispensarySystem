@@ -1,4 +1,4 @@
-import {REMOVE_QUERY_CLASS,ADD_CLASS} from 'redux/actions/helperFunctions';
+import {REMOVE_QUERY_CLASS,ADD_CLASS,SET_ATTRIBUTE} from 'redux/actions/helperFunctions';
 
 
 let chosenAccount = {
@@ -25,6 +25,7 @@ export const CHOOSE_ACCOUNT = (account, e) => {
 	chosenAccount.accountName = account.account;
 	REMOVE_QUERY_CLASS(".accounts-container img","clicked");
 	ADD_CLASS(e.target, "clicked");
+	document.querySelector("#loginPassword").focus();
 }
 
 export const TYPEING_PASSWORD = (e) => {

@@ -23,7 +23,9 @@ export default (state={}, action) => {
 
 		case LOAD_ALL_MESSAGES:
 			messageInfo.messages = action.payload;
-			console.log(messageInfo.mesages);
+			let newMessageInfo = JSON.parse(JSON.stringify(messageInfo));
+			newMessageInfo.allowScroll = false;
+		
 			return messageInfo;
 			break;
 
@@ -38,9 +40,9 @@ export default (state={}, action) => {
 			return messageInfo;
 			break;
 			
-
+	
 		default:
-		return state;
+		return messageInfo;
 		break;
 	}
 

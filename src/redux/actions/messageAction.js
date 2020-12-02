@@ -1,10 +1,10 @@
 import axios from 'axios';
-import {SCROLL_TO_BOTTOM} from './helperFunctions';
+import {SCROLL_TO_BOTTOM,SET_ATTRIBUTE} from './helperFunctions';
 
 
 
 let messageInfo = {
-	allowScroll: true,
+	allowScroll: false,
 	messages: [],
 	messageInput : {	
 		author: "",
@@ -57,14 +57,13 @@ export const LOAD_ALL_MESSAGES = (account, prevMsgSize) => {
 	return dispatch => {
 		axios.get(`${process.env.REACT_APP_DISPENSARY_SERVER}/message/getallmessages?account_id=${account.id}`)
 		.then(data => {
-			console.log(data.data);
 			if(data && data.status == 200) {
 				dispatch ({
 					type: "loadAllMessages", 
 					payload: data.data
 				})
 			}
-
+			console.log(`${messageInfo.allowScroll}`);
 			SCROLL_TO_BOTTOM_BY_CONDITION(prevMsgSize, data.data.length);
 		})
 		
@@ -167,9 +166,29 @@ export const CHANGE_ALLOW_SCROLL = () => {
 }
 
 
-const SCROLL_TO_BOTTOM_BY_CONDITION = (prevMsgSize, currMsgSize) => {
-	if(currMsgSize > prevMsgSize || messageInfo.allowScroll) {
-		SCROLL_TO_BOTTOM(".messages-container");
-		messageInfo.allowScroll = false;
+export const SCROLL_TO_BOTTOM_BY_CONDITION = (prevMsgSize, currMsgSize) => {
+
+	console.log(`curr:${currMsgSize}, prev: ${prevMsgSize} ${messageInfo.allowScroll}`);
+	if(prevMsgSize && currMsgSize) {
+
+		if(currMsgSize > prevMsgSize ) {
+			DISPLAY_NEW_MESSAGE_NOTIFICATION();
+		}
+		
+		if(messageInfo.allowScroll) {
+			messageInfo.allowScroll = false;
+			SCROLL_TO_BOTTOM(".messages-container");
+		}
 	}
+
+
+}
+
+const DISPLAY_NEW_MESSAGE_NOTIFICATION = () => {
+	let newMsgContainer = document.querySelector(".newMessage-container");
+	newMsgContainer.style.visibility = "visible";
+	
+	setTimeout(()=> {
+		newMsgContainer.style.visibility = "hidden";
+	},5000);
 }

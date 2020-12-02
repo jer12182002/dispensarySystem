@@ -16,11 +16,10 @@ class loggedInUser extends React.Component {
 	INTERVAL_NAME = "loadUnreadMsgNumber";
 
 	componentDidMount () {
-			this.props.LOAD_UNREAD_MSG_NUMBER(this.props.loginAccount);
 		
-		// this.INTERVAL_NAME = setInterval( () => {
-		// 	this.props.LOAD_UNREAD_MSG_NUMBER(this.props.loginAccount);
-		// },1000)
+		this.INTERVAL_NAME = setInterval( () => {
+			this.props.LOAD_UNREAD_MSG_NUMBER(this.props.loginAccount);
+		},1000)
 	}
 
 

@@ -1,5 +1,27 @@
 @import '~sass-mq';
 
+
+.newMessage-container {
+	position : absolute;
+	width: 100vw;
+	bottom: 20vh;
+	left : 0;
+	text-align: center;
+	opacity: .6;
+	visibility: hidden;
+
+	h1 {
+		width: fit-content;
+		margin: auto;
+		padding: 1vw;
+		background-color: white;
+		border: 2px solid gray;
+		font-size: 22px;
+		border-radius: 25px;
+		color: gray;
+	}
+}
+
 .messageInputSection-wrapper {
 	background-color: bisque;
 	border-top: 1px solid black;
@@ -52,6 +74,12 @@
 
 
 @include mq ($until: desktop) {
+	.newMessage-container {
+		h1 {
+			font-size: 2.5vw;
+		}
+	}
+
 	.messageInputSection-wrapper {
 		
 		.authorContainer {

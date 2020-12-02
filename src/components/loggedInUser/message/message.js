@@ -14,13 +14,13 @@ class message extends Component {
         this.INTERVAL_NAME = setInterval(()=>{
             this.props.LOAD_ALL_MESSAGES(this.props.userInformation, this.props.messages.length)
         },1000);
-     
+        
+    
     }
 
     componentWillUnmount() {
-        clearInterval(this.INTERVAL_NAME);
         MESSAGE_ACTION.CHANGE_ALLOW_SCROLL();
-  
+        clearInterval(this.INTERVAL_NAME);
     }
 
     render() {
@@ -80,7 +80,8 @@ const mapStateToProps = state => {
 	
     if(state.message.messages) {
         return {
-            messages: state.message.messages
+            messages: state.message.messages,
+            allowScroll: state.message.allowScroll
         }
     }
 
