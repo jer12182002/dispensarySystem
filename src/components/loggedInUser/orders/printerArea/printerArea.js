@@ -53,7 +53,7 @@ class PrinterArea extends Component {
 						<button onClick={e => PRINT_FUNCTION()}>Print Order</button>
 					</div>
 					<div className="col-6">
-						<button>Print Label</button>
+						<button onClick = {e => PrintingFunction.LABEL_PRITE_CLICKED()}>Print Label</button>
 					</div>
 				</div>
 			</div>

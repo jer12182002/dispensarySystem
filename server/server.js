@@ -39,6 +39,8 @@ const database_config = {
 }
 
 //re-connect to the database while connection is dead
+let connection;
+
 const handleDisconnect = () => {    
 	console.log("########## Dispensary System now listening on Port 4000");
 	connection = mysql.createConnection(database_config);

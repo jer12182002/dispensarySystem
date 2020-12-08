@@ -43,7 +43,7 @@ export const SAVE_ITEM_CHANGE = (target, item_id) => {
 
 	//PROCEED ONLY NAME IS VALID
 	if(item_englishName + item_chineseName) {
-		
+		alert(item_id);
 		let editedItem = {
 			ID: item_id,
 			ENGLISH_NAME : item_englishName,
