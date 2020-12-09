@@ -63,7 +63,6 @@ export const LOAD_ALL_MESSAGES = (account, prevMsgSize) => {
 					payload: data.data
 				})
 			}
-			console.log(`${messageInfo.allowScroll}`);
 			SCROLL_TO_BOTTOM_BY_CONDITION(prevMsgSize, data.data.length);
 		})
 		
@@ -168,7 +167,6 @@ export const CHANGE_ALLOW_SCROLL = () => {
 
 export const SCROLL_TO_BOTTOM_BY_CONDITION = (prevMsgSize, currMsgSize) => {
 
-	console.log(`curr:${currMsgSize}, prev: ${prevMsgSize} ${messageInfo.allowScroll}`);
 	if(prevMsgSize && currMsgSize) {
 
 		if(currMsgSize > prevMsgSize ) {

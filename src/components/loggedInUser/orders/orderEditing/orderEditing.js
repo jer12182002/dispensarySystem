@@ -391,7 +391,7 @@ class orderEditing extends Component {
 
 
 const mapStateToProps = state => {
-	console.log(state);
+
 	return {
 		orderDeleted: state.orderDetail.orderDeleted, 
 		orderId: state.orderDetail.orderId,

@@ -63,7 +63,6 @@ class PrinterArea extends Component {
 
 
 const mapStateToProps = state => {
-	console.log(state);
 	return {
 		displayRawGram: state.orderPrinter.displayRawGram,
 		displayExtractGram: state.orderPrinter.displayExtractGram,

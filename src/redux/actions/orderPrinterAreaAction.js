@@ -217,7 +217,7 @@ export const LABEL_PRITE_CLICKED = (formula, orderDate, gramsQty, dosagesQty, da
             <IsVertical>False</IsVertical>
             <LineTextSpan>
               <TextSpan>
-                <Text>Warning: please keep this in cool areas. Please follow </Text>
+                <Text>Warning: please keep this in cool areas. Please follow the</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>8.6</FontSize>
@@ -234,7 +234,7 @@ export const LABEL_PRITE_CLICKED = (formula, orderDate, gramsQty, dosagesQty, da
             </LineTextSpan>
             <LineTextSpan>
               <TextSpan>
-                <Text>medical professional instruction. Please contact your doctor and </Text>
+                <Text>medical professional instruction. Please contact your doctor and stop</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>8.6</FontSize>
@@ -251,7 +251,7 @@ export const LABEL_PRITE_CLICKED = (formula, orderDate, gramsQty, dosagesQty, da
             </LineTextSpan>
             <LineTextSpan>
               <TextSpan>
-                <Text>stop taking the herbs if you feel uncomforable.</Text>
+                <Text>taking the herbs if you feel uncomforable.</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>8.6</FontSize>

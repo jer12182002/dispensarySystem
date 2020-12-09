@@ -45,7 +45,6 @@ export function SCROLL_TO_TOP(target) {
 
 export function SCROLL_TO_BOTTOM (target) {
 	let element = document.querySelector(target);
-	console.log(element.scrollHeight);
 	element.scrollTop = element.scrollHeight;
 }
 
