@@ -53,7 +53,7 @@ class PrinterArea extends Component {
 						<button onClick={e => PRINT_FUNCTION()}>Print Order</button>
 					</div>
 					<div className="col-6">
-						<button onClick = {e => PrintingFunction.LABEL_PRITE_CLICKED()}>Print Label</button>
+						<button onClick = {e => PrintingFunction.LABEL_PRITE_CLICKED(this.props.formula, this.props.orderDate, this.props.gramsQty, this.props.dosageQty, this.props.dayQty)}>Print Label</button>
 					</div>
 				</div>
 			</div>
@@ -63,12 +63,18 @@ class PrinterArea extends Component {
 
 
 const mapStateToProps = state => {
-
+	console.log(state);
 	return {
 		displayRawGram: state.orderPrinter.displayRawGram,
 		displayExtractGram: state.orderPrinter.displayExtractGram,
 		displayTotalGram: state.orderPrinter.displayTotalGram,
-		displayUnitPrice: state.orderPrinter.displayUnitPrice
+		displayUnitPrice: state.orderPrinter.displayUnitPrice,
+		formula: state.orderDetail.formula, 
+		orderDate: state.orderDetail.date,
+		gramsQty: state.orderDetail.gramSum, 
+		dosageQty: state.orderDetail.dosagePerDay,
+		dayQty: state.orderDetail.dayPerSession
+
 	}
 }
 

@@ -54,8 +54,9 @@ export const UPDATE_PRINTING_TOGGLE = (printingType,targetAttribute, e) => {
 }
 
 
-export const LABEL_PRITE_CLICKED = () => {
-	
+export const LABEL_PRITE_CLICKED = (formula, orderDate, gramsQty, dosagesQty, daysQty) => {
+	let expiryDate = new Date(new Date().setFullYear(new Date(orderDate).getFullYear()+2)).toISOString().split("T")[0];
+
 	let labelXml = `<?xml version="1.0" encoding="utf-8"?>
 <DesktopLabel Version="1">
   <DYMOLabel Version="3">
@@ -84,6 +85,96 @@ export const LABEL_PRITE_CLICKED = () => {
     <DynamicLayoutManager>
       <RotationBehavior>ClearObjects</RotationBehavior>
       <LabelObjects>
+        <LineObject>
+          <Name>ILineObject0</Name>
+          <Brushes>
+            <BackgroundBrush>
+              <SolidColorBrush>
+                <Color A="0" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </BackgroundBrush>
+            <BorderBrush>
+              <SolidColorBrush>
+                <Color A="1" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </BorderBrush>
+            <StrokeBrush>
+              <SolidColorBrush>
+                <Color A="1" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </StrokeBrush>
+            <FillBrush>
+              <SolidColorBrush>
+                <Color A="0" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </FillBrush>
+          </Brushes>
+          <Rotation>Rotation0</Rotation>
+          <OutlineThickness>1</OutlineThickness>
+          <IsOutlined>False</IsOutlined>
+          <BorderStyle>SolidLine</BorderStyle>
+          <Margin>
+            <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
+          </Margin>
+          <StrokeWidth>1</StrokeWidth>
+          <DashPattern>SolidLine</DashPattern>
+          <LineType>Horizontal</LineType>
+          <ObjectLayout>
+            <DYMOPoint>
+              <X>0.2133333</X>
+              <Y>0.9551329</Y>
+            </DYMOPoint>
+            <Size>
+              <Width>3.681667</Width>
+              <Height>1.013333</Height>
+            </Size>
+          </ObjectLayout>
+        </LineObject>
+        <LineObject>
+          <Name>ILineObject1</Name>
+          <Brushes>
+            <BackgroundBrush>
+              <SolidColorBrush>
+                <Color A="0" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </BackgroundBrush>
+            <BorderBrush>
+              <SolidColorBrush>
+                <Color A="1" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </BorderBrush>
+            <StrokeBrush>
+              <SolidColorBrush>
+                <Color A="1" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </StrokeBrush>
+            <FillBrush>
+              <SolidColorBrush>
+                <Color A="0" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </FillBrush>
+          </Brushes>
+          <Rotation>Rotation0</Rotation>
+          <OutlineThickness>1</OutlineThickness>
+          <IsOutlined>False</IsOutlined>
+          <BorderStyle>SolidLine</BorderStyle>
+          <Margin>
+            <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
+          </Margin>
+          <StrokeWidth>1</StrokeWidth>
+          <DashPattern>SolidLine</DashPattern>
+          <LineType>Horizontal</LineType>
+          <ObjectLayout>
+            <DYMOPoint>
+              <X>0.2133333</X>
+              <Y>0.06</Y>
+            </DYMOPoint>
+            <Size>
+              <Width>3.696667</Width>
+              <Height>1.013333</Height>
+            </Size>
+          </ObjectLayout>
+        </LineObject>
         <TextObject>
           <Name>ITextObject0</Name>
           <Brushes>
@@ -117,16 +208,136 @@ export const LABEL_PRITE_CLICKED = () => {
           </Margin>
           <HorizontalAlignment>Left</HorizontalAlignment>
           <VerticalAlignment>Middle</VerticalAlignment>
-          <FitMode>None</FitMode>
+          <FitMode>AlwaysFit</FitMode>
           <IsVertical>False</IsVertical>
           <FormattedText>
-            <FitMode>None</FitMode>
+            <FitMode>AlwaysFit</FitMode>
             <HorizontalAlignment>Left</HorizontalAlignment>
             <VerticalAlignment>Middle</VerticalAlignment>
             <IsVertical>False</IsVertical>
             <LineTextSpan>
               <TextSpan>
-                <Text>Formula: 蒼耳散</Text>
+                <Text>Warning: please keep this in cool areas. Please follow </Text>
+                <FontInfo>
+                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontSize>8.6</FontSize>
+                  <IsBold>False</IsBold>
+                  <IsItalic>False</IsItalic>
+                  <IsUnderline>False</IsUnderline>
+                  <FontBrush>
+                    <SolidColorBrush>
+                      <Color A="1" R="0" G="0" B="0"></Color>
+                    </SolidColorBrush>
+                  </FontBrush>
+                </FontInfo>
+              </TextSpan>
+            </LineTextSpan>
+            <LineTextSpan>
+              <TextSpan>
+                <Text>medical professional instruction. Please contact your doctor and </Text>
+                <FontInfo>
+                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontSize>8.6</FontSize>
+                  <IsBold>False</IsBold>
+                  <IsItalic>False</IsItalic>
+                  <IsUnderline>False</IsUnderline>
+                  <FontBrush>
+                    <SolidColorBrush>
+                      <Color A="1" R="0" G="0" B="0"></Color>
+                    </SolidColorBrush>
+                  </FontBrush>
+                </FontInfo>
+              </TextSpan>
+            </LineTextSpan>
+            <LineTextSpan>
+              <TextSpan>
+                <Text>stop taking the herbs if you feel uncomforable.</Text>
+                <FontInfo>
+                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontSize>8.6</FontSize>
+                  <IsBold>False</IsBold>
+                  <IsItalic>False</IsItalic>
+                  <IsUnderline>False</IsUnderline>
+                  <FontBrush>
+                    <SolidColorBrush>
+                      <Color A="1" R="0" G="0" B="0"></Color>
+                    </SolidColorBrush>
+                  </FontBrush>
+                </FontInfo>
+              </TextSpan>
+            </LineTextSpan>
+          </FormattedText>
+          <ObjectLayout>
+            <DYMOPoint>
+              <X>0.2133333</X>
+              <Y>1.461799</Y>
+            </DYMOPoint>
+            <Size>
+              <Width>3.696667</Width>
+              <Height>0.5479832</Height>
+            </Size>
+          </ObjectLayout>
+        </TextObject>
+        <TextObject>
+          <Name>ITextObject1</Name>
+          <Brushes>
+            <BackgroundBrush>
+              <SolidColorBrush>
+                <Color A="0" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </BackgroundBrush>
+            <BorderBrush>
+              <SolidColorBrush>
+                <Color A="1" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </BorderBrush>
+            <StrokeBrush>
+              <SolidColorBrush>
+                <Color A="1" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </StrokeBrush>
+            <FillBrush>
+              <SolidColorBrush>
+                <Color A="0" R="0" G="0" B="0"></Color>
+              </SolidColorBrush>
+            </FillBrush>
+          </Brushes>
+          <Rotation>Rotation0</Rotation>
+          <OutlineThickness>1</OutlineThickness>
+          <IsOutlined>False</IsOutlined>
+          <BorderStyle>SolidLine</BorderStyle>
+          <Margin>
+            <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
+          </Margin>
+          <HorizontalAlignment>Left</HorizontalAlignment>
+          <VerticalAlignment>Middle</VerticalAlignment>
+          <FitMode>AlwaysFit</FitMode>
+          <IsVertical>False</IsVertical>
+          <FormattedText>
+            <FitMode>AlwaysFit</FitMode>
+            <HorizontalAlignment>Left</HorizontalAlignment>
+            <VerticalAlignment>Middle</VerticalAlignment>
+            <IsVertical>False</IsVertical>
+            <LineTextSpan>
+              <TextSpan>
+                <Text>Formula: ${formula}</Text>
+                <FontInfo>
+                  <FontName>Noto Sans CJK JP</FontName>
+                  <FontSize>10</FontSize>
+                  <IsBold>False</IsBold>
+                  <IsItalic>False</IsItalic>
+                  <IsUnderline>False</IsUnderline>
+                  <FontBrush>
+                    <SolidColorBrush>
+                      <Color A="1" R="0" G="0" B="0"></Color>
+                    </SolidColorBrush>
+                  </FontBrush>
+                </FontInfo>
+              </TextSpan>
+            </LineTextSpan>
+            <LineTextSpan>
+              <TextSpan>
+                <Text>Expiry date: ${expiryDate}</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>10</FontSize>
@@ -160,7 +371,7 @@ export const LABEL_PRITE_CLICKED = () => {
             </LineTextSpan>
             <LineTextSpan>
               <TextSpan>
-                <Text>2 dosages per day / 5 days per session</Text>
+                <Text>${gramsQty} gram(s) per dosage</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>10</FontSize>
@@ -177,7 +388,7 @@ export const LABEL_PRITE_CLICKED = () => {
             </LineTextSpan>
             <LineTextSpan>
               <TextSpan>
-                <Text />
+                <Text>${dosagesQty} dosage(s) per day</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>10</FontSize>
@@ -194,75 +405,7 @@ export const LABEL_PRITE_CLICKED = () => {
             </LineTextSpan>
             <LineTextSpan>
               <TextSpan>
-                <Text>Expiry date: 2022-12-08</Text>
-                <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
-                  <FontSize>10</FontSize>
-                  <IsBold>False</IsBold>
-                  <IsItalic>False</IsItalic>
-                  <IsUnderline>False</IsUnderline>
-                  <FontBrush>
-                    <SolidColorBrush>
-                      <Color A="1" R="0" G="0" B="0"></Color>
-                    </SolidColorBrush>
-                  </FontBrush>
-                </FontInfo>
-              </TextSpan>
-            </LineTextSpan>
-            <LineTextSpan>
-              <TextSpan>
-                <Text>Warning: please keep this in the cool area. </Text>
-                <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
-                  <FontSize>10</FontSize>
-                  <IsBold>False</IsBold>
-                  <IsItalic>False</IsItalic>
-                  <IsUnderline>False</IsUnderline>
-                  <FontBrush>
-                    <SolidColorBrush>
-                      <Color A="1" R="0" G="0" B="0"></Color>
-                    </SolidColorBrush>
-                  </FontBrush>
-                </FontInfo>
-              </TextSpan>
-            </LineTextSpan>
-            <LineTextSpan>
-              <TextSpan>
-                <Text>Please follow the doctor's instruction. </Text>
-                <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
-                  <FontSize>10</FontSize>
-                  <IsBold>False</IsBold>
-                  <IsItalic>False</IsItalic>
-                  <IsUnderline>False</IsUnderline>
-                  <FontBrush>
-                    <SolidColorBrush>
-                      <Color A="1" R="0" G="0" B="0"></Color>
-                    </SolidColorBrush>
-                  </FontBrush>
-                </FontInfo>
-              </TextSpan>
-            </LineTextSpan>
-            <LineTextSpan>
-              <TextSpan>
-                <Text>Please conact your doctor and stop taking the herbs if</Text>
-                <FontInfo>
-                  <FontName>Noto Sans CJK JP</FontName>
-                  <FontSize>10</FontSize>
-                  <IsBold>False</IsBold>
-                  <IsItalic>False</IsItalic>
-                  <IsUnderline>False</IsUnderline>
-                  <FontBrush>
-                    <SolidColorBrush>
-                      <Color A="1" R="0" G="0" B="0"></Color>
-                    </SolidColorBrush>
-                  </FontBrush>
-                </FontInfo>
-              </TextSpan>
-            </LineTextSpan>
-            <LineTextSpan>
-              <TextSpan>
-                <Text>you have any unwellness.</Text>
+                <Text>${daysQty} day(s) per session</Text>
                 <FontInfo>
                   <FontName>Noto Sans CJK JP</FontName>
                   <FontSize>10</FontSize>
@@ -280,12 +423,12 @@ export const LABEL_PRITE_CLICKED = () => {
           </FormattedText>
           <ObjectLayout>
             <DYMOPoint>
-              <X>0.223767</X>
-              <Y>0.1251654</Y>
+              <X>0.2133333</X>
+              <Y>0.07</Y>
             </DYMOPoint>
             <Size>
-              <Width>3.521599</Width>
-              <Height>1.88462</Height>
+              <Width>3.696667</Width>
+              <Height>1.330165</Height>
             </Size>
           </ObjectLayout>
         </TextObject>
@@ -299,74 +442,6 @@ export const LABEL_PRITE_CLICKED = () => {
   </DataTable>
 </DesktopLabel>`;
 
-	dymo.print('DYMO LabelWriter 450 Turbo', labelXml)
-	.then(data => {console.log(data)});
+	dymo.print('DYMO LabelWriter 450 Turbo', labelXml);
 
-
-
-	// <StyledText>
-	//         <Element>
-	//           <String>Formula:
-	//           </String>
-	//           <Attributes>
-	//             <Font Family="Helvetica" Size="13" 
-	//                 Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-	//             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-	//           </Attributes>
-	//         </Element>
-	//         <Element>
-	//           <String>Expiry Date:
-	//           </String>
-	//           <Attributes>
-	//             <Font Family="Helvetica" Size="13" 
-	//                 Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-	//             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-	//           </Attributes>
-	//         </Element>
-	//         <Element>
-	//           <String>Instruction: 
-	//           </String>
-	//           <Attributes>
-	//             <Font Family="Helvetica" Size="13" 
-	//                 Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-	//             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-	//           </Attributes>
-	//         </Element>
-	//         <Element>
-	//           <String>6 grams per dosage / 2 dosages per day / 5 days per session
-	//           </String>
-	//           <Attributes>
-	//             <Font Family="Helvetica" Size="13" 
-	//                 Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-	//             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-	//           </Attributes>
-	//         </Element>
-	//         <Element>
-	//           <String>Warning: Please keep this in cool areas.
-	//           </String>
-	//           <Attributes>
-	//             <Font Family="Helvetica" Size="13" 
-	//                 Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-	//             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-	//           </Attributes>
-	//         </Element>
-	//         <Element>
-	//          <String>Please follow the medical professional instruction.
-	//           </String>
-	//           <Attributes>
-	//             <Font Family="Helvetica" Size="13" 
-	//                 Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-	//             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-	//           </Attributes>
-	//         </Element>
-	//         <Element>
-	//            <String>Please contact your doctor and stop taking the herbs if you feel uncomfortable. 
-	//           </String>
-	//           <Attributes>
-	//             <Font Family="Helvetica" Size="13" 
-	//                 Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-	//             <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-	//           </Attributes>
-	//         </Element>
- //       </StyledText>
 }
