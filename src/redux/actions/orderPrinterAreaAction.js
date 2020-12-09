@@ -309,13 +309,13 @@ export const LABEL_PRITE_CLICKED = (formula, orderDate, gramsQty, dosagesQty, da
           <Margin>
             <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
           </Margin>
-          <HorizontalAlignment>Left</HorizontalAlignment>
+          <HorizontalAlignment>Center</HorizontalAlignment>
           <VerticalAlignment>Middle</VerticalAlignment>
           <FitMode>AlwaysFit</FitMode>
           <IsVertical>False</IsVertical>
           <FormattedText>
             <FitMode>AlwaysFit</FitMode>
-            <HorizontalAlignment>Left</HorizontalAlignment>
+            <HorizontalAlignment>Center</HorizontalAlignment>
             <VerticalAlignment>Middle</VerticalAlignment>
             <IsVertical>False</IsVertical>
             <LineTextSpan>
@@ -443,5 +443,6 @@ export const LABEL_PRITE_CLICKED = (formula, orderDate, gramsQty, dosagesQty, da
 </DesktopLabel>`;
 
 	dymo.print('DYMO LabelWriter 450 Turbo', labelXml);
+
 
 }
